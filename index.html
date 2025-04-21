@@ -9,46 +9,64 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
     <script>
-        // Tailwind Config (Same as before)
-        tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], } } } }
+        // Tailwind Config
+        tailwind.config = { theme: { extend: {
+            colors: {
+                'brand-purple': '#9272CE',
+                'brand-hover': '#AE8BD5',
+                'brand-light-purple': '#CBB8E8',
+                'brand-dark': '#000000',
+                'brand-light': '#FFFFFF',
+                'brand-gray': '#D1D1D1',
+                'brand-text': '#A8A8A8',
+                'dark-purple-bg': '#1a0a2e',
+                'darker-bg': '#050505',
+                'body-overlay': 'rgba(5, 5, 8, 0.85)' // Slightly darker overlay for wallpaper
+            },
+            fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], }
+        } } }
     </script>
     <style>
         /* --- Keyframes --- */
-        @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        /* Slower Name Gradient */
         @keyframes gradient-text-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        /* Animation for "Recent Writings" Heading */
-        @keyframes heading-pulse {
-            0%, 100% { opacity: 1; text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
-            50% { opacity: 0.85; text-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
-        }
-        /* Animation for Tagline */
-        @keyframes tagline-animate {
-            0%, 100% { color: theme('colors.brand-gray'); filter: blur(0); }
-            45% { color: theme('colors.brand-gray'); filter: blur(0); } /* Hold white */
-            50% { filter: blur(1px); } /* Start blur */
-            55% { color: theme('colors.brand-purple'); filter: blur(0); } /* Change color, remove blur */
-            95% { color: theme('colors.brand-purple'); filter: blur(0); } /* Hold purple */
-        }
-
+        @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255, 255, 255, 0.25); } 50% { opacity: 0.9; text-shadow: 0 0 18px rgba(255, 255, 255, 0.5); } } /* Enhanced pulse */
+        @keyframes tagline-animate { 0%, 100% { color: theme('colors.brand-gray'); filter: blur(0); } 45% { color: theme('colors.brand-gray'); filter: blur(0); } 50% { filter: blur(0.8px); } /* Subtle blur */ 55% { color: theme('colors.brand-purple'); filter: blur(0); } 95% { color: theme('colors.brand-purple'); filter: blur(0); } }
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
         body {
-            font-family: theme('fontFamily.sans'); background-color: theme('colors.brand-dark'); color: theme('colors.brand-gray'); overflow-x: hidden; font-size: 17px;
-            background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.dark-purple-bg'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.dark-purple-bg'));
-            background-attachment: fixed; background-size: 600% 600%; animation: background-pan 30s ease infinite;
+            font-family: theme('fontFamily.sans');
+            background-color: theme('colors.darker-bg'); /* Fallback */
+            color: theme('colors.brand-gray');
+            overflow-x: hidden;
+            font-size: 17px;
+            position: relative; /* Needed for pseudo-elements */
+            z-index: 0;
+        }
+        /* Wallpaper Background */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
+            background-image: url('frieren_wallpaper.jpg'); /* USE YOUR WALLPAPER IMAGE HERE */
+            background-size: cover; background-position: center center; background-repeat: no-repeat;
+            filter: blur(8px) brightness(0.6); /* Adjust blur/brightness */
+            -webkit-filter: blur(8px) brightness(0.6);
+            transform: scale(1.1);
+        }
+        /* Dark Overlay */
+        body::after {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+            background-color: theme('colors.body-overlay');
         }
 
-        /* --- Header & Nav (Same as before) --- */
+        /* --- Header & Nav --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
         .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
         .nav-toggle-btn svg { stroke: theme('colors.brand-light'); transition: stroke 0.3s ease; }
         .nav-toggle-btn:hover svg { stroke: theme('colors.brand-purple'); }
-        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.9); backdrop-filter: blur(8px); padding: 1.5rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slide-down-fade 0.4s ease-out forwards; }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.92); backdrop-filter: blur(8px); padding: 1.5rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slide-down-fade 0.4s ease-out forwards; }
         .mobile-menu.is-open { display: block; }
         .mobile-menu a { display: block; padding: 0.8rem 1.5rem; color: theme('colors.brand-light'); font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
         .mobile-menu a:hover { color: theme('colors.brand-purple'); background-color: rgba(146, 114, 206, 0.1); }
@@ -56,63 +74,62 @@
         .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
 
         /* --- Text Styles & Animations --- */
+        /* Stronger Text Scale */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
-        .text-hover-scale:hover { transform: scale(1.05); }
-        /* Adjusted Name Gradient & Animation */
+        .text-hover-scale:hover { transform: scale(1.06); } /* Increased scale */
+        /* Brighter Name Gradient */
         h1.animated-gradient-text {
-            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light')); /* Simplified gradient */
+            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light'));
             background-size: 250% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 7s linear infinite; /* Slightly slower */
+            animation: gradient-text-animation 6s linear infinite; /* Adjusted speed */
             display: inline-block;
-            /* Removed text-shadow for clarity */
+            /* Removed text-shadow */
         }
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
         /* Apply Tagline Animation */
-        .animate-tagline {
-            animation: tagline-animate 6s ease-in-out infinite; /* Adjust duration */
-            display: inline-block; /* Needed for filter */
-        }
+        .animate-tagline { animation: tagline-animate 5s ease-in-out infinite; display: inline-block; } /* Faster cycle */
         /* Apply Heading Pulse Animation */
-        .animate-heading-pulse {
-             animation: heading-pulse 3s ease-in-out infinite;
-        }
+        .animate-heading-pulse { animation: heading-pulse 2.5s ease-in-out infinite; } /* Faster pulse */
 
 
-        /* --- Quote (Same as before) --- */
-        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.5); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; }
-        .quote-style:hover { background-color: rgba(146, 114, 206, 0.1); border-left-color: theme('colors.brand-hover'); transform: scale(1.03); }
+        /* --- Quote --- */
+        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.6); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; }
+        .quote-style:hover { background-color: rgba(146, 114, 206, 0.15); border-left-color: theme('colors.brand-hover'); transform: scale(1.03); }
 
-        /* --- Writing Cards (Homepage) (Same as before) --- */
-        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.7); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; }
-        .writing-card:hover { transform: translateY(-8px) scale(1.04); background-color: rgba(45, 35, 60, 0.8); box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.6); }
+        /* --- Writing Cards (Homepage) --- */
+        /* Stronger Hover */
+        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.75); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; }
+        .writing-card:hover { transform: translateY(-8px) scale(1.04); background-color: rgba(45, 35, 60, 0.85); box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.6); }
         .post-preview p { color: theme('colors.brand-gray'); font-size: 1rem; }
 
-        /* --- Buttons (Same as before) --- */
+        /* --- Buttons --- */
+        /* Stronger Hover */
         .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); }
         .cta-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 30px rgba(174, 139, 213, 0.4); }
 
         /* --- Floating Image --- */
         .floating-image-container {
             position: absolute;
-            top: 10%; /* Adjust vertical position */
-            right: 2%; /* Adjust horizontal position */
-            width: 100px; /* Base size */
-            z-index: 0; /* Behind main content */
+            /* Adjusted positioning */
+            top: 8%;
+            right: 3%;
+            width: 100px;
+            z-index: 0;
             animation: fade-in-subtle 1.5s ease-out forwards;
             opacity: 0; animation-delay: 0.5s;
         }
         .floating-image {
-             width: 100%; height: auto; /* Make image responsive within container */
-             opacity: 0.8; /* Slightly less opaque */
+             width: 100%; height: auto;
+             opacity: 0.75; /* Slightly less opaque */
              animation: gentle-float 5s ease-in-out infinite;
              transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.9);
+             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.8); /* Slightly desaturated */
         }
-        .floating-image:hover { opacity: 1; transform: scale(1.08); filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1); }
-        @media (min-width: 768px) { .floating-image-container { width: 130px; top: 15%; right: 5%; } } /* Adjust size/pos for medium */
-        @media (min-width: 1024px) { .floating-image-container { width: 160px; top: 20%; right: 8%; } } /* Adjust size/pos for large */
+        .floating-image:hover { opacity: 0.95; transform: scale(1.08); filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1); }
+        @media (min-width: 768px) { .floating-image-container { width: 140px; top: 12%; right: 6%; } }
+        @media (min-width: 1024px) { .floating-image-container { width: 170px; top: 15%; right: 10%; } }
 
 
         /* --- Utilities --- */
@@ -130,8 +147,11 @@
     <main class="container mx-auto px-6 py-16 md:py-20 relative">
         <!-- Added relative z-10 -->
         <section class="text-center mb-20 md:mb-24 relative z-10">
-            <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-5 font-outfit">Agraj Dubey</h1>
-            <!-- Added animate-tagline class -->
+             <!-- Wrapped H1 in a div for block layout -->
+             <div class="mb-4">
+                 <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold font-outfit">Agraj Dubey</h1>
+             </div>
+            <!-- Tagline is now below H1 -->
             <p class="animate-tagline text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
             <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
         </section>
