@@ -21,7 +21,7 @@
                 'brand-text': '#A8A8A8',
                 'dark-purple-bg': '#1a0a2e',
                 'darker-bg': '#050505',
-                'body-overlay': 'rgba(5, 5, 8, 0.85)' // Slightly darker overlay for wallpaper
+                'body-overlay': 'rgba(8, 5, 12, 0.88)' // Darker overlay for better contrast
             },
             fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], }
         } } }
@@ -32,8 +32,15 @@
         @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255, 255, 255, 0.25); } 50% { opacity: 0.9; text-shadow: 0 0 18px rgba(255, 255, 255, 0.5); } } /* Enhanced pulse */
-        @keyframes tagline-animate { 0%, 100% { color: theme('colors.brand-gray'); filter: blur(0); } 45% { color: theme('colors.brand-gray'); filter: blur(0); } 50% { filter: blur(0.8px); } /* Subtle blur */ 55% { color: theme('colors.brand-purple'); filter: blur(0); } 95% { color: theme('colors.brand-purple'); filter: blur(0); } }
+        @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255, 255, 255, 0.25); } 50% { opacity: 0.9; text-shadow: 0 0 18px rgba(255, 255, 255, 0.5); } }
+        /* New Tagline Animation */
+        @keyframes tagline-color-cycle {
+            0%, 100% { color: theme('colors.brand-light'); } /* Start/End White */
+            25% { color: theme('colors.brand-purple'); }    /* Purple */
+            50% { color: theme('colors.brand-text'); }      /* Grey */
+            75% { color: theme('colors.brand-dark'); }     /* Black (might be hard to see) */
+        }
+
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
@@ -49,10 +56,11 @@
         /* Wallpaper Background */
         body::before {
             content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
-            background-image: url('frieren_wallpaper.jpg'); /* USE YOUR WALLPAPER IMAGE HERE */
+            background-image: url('frieren_wallpaper.jpg'); /* MAKE SURE THIS FILENAME IS CORRECT */
+            background-attachment: fixed; /* Keep fixed */
             background-size: cover; background-position: center center; background-repeat: no-repeat;
-            filter: blur(8px) brightness(0.6); /* Adjust blur/brightness */
-            -webkit-filter: blur(8px) brightness(0.6);
+            filter: blur(10px) brightness(0.55); /* Adjust blur/brightness */
+            -webkit-filter: blur(10px) brightness(0.55);
             transform: scale(1.1);
         }
         /* Dark Overlay */
@@ -74,58 +82,56 @@
         .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
 
         /* --- Text Styles & Animations --- */
-        /* Stronger Text Scale */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
-        .text-hover-scale:hover { transform: scale(1.06); } /* Increased scale */
+        .text-hover-scale:hover { transform: scale(1.06); }
         /* Brighter Name Gradient */
         h1.animated-gradient-text {
             background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light'));
             background-size: 250% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 6s linear infinite; /* Adjusted speed */
+            animation: gradient-text-animation 7s linear infinite;
             display: inline-block;
-            /* Removed text-shadow */
         }
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
-        /* Apply Tagline Animation */
-        .animate-tagline { animation: tagline-animate 5s ease-in-out infinite; display: inline-block; } /* Faster cycle */
-        /* Apply Heading Pulse Animation */
-        .animate-heading-pulse { animation: heading-pulse 2.5s ease-in-out infinite; } /* Faster pulse */
+        /* Apply New Tagline Animation */
+        .animate-tagline-colors {
+            animation: tagline-color-cycle 8s ease-in-out infinite; /* Slower cycle */
+            display: inline-block;
+        }
+        .animate-heading-pulse { animation: heading-pulse 2.5s ease-in-out infinite; }
 
 
         /* --- Quote --- */
-        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.6); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; }
+        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.6); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; cursor: pointer; } /* Added cursor */
         .quote-style:hover { background-color: rgba(146, 114, 206, 0.15); border-left-color: theme('colors.brand-hover'); transform: scale(1.03); }
 
         /* --- Writing Cards (Homepage) --- */
-        /* Stronger Hover */
-        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.75); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; }
+        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.75); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; cursor: pointer; } /* Added cursor */
         .writing-card:hover { transform: translateY(-8px) scale(1.04); background-color: rgba(45, 35, 60, 0.85); box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.6); }
         .post-preview p { color: theme('colors.brand-gray'); font-size: 1rem; }
 
         /* --- Buttons --- */
-        /* Stronger Hover */
-        .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); }
+        .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); cursor: pointer; } /* Added cursor */
         .cta-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 30px rgba(174, 139, 213, 0.4); }
 
         /* --- Floating Image --- */
         .floating-image-container {
             position: absolute;
             /* Adjusted positioning */
-            top: 8%;
+            top: 10%;
             right: 3%;
             width: 100px;
-            z-index: 0;
+            z-index: 0; /* Behind main content */
             animation: fade-in-subtle 1.5s ease-out forwards;
-            opacity: 0; animation-delay: 0.5s;
+            opacity: 0; animation-delay: 0.7s; /* Slightly later fade-in */
         }
         .floating-image {
              width: 100%; height: auto;
-             opacity: 0.75; /* Slightly less opaque */
-             animation: gentle-float 5s ease-in-out infinite;
+             opacity: 0.7; /* More subtle */
+             animation: gentle-float 5.5s ease-in-out infinite; /* Slower float */
              transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.8); /* Slightly desaturated */
+             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.8);
         }
         .floating-image:hover { opacity: 0.95; transform: scale(1.08); filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1); }
         @media (min-width: 768px) { .floating-image-container { width: 140px; top: 12%; right: 6%; } }
@@ -148,12 +154,12 @@
         <!-- Added relative z-10 -->
         <section class="text-center mb-20 md:mb-24 relative z-10">
              <!-- Wrapped H1 in a div for block layout -->
-             <div class="mb-4">
+             <div class="mb-3"> <!-- Reduced margin bottom -->
                  <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold font-outfit">Agraj Dubey</h1>
              </div>
-            <!-- Tagline is now below H1 -->
-            <p class="animate-tagline text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
+            <!-- Tagline with new animation class -->
+            <p class="animate-tagline-colors text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
+            <blockquote class="quote-style cursor-pointer max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
         </section>
 
         <!-- Frieren Image Container - Adjusted positioning -->
@@ -166,10 +172,10 @@
             <!-- Centered, White Color, Added Animation Class -->
             <h2 class="animate-heading-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-center text-brand-light mb-14 font-outfit">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Cards (Structure Unchanged) -->
-                 <div class="writing-card p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">So, you want to travel back</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p> </div> <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
-                 <div class="writing-card p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">The Cost of Belonging</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p> </div> <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
-                 <div class="writing-card p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">[POST] A New Chapter</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p> </div> <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
+                <!-- Added cursor-pointer to cards -->
+                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">So, you want to travel back</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p> </div> <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
+                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">The Cost of Belonging</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p> </div> <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
+                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">[POST] A New Chapter</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p> </div> <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
             </div>
             <div class="text-center mt-16"> <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block text-lg"> View All Writings </a> </div>
         </section>
@@ -178,7 +184,7 @@
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p> </footer>
 
-    <!-- Scripts (Same as before) -->
+    <!-- Scripts -->
     <script> const navToggle = document.getElementById('nav-toggle'); const mobileMenu = document.getElementById('mobile-menu'); if (navToggle && mobileMenu) { navToggle.addEventListener('click', () => { mobileMenu.classList.toggle('is-open'); }); mobileMenu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); }); }); document.addEventListener('click', (event) => { const isClickInsideMenu = mobileMenu.contains(event.target); const isClickOnToggle = navToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { mobileMenu.classList.remove('is-open'); } }); } document.getElementById('year').textContent = new Date().getFullYear(); </script>
 
 </body>
