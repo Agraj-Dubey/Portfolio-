@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writings - Agraj Dubey</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Removed style.css link -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        // Tailwind Custom Configuration (Should match index.html)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-purple': '#9272CE',
+                        'brand-dark': '#000000',
+                        'brand-light': '#FFFFFF',
+                        'brand-gray': '#E0E0E0',   // Main text color for posts
+                        'brand-text': '#B0B0B0',   // Meta info, blockquotes
+                        'brand-hover': '#AE8BD5',
+                        'article-bg': 'rgba(26, 26, 26, 0.5)', // Slightly transparent dark bg for articles
+                    },
+                     fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        lato: ['Lato', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif'],
+                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
+                        // Add system fonts if needed, though CSS handles them better
+                        verdana: ['Verdana', 'sans-serif'],
+                        'trebuchet': ['Trebuchet MS', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+     <style>
+        /* Basic body styling */
+        body {
+            font-family: theme('fontFamily.sans'); /* Default: Inter */
+            background-color: theme('colors.brand-dark');
+            color: theme('colors.brand-gray');
+            scroll-behavior: smooth;
+        }
+        /* Navbar link styling */
+        nav a {
+            transition: color 0.2s ease-in-out;
+        }
+        nav a:hover, nav a.active { /* Style for active link */
+            color: theme('colors.brand-purple');
+        }
+
+        /* --- Styling for Imported Blogger Content --- */
+        .post-content-html p,
+        .post-content-html blockquote,
+        .post-content-html span,
+        .post-content-html div,
+        .post-content-html b,
+        .post-content-html i,
+        .post-content-html u,
+        .post-content-html a {
+           /* Reset and Defaults */
+           font-family: inherit; /* Inherit from body (Inter) by default */
+           font-size: 1rem;      /* Base font size (adjust as needed, e.g., 1.125rem) */
+           line-height: 1.7;     /* Improve readability */
+           color: theme('colors.brand-gray'); /* Default text color */
+           background-color: transparent !important; /* Crucial: Override inline backgrounds */
+           text-align: left;     /* Default alignment */
+           margin: 0 0 1.25em 0; /* Consistent bottom margin for block elements */
+           font-weight: normal;  /* Reset bold */
+           font-style: normal;   /* Reset italic */
+           text-decoration: none;/* Reset underline */
+           word-wrap: break-word; /* Prevent long words from overflowing */
+        }
+        .post-content-html span {
+             margin: 0; /* Spans shouldn't have block margins */
+        }
+
+        /* Handle specific inline fonts from Blogger */
+        .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); }
+        .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); }
+        .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); }
+        .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); }
+        .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
+        /* Add others if found */
+
+         /* Handle common inline styles */
+        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; }
+        .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; }
+        .post-content-html u { text-decoration: underline; }
+        .post-content-html a {
+             color: theme('colors.brand-purple');
+             text-decoration: underline;
+             transition: color 0.2s ease;
+        }
+        .post-content-html a:hover { color: theme('colors.brand-hover'); }
+
+        /* Handle font sizes (override extremes but allow some variation if needed) */
+        /* We set a base size above, these overrides are less critical now */
+        .post-content-html [style*="font-size: large"],
+        .post-content-html [style*="font-size: 18pt"], /* Approx large */
+        .post-content-html [style*="font-size: x-large"] {
+            /* font-size: 1.125rem; /* Example: Slightly larger than base */
+            /* Keep base size for now for consistency */
+        }
+         .post-content-html [style*="font-size: medium"] {
+            /* font-size: 1rem; /* Matches base */
+        }
+
+        /* Handle Alignment */
+         .post-content-html p[style*="text-align: center;"],
+         .post-content-html div[style*="text-align: center;"],
+         .post-content-html blockquote[style*="text-align: center;"] {
+             text-align: center;
+             /* Center block elements too */
+             margin-left: auto;
+             margin-right: auto;
+        }
+         .post-content-html p[style*="text-align: right;"] { text-align: right; }
+
+
+        /* Blockquotes */
+        .post-content-html blockquote {
+            border-left: 4px solid theme('colors.brand-purple');
+            padding-left: 1.5rem;
+            margin-left: 0; /* Reset potential browser default indent */
+            margin-right: 0;
+            font-style: italic;
+            color: theme('colors.brand-text'); /* Use slightly dimmer color for quotes */
+        }
+        .post-content-html blockquote blockquote { /* Nested quotes */
+             margin-top: 1em;
+             margin-left: 1.5rem; /* Indent nested */
+             border-left-color: theme('colors.brand-hover'); /* Different color? */
+             padding-left: 1rem;
+        }
+        .post-content-html blockquote p {
+             margin-bottom: 0.5em; /* Less spacing inside quotes */
+        }
+
+        /* Images */
+        .post-content-html img {
+            max-width: 100%;
+            height: auto;      /* Maintain aspect ratio */
+            display: block;    /* Remove extra space below */
+            margin: 2rem auto; /* Center images, more vertical space */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Subtle shadow */
+        }
+
+        /* Hide Blogger's separators */
+        .post-content-html .separator { display: none; }
+
+        /* --- Styling for the Writings Page Layout --- */
+        .writings-container article {
+            background-color: theme('colors.article-bg'); /* Use variable */
+            border-radius: 0.75rem; /* Slightly more rounded */
+            padding: 2rem 2.5rem; /* More padding */
+            margin-bottom: 3rem; /* More space between articles */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); /* Deeper shadow */
+            border: 1px solid rgba(146, 114, 206, 0.2); /* Subtle purple border */
+        }
+        .writings-container article:last-child { margin-bottom: 0; }
+
+        .writings-container h2 {
+             color: theme('colors.brand-purple');
+             margin-bottom: 0.5rem; /* Less space below title */
+             font-size: 1.875rem; /* Larger title */
+             font-weight: 700;
+             font-family: theme('fontFamily.outfit'); /* Use Outfit for titles */
+             line-height: 1.3;
+        }
+         .post-meta-info {
+            font-size: 0.875rem;
+            color: theme('colors.brand-text');
+            margin-bottom: 2rem; /* More space before content */
+            font-family: theme('fontFamily.lato');
+        }
+
+    </style>
+</head>
+<body class="bg-brand-dark text-brand-gray leading-relaxed">
+
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors">
+                Agraj Dubey
+            </a>
+
+            <div class="space-x-6 text-brand-light">
+                <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">About Me</a>
+                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">Contact Me</a>
+                <a href="writings.html" class="active font-semibold">Writings</a> {/* Added 'active' class */}
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-16"> {/* Increased padding */}
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-brand-purple mb-16">Writings</h1> {/* Increased margin */}
+
+        <div class="writings-container max-w-4xl mx-auto">
+
+            <article id="post-2137542659647715265">
+                <h2>So, you want to travel back</h2>
+                 <div class="post-meta-info">Published: April 19, 2025</div>
+                 <div class="post-content-html">
+                    <p data-end="233" data-start="0" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">"So, you want to travel back,<br data-end="63" data-start="60"> for you could not contain,<br data-end="92" data-start="89"> could not refrain,<br data-end="113" data-is-only-node="" data-start="110"> that boundless hunger deep within,<br data-end="150" data-start="147"> For all the changes you could pinch,<br data-end="189" data-start="186"><br></span></span></p>
+                    <p data-end="471" data-start="235" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">So, you want to travel back,<br data-end="266" data-start="263"> to gain control that with time lost,<br data-end="305" data-start="302"> for all mistakes that bore a heavy cost,<br data-end="348" data-start="345"> reassure the freedom thereafter,<br data-end="383" data-is-only-node="" data-start="380"> stripping off all thy past disasters,<br data-end="423" data-start="420"><br></span></span></p>
+                    <p data-end="701" data-start="473" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">So, you want to travel back,<br data-end="504" data-start="501"> For all the changes you could etch,<br data-end="542" data-start="539"> for all harmony that would cling,<br data-end="578" data-start="575"> from Serenity you longed to fetch,<br data-end="615" data-is-only-node="" data-start="612"> from the compassion that you'd bring,<br data-end="655" data-start="652"><br></span></span></p>
+                    <p data-end="701" data-start="473" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">Like a hawk that couldn’t be caged anymore</span></span></p>
+                    <p data-end="701" data-start="473" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">Like tending a wound that couldn’t be restored</span></span></p>
+                    <p data-end="701" data-start="473" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">Like gazing at beauty that can’t be mirrored</span></span><span style="font-size: x-large;"><span style="font-family: Outfit;"> <br></span></span></p>
+                    <p data-end="701" data-start="473" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;"><br></span></span></p>
+                    <p data-end="921" data-start="703" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">And, So, you will travel back,<br data-end="736" data-start="733"> to arrive as peaceful as still marine water,<br data-end="783" data-start="780"> to garner stillness, that of a weaver,<br data-end="824" data-start="821"> whose final thread is laid,<br data-end="854" data-is-only-node="" data-start="851"> with all the glory and praises,<br data-end="888" data-start="885"> that reality relentlessly raises,</span></span></p>
+                    <p data-end="1077" data-start="923" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">So, you will travel back,<br data-end="951" data-start="948"> For the cosmic loom to set itself,<br data-end="988" data-start="985"> linear as it ever was,<br data-end="1013" data-start="1010"> for thy doomed fate to let itself,<br data-end="1050" data-is-only-node="" data-start="1047"> bound as tight as ever was,</span></span></p>
+                    <p data-end="1203" data-start="1079" style="text-align: center;"><span style="font-size: x-large;"><span style="font-family: Outfit;">So, you will travel back,<br data-end="1107" data-start="1104"> never truly to embrace,<br data-end="1133" data-start="1130"> to forever unknowingly interlace,<br data-end="1169" data-start="1166"> the desperate want to travel back"</span></span></p>
+                 </div>
+            </article>
+
+             <article id="post-3486396209614590705">
+                <h2>The Cost of Belonging</h2>
+                <div class="post-meta-info">Published: April 18, 2025</div>
+                 <div class="post-content-html">
+                    <p class="PadderBetweenControlandBody" style="text-align: center;"><span style="font-size: 18pt;">Was I born different? <br> What did I do different that made me the way I am?</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">These are some of the questions that rebels like myself ask themselves at some point in life, probably after realizing how fucked up the world really is and how much control you really have, can’t put an age up at this, it’s different for everyone.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">This might just also be the time that we find ourselves a bit more depressed than usual and start looking out for those tiny moments of happiness since life isn’t playdough anymore. We might find ourselves having thoughts of travelling back through time to when things were simpler, when we were not as rebellious as we are right now.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Let’s define our terms, shall we? What do I mean by a ‘rebel’ and being ‘rebellious’?</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">See I like to believe that the world is divided into two kinds of people, the usual sheep-like ‘Conformists’ and the ever changing, fed up with the system, ‘Rebels’</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><b style=""><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Why Are We Raised to Obey, Not to Think?</span></b></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Why is it that as kids—and even as teens—we’re never really taught how to <i>think</i>? We're only taught how to <i>obey</i>. Respect your elders. Follow the rules. Conformity is the default setting, especially enforced by family and state. Parents are given a blank slate the moment we’re born. They can raise a rebel… or shape a command-obeying conformist.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">So, here’s the question:<br> <b>What’s right or wrong with either of these ideologies?</b><br> And the deeper one—<b>how long can someone truly stay in a conformist state before cracking?</b></span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">These questions unravel more beneath them. Which idea of liberation deserves more value? How much influence do parents really hold over the wiring of a child’s identity?</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Let’s address the first question. Anyone with a functioning brain, basic observational skills, and even a hint of logic <i>should</i> already know the answer—given the world we live in today.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Let me be blunt: I’m heavily biased. I’m a free soul. I despise authority of any kind. I believe a man of logic should follow reasoning, <i>not</i> orders. And no, this isn’t some utopian delusion. We don't live in an ideal world. Anyone who's grown out of their childhood innocence can <i>see</i> it. It doesn't stop with just your own country—look around, dig deeper. You'll arrive at the same conclusion:<br> <b>Everyone. Everywhere. Is messed up.</b></span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Society, globally, is broken. And here’s the part that stings: the majority of it is made up of <i>conformists</i>.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Look at Trump’s re-election. Look at a Chai-wala’s turned supreme leader riding the wave of blind devotion for over a decade. If that’s not enough to blame the downfall on mass conformity, I don’t know what is.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">And rebels?<br> What do a handful of rebels even achieve—except martyrdom?</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">History has Proof. Narendra Dabholkar. Gauri Lankesh. Journalists. Whistleblowers. Silenced. Gunned down. Forgotten. Most conformists don’t even <i>know</i> about their sacrifices.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Some days, I find myself genuinely believing that this world mostly comprises of and run by retards.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Is it really that hard to not get brainwashed?<br> To hold an objective thought before buying into something?<br> To question <i>anything</i> you encounter?</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Apparently, for most—it is.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">And that’s terrifying.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Another question we don’t ask enough:<br> <b>How much damage do cover-ups, lies, and secrecy cause when authorities mess up?</b><br> Maybe I’ll dig into that next time. But for now, let me say this:</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><i><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">Conformity</span></i><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">—as a global disease—should be viewed with the same suspicion we reserve for <i>communism</i> (or any ideology when taken to the extreme). The world would be better off without blind followers.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">And here comes the final—and maybe trickiest—question:<br> <b>How long can one stay a conformist? And how much of that is because of parenting?</b></span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">In my case, both my parents are conformists. The only rebellion they seem to show is <i>towards me</i>. They’ve never been the curious type. Never stirred trouble. Unless something extreme happens—or someone they care about is at risk—they’ll stay quiet. Safe. Predictable.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">By that logic, I should’ve turned out exactly like them.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">But I didn’t.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">I’m the polar opposite. I question <i>everything</i>. I overthink <i>everything</i>.<br> Why? Probably because I surrounded myself with… <i>no one</i>.<br> No friends. Just books. YouTube. My own thoughts. Isolation breeds introspection.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">This needs to be studied more, honestly. I can’t draw conclusions from just one case. But if I had to bet—I'd say rebels are born this way. I was fed the same ideas as everyone else. But something in me rejected them all.</span></p>
+                    <p class="MsoNormal" style="text-align: center;"><span style="font-size: 18pt; mso-bidi-font-size: 16.0pt;">And here I am.</span></p>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEip3ZrMKuCmNmLRWzLwAjWcdLb-6hiRkqvXgzy9MVw1EOK1gl6vbfLoDZAXikzJnWMwfrE-yt1HTccVetYPRXeFUYXGH4NTSDxGDpKmVzbu0K6Pm0QOsPwsQ_J7ME3aiYOeSwpW7LLTNGU3aq4nP4qF8F7_BndRE74cWz1P2a11dY-1_byeX_ubO-hhV1U/s1600/For%20yt%20music.jpg" alt="For yt music" width="303" height="303">
+                </div>
+            </article>
+
+            <article id="post-8246180062320707624">
+                <h2>[POST] A New Chapter</h2>
+                 <div class="post-meta-info">Published: February 14, 2025</div>
+                 <div class="post-content-html">
+                   <p style="text-align: center;"><span style="font-family: Nunito; font-size: x-large;"> It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened. I discovered myself, I discovered that I was an asexual and personally I am disgusted by sex and anything related to that particular activity. This was a discovery that I made at around December, yeah, and I have only ever been more so confirmed of the fact that I am an asexual. So there's that and I didn't write anything particular during the interval that I was gone but I surely picked up some books which I've been reading and I'll share the image. I ordered them last month and they arrived last month only but I've begun reading them right now.<br><br>Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see. I am in the mood. I am starting to prepare for IPMAT And JIPMAT. I have been preparing, I'll say. Just because of the fact that I am surrounded by literal idiots. And I cannot endure any more of all this stupidity that I have endured so far. I need a break from all this. I need a better crowd around me. I need a better surrounding. That's why I have decided my past failure does not define who I am. And I'll be working hard to achieve this particular goal of mine. Because I only have like two months, to be frank with you. And this realization, although it came very late, I am glad that it did. And let's see what happens. I will try to write some blog posts or poems in between if I get the chance or the time to do so. Until then, I am not sure, but let's see.<br><br>There was this very fascinating, at least to me, a problem which I was stuck with up until now. This thought process of mine, which I'll summarize. Like all these past experiences which I unconsciously assume are of failure that plagued my mind, I don't know how to get over them or why haven't I internalized the fact that failure is just a part of the journey and not something to cling on to. What I realized over time or I realized like past few weeks is the fact that I am currently stuck in something totally stupid. I do realize that I don't like the crowd around me, yes. And the fact that I am clinging on to my so-called failures only to never try again is blatantly stupid. That is what I have been doing for the past few months, no not few months, for past an year or so. No one just gives up like that and I am only 19. This cannot be the way of life from now on. Like this cannot be my way of life for like ever in my life. This is just not me. I might be surrounded by idiots but I am not one. And just giving up on everything, passing your whole days doing worthless shit is just utterly idiotic and stupid. And if there is one thing I am totally sure of is that I am not stupid. I am smarter than the average and if so then I should act like one too.<br><br>I also realized one more thing. That depression, at least the one that I had, or my depression, is blatantly stupid. It was for me, at least. If you follow everything logically and just spend time with yourself and, you know, journal everything out like I did, and try to uncover the secrets of your thought process, I'll say, you might never get depressed. At least, this was the case with me.<br><br>Yesterday, out of nowhere, I just gave a mock of JIPMAT, and I scored around 110, which is surprising to be honest. I had zero to little preparation. I haven't even picked up a book related to academics in like 9 or 10 months, and I was able to score 110. I obviously scored the most in verbal ability and reading comprehension. That is one thing I'm pretty sure I'll need less preparation time for. The worst I did was in quant or mathematics, because obviously you need preparation for that. This is just fascinating to me, being able to score such marks without any preparation. That got me thinking of what would happen if I tried.</span></p>
+                   <p style="text-align: center;"><span style="font-family: Nunito; font-size: x-large;"><br>I tried to read all the books that arrived yesterday, and there is one book that hasn't arrived yet, that being 101 essays, that will change the way that you think. White Nights, I found a little confusing. The narration and the vocab isn't really friendly at all. God Delusion is pretty great, and I'm pretty sure that I'll be reading it cover to cover, and it's something that I'll live my life by. The most fun I've had was with Read People Like A Myth by Patrick King. It is pretty easy to understand, and I'm just a very big fan of human psychology, because you know, it helps me understand myself better, and the people around me even better. And I did learn many things halfway through chapter one, that I'm pretty sure I'll be writing a post on. So I guess I'll be looking forward to that.</span></p>
+                   <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-614uevCf62lPJLFYD1qEkMPsFCNPS0fzPIFMD8NeDq6_lMC-2u8vaWOnI1dBjfiWvjw7Oxs7GUROW1FhcmoJaVecu-9sPdySvAFM3bWPJJWMlOATj3Kq0Q87ZMjp_4INUhjU_N0ri3WN1RyBn_8ulyGyd-ZVOpBxny2pXzUx_ixV95Fif7Snl-GzFR4/s320/WhatsApp%20Image%202025-02-14%20at%2019.45.21_fccd094f.jpg" alt="Books" width="320" height="240">
+                </div>
+            </article>
+
+            <article id="post-6388410560920980765">
+                 <h2>[POEM] Time Flies By</h2>
+                 <div class="post-meta-info">Published: November 28, 2024</div>
+                 <div class="post-content-html">
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;"> Time flies by <br> For me it does so in gloom<br> Worries of the future <br> Regrets of the past </span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;"> Time flies by <br> With the tick of the clocks <br> An infinite race <br> With no finish line to cross</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Time flies by <br> It lingers , it haunts <br> Summer's chill , winter's warmth<br> A fleeting act of taunts</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Time flies by <br> As I sit through my thoughts <br> Both of the cruel and kind <br> Unable to fill the void in my life's mere plot</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Time flies by <br> In it's flight , I write <br> Words to compose myself <br> For the life I hope to strive.<br></span></p>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNVPwNLxMOdn2D14BgTZDddUpYhGLLicnwmoldpUmtYOYjYRuXENV3Q1Mx9ZEuVDI-aPGbbvBJNwSYNoGQofnCuTnBhoZGYoqKiXvixDN8vfwPQ-sP8yW1NC51vtUyJasuMUl-YJP-8DYCq4insJ6O8R8Z2CrBbwBQPrzka5oczanVGCMRFjpdeWqAH40/s320/AG%20solid%20.png" alt="AG Solid Logo" width="292" height="320">
+                 </div>
+            </article>
+
+            <article id="post-2406648289663441748">
+                 <h2>[POST] Reading</h2>
+                 <div class="post-meta-info">Published: November 16, 2024</div>
+                 <div class="post-content-html">
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;"> I was thinking about the way I like to read , I read 3 different kinds of books at the same time.</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">One book must be thought provoking , that instills ideas , makes u question ur absolute thoughts , One I'm reading right now is Metamorphosis <br></span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">One book must be fictional , just a good story that is enjoyable so when If ever I feel like not reading I can pick that one up , one I'm reading right now is Project Hail Mary </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">One book should be non fiction , the bill gates type lol , One I am reading rn is How The World Really Works </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">Personally the one's I love the most are stories that teach something valuable or at least makes me question everything I ever believed in.</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">For eg. I would always pick up Kafka over Project Hail Mary </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I thoroughly enjoyed Sapiens on my first read cuz it checks all the boxes for me even though It is surrounded with controversy and false predictions but everything is composed so well just what I expect in a good book.</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">If a book doesn't change u even in the slightest way possible , It isn't worth reading.</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">maybe it made u question everything </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">maybe it made u conscious about ur daily activities</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">maybe it motivated u enough to finally clean ur dishes idk </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">but even the slightest change a book brings to ur life is worth the effort and time taken </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">No book is ever bad by nature </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I have mostly picked good books , well Is a book good or bad is subjective by nature and by that standard I have only once I like to think have picked a bad book</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">The Autobiography Of A Yogi</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">What a total bogus pseudoscience of a book </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I don't like to believe in stuff without proof that is all I'll say about this purchase</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I bought that when I was 16 mis-influenced by an ass of a youtuber (Ranveer allahbadia lol ik ik how could I of all people) </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I was not on par with my critical thinking skills at the time as much as I am now <br></span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">I just hope not to repeat such mistakes in future but who's to say</span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">Even if I make such a mistake I guess that would what make me human after all </span></p>
+                    <p style="text-align: center;"><span style="font-family: Fuzzy Bubbles; font-size: large;">A win over the machines in my book lol.</span></p>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5CNqTVaUEvB_avLWm2JqLJeAFFaVmIWI5-TE219Ik8nSXvV6kTOMs4boMRhrYsl7zsXH_ihbSYtawhVGv2gHWZ_BCfeMvTW8-iGvCtFmiON9-c8bJSUoRM8FRtDDq9UoHkqoh3uni_udrZ8jwolDh2cHqb7sIS6ExkuMsfPRToWC8rMIy493NAsg1Pbo/s320/A%20just%20A.png" alt="A just A logo" width="217" height="320">
+                 </div>
+            </article>
+
+            <article id="post-7505116423602657742">
+                 <h2>[POEM] The Lad I Use To Be -</h2>
+                 <div class="post-meta-info">Published: November 10, 2024</div>
+                 <div class="post-content-html">
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">"So glad I wrote it down <br> Of what became of me <br> Now I smile at what made me frown <br> Oh what a lad I used to be<br><br> In search for all these years <br> Of where my true self was lost<br> Now I hold back all these tears <br> Oh he was never even mine to call cost<br><br> Though the past was etched in sorrow<br> A lesson it did teach <br> Cherish that is left hoping for a better tomorrow <br> To forget all the cleft and battles out of my reach" </span></p>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj3PX0HVCB2xFHSWpxAYRQQCj5xUGKkkROphuLWj4l1HaVDmRjM5hsY2R-uEM0E7Ekg5sWD-NaHbADAPxbeX3PUtAbCrqFVQ436UuSo4ZnHB7hUf3A4mMfI7q2WC-_kDT5qJ4pYjfM-TsZetjFiTToSEOu64HRFFvxmFXWHKVKCc0MP6RK7KJzV8hru0WY/s320/AGRAJ.png" alt="AGRAJ Logo" width="320" height="225">
+                 </div>
+            </article>
+
+            <article id="post-5851706812396763606">
+                 <h2>[POEM] Winter Is Warm -</h2>
+                 <div class="post-meta-info">Published: November 10, 2024</div>
+                 <div class="post-content-html">
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">"The only season with so much warmth</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Whispers of wind , a shiver so forth</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Bringing us close , holding love and affection</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Mornings so lazy , yet so cozy and full of perfection</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Heart races through love , so it does by the breeze</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Sparks a change , a moment to seize</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">Fills me with drive , softly it fades</span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">As January bows to February's warm shades" </span></p>
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYlcKQRCbefgXJ8P6ZgZGh3Tu8fTevOf3h-TX_GV2d5Ak5rND5HCdD3C4jbdHKmnmw7gJM9j2iCL5QpbgLAc7I3SuBkBKDARoOWLZ7qPDemc-AnChB4erwtHCnKibMlC6Ujkag115g3_YU8XvX55E3Rur4eW-a65wiAj8V2uAUlb5bnIJ5ik7NWLSsMb4/s320/agraj%20doops.png" alt="Agraj Doops Logo" width="320" height="311">
+                 </div>
+            </article>
+
+            <article id="post-2503258102193667996">
+                 <h2>[POEM] Sinnloses leben (Meaning Worthless Life) -</h2>
+                 <div class="post-meta-info">Published: November 10, 2024</div>
+                 <div class="post-content-html">
+                     <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">"As a kid I used to dream <br> Of all things mighty and high <br> Of things way beyond my reach <br> To fly way above the sky<br> That I'd grew up to be the greatest alive <br> To conquer all that is hidden from sight <br><br> But the first lesson life did ever teach <br> Was to abandon all hope and dream <br> And to start the chase <br> For all that life really is ; a mere race <br> Pick up the pace for u know nothing <br> Destined to lose fore' u even took a swing<br><br> All they deemed it as right and I ran along <br> Thought their certainty couldn't be wrong <br> So I ran and ran and ran all along <br> Opting for the road and all that is unseen <br> Maybe this is what life's supposed to Mean <br><br> Time passed by without a snooze <br> All along this way <br> Never had what I set out to choose <br> But better yet I never tried <br> To seek myself , to find my true stride <br><br> For the time will run out and u will never be told <br> That the World might shift beyond ur Leech <br> Within yourself though , u will always find ur true self to reach<br><br> Life's come full circle now only for me to see -<br> All went away for nothing and all I am now is who I was never supposed to be"</span><br></p>
+                     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhzj5Vpesm9vlwHzlIdu_oyhG0y68e_7jlHNiwl6AuxOE92kqWiZp_mPguv0AacsWV02Vu5tP-yFtqJlYwygR2-HArMzpUXvJYlh4hN6IGx5PBzo6lRABwXaLgRrMyCX0-VGqXtoLMsINsWT7HPh3Mz9GVU9FflT1gGHYJivOLMHOjuQF4A5a_EXxYBEJI/s320/Ag%20logo%20dope.png" alt="Ag Logo Dope" width="320" height="319">
+                 </div>
+            </article>
+
+            <article id="post-9063719817694048941">
+                 <h2>[POEM] Fragmented Void -</h2>
+                 <div class="post-meta-info">Published: November 10, 2024</div>
+                 <div class="post-content-html">
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;">"Would love to cry my heart out at the moment <br> But I can't <br> I can't do it without you <br> I am not strong enough to keep livin up<br> Without you </span></p>
+                    <p style="text-align: center;"><span style="font-family: Outfit; font-size: large;"><br> Lost <br> Just like I lost all my hope<br> Where are you and I need you the most <br><br> Dreadness <br> Dead from inside <br> Without you by my side <br> Got no way to run but all my feelings to hide <br><br> Darkness <br> What's the point keeping them eyes open<br> Closed I see heaven breathin<br> Seepin it's way through <br> Calling me out <br> Shouting my name <br> Where I really belong <br> Other than your warmth and embrace <br><br> Suicide <br> You decide <br> If I should ever let go this worthless life of mine<br> Without you this life isn't worth my time <br><br> Hopeful<br> We will be together forever <br> When I meet you in the next life <br> It is worth pulling the trigger <br> It is worth seeking you out <br> If I can't have you <br> Then I don't wanna have myself"</span></p>
+                     <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiVr6_8eP53sT-VQ7GTC3i8qx78tODthWW93zOBHpeq_xcooJ32sW_Iwl-1T5hSStxx-oOXNA2Hy7R7JLva1z1d0DxxPlnX9z6Q4vFfiYI2pY8-3pZvpd_Z6cS2g5gr_mcYmr_vQtu6V3vPZ2eKzR-Ml_ltZm7r2fbJr9a9OR6maqfZf4cCquk-EPz37L8/w320-h184/agraj%20lowercase%20wonder.png" alt="Agraj Lowercase Wonder Logo" width="320" height="184">
+                 </div>
+            </article>
+
+             <article id="post-5585996557335817138">
+                 <h2>THE FOUR BURNER THEORY -</h2>
+                 <div class="post-meta-info">Published: November 4, 2020</div>
+                 <div class="post-content-html">
+                    <blockquote><p style="text-align: center;"> <b style="font-family: verdana; font-size: large;">FOUR BURNER THEORY</b></p></blockquote>
+                    <blockquote><blockquote><span style="font-size: medium;"><b><span style="font-family: verdana;">IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT EACH BURNER IDICATE BASIC NECESSITY OF YOUR LIFE . THE FIRST BURNER<u>      </u> SHOWS HEALTH . THE SECOND ONE SHOWS WORK . THE THIRD ONE SHOWS FAMILY AND THE LAST ONE SHOWS SOCIAL (MEANS YOUR FRIENDS , NEIGHBOURS ETC. ) AS THE BURNER ONLY HAVE LIMITED FUEL THE BURNERS ARE BURNING EQUALLY THAT MEANS YOU ARE GIVING EQUAL TIME TO EVERYONE TO YOUR FRIENDS , FAMILY , WORK , HEALTH .THIS TYPE OFLIFE IS LIVED BY AN UNSUCCESSFUL ONE AN AVERAGE PERSON, WHO IS GIVING EQUAL AMOUNT OF FUEL TO EACH BURNER. </span></b></span></blockquote></blockquote>
+                    <blockquote><blockquote><span style="font-size: medium;"><b><span style="font-family: verdana;">   IF YOU WANT TO BE<span style="color: #2b00fe;"> SUCCESSFUL</span> THEN YOU HAVE TO CUT DOWN ANY ONE BURNER TOTALLY FROM YOUR LIFE IT COULD BE ANY BURNER EXCEPT FOR WORK (IT'S OBVIOUS HOW COULD YOU BE SUCCESFUL IF YOU DON'T PAY ATTENTION TO YOUR WORK??) AND IF YOU WANT <span style="color: #2b00fe;">SUCCESS</span> IN AN EXTREME WAY THEN YOU SHOULD CUT DOWN TWO BURNERS TOTALLY FROM YOUR LIFE THEN ONLY YOU COULD ACHIEVE <span style="color: #2b00fe;">SUCCESS</span> IN A GREAT WAY LIKE OTHER <span style="color: #2b00fe;">SUCCESSFUL PEOPLE</span> FOR EG. ELON MUSK , STEVE JOBS ETC. ANALYSE THIER LIFE YOU WILL FOUND THE SAME THING THAT THEY HAVE CUT ANY TWO BURNERS COMPLETELY FROM THIE LIFE . </span></b></span></blockquote></blockquote>
+                    <blockquote><blockquote><span style="color: #ffa400;"><b>THANKS FOR GIVING ME YOUR PRECIOUS TIME / HOPE YOU FOUND THIS BLOG KNOWLEDEGABLE IF YOU WANT TO KNOW MORE CLICK <a href="https://www.youtube.com/watch?v=sJoR4Hjs3VE" target="_blank" rel="noopener noreferrer">HERE</a> !!!✌✌</b></span></blockquote></blockquote> {/* Added rel attribute */}
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjx_WPTaWLn8ZzXr4TvuG4pk2DmNYaw3u3AO_2CUavNWy_60gZFCHL5dJmm3o9nL32wHPuqj2LCj0ZT3VsuUxOut-i-VxiZNZXZBYU0mU4_srMB8rYg2BOnF-JNhjDPFJmnriildL_zu-g/s320/86ff94_23a29dae31e9478caeedebcc634e9c6c_mv2.png" alt="Four Burner Theory Diagram" width="320">
+                 </div>
+            </article>
+
+            </div><!-- end writings-container -->
+    </main>
+
+    <footer class="bg-black text-center py-8 mt-16">
+        <p class="text-brand-text text-sm">&copy; <span id="year"></span> Agraj Dubey. All rights reserved.</p>
+         </footer>
+
+     <script>
+        // Set current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+</html>
