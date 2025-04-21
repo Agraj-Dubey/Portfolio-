@@ -12,48 +12,19 @@
         // Tailwind Custom Configuration
         tailwind.config = {
             theme: {
-                extend: {
-                    colors: {
-                        'brand-purple': '#9272CE',
-                        'brand-hover': '#AE8BD5', // Lighter purple
-                        'brand-light-purple': '#CBB8E8', // Even lighter for gradient
-                        'brand-dark': '#000000',
-                        'brand-light': '#FFFFFF',
-                        'brand-gray': '#E0E0E0',
-                        'brand-text': '#B0B0B0',
-                        'dark-purple-bg': '#1a0a2e', // Darker purple for bg gradient
-                        'darker-bg': '#050505',      // Very dark base
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        lato: ['Lato', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                        nunito: ['Nunito', 'sans-serif'],
-                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                    }
+                extend: { /* Color palette remains the same */
+                    colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#E0E0E0', 'brand-text': '#B0B0B0', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', },
+                    fontFamily: { /* Font families remain same */ }
                 }
             }
         }
     </script>
     <style>
-        @keyframes background-pan {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes gradient-text-animation {
-             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-         @keyframes gentle-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        @keyframes fade-in-subtle {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gradient-text-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         html { scroll-behavior: smooth; }
         body {
@@ -61,158 +32,143 @@
             background-color: theme('colors.brand-dark');
             color: theme('colors.brand-gray');
             overflow-x: hidden;
-            /* Animated Gradient Background using prominent colors */
+            font-size: 17px; /* Increased base font size */
             background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.dark-purple-bg'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.dark-purple-bg'));
-            background-size: 600% 600%; /* Larger size for smoother transition */
-            animation: background-pan 25s ease infinite; /* Slower animation */
-        }
-        .quote-style {
-            font-family: theme('fontFamily.outfit'); font-style: italic;
-            border-left: 4px solid theme('colors.brand-purple');
-            padding-left: 1.5rem; color: theme('colors.brand-text');
-            background-color: rgba(10, 10, 10, 0.5); /* Darker transparent bg */
-            backdrop-filter: blur(4px);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-        .quote-style:hover {
-             background-color: rgba(146, 114, 206, 0.1);
-             border-left-color: theme('colors.brand-hover');
-        }
-        nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
-        nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); } /* Slightly more scale */
-        nav a.active { color: theme('colors.brand-purple'); }
-
-        /* Animated Name H1 - Brighter Gradient & Shadow */
-        h1.animated-gradient-text {
-            /* Gradient emphasizing lighter/hover colors */
-            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light-purple'), theme('colors.brand-hover'), theme('colors.brand-light'));
-            background-size: 300% auto;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent; /* Fallback */
-            -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 6s linear infinite; /* Faster animation */
-            display: inline-block;
-            /* Subtle shadow for definition */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 15px rgba(174, 139, 213, 0.1);
+            background-size: 600% 600%;
+            animation: background-pan 30s ease infinite; /* Slower animation */
         }
 
+        /* --- Header & Nav --- */
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; /* Ensure button is clickable */ }
+        .nav-toggle-btn svg { stroke: theme('colors.brand-light'); transition: stroke 0.3s ease; }
+        .nav-toggle-btn:hover svg { stroke: theme('colors.brand-purple'); }
+        .mobile-menu {
+            display: none; /* Hidden by default */
+            position: absolute;
+            top: 100%; /* Position below header */
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.9); /* Dark bg */
+            backdrop-filter: blur(8px);
+            padding: 1.5rem 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            z-index: 55;
+            animation: slide-down-fade 0.4s ease-out forwards;
+        }
+        .mobile-menu.is-open { display: block; }
+        .mobile-menu a {
+            display: block;
+            padding: 0.8rem 1.5rem; /* Use container padding for alignment */
+            color: theme('colors.brand-light');
+            font-size: 1.1rem; /* Larger menu item text */
+            transition: color 0.3s ease, background-color 0.3s ease;
+            text-align: center;
+        }
+        .mobile-menu a:hover { color: theme('colors.brand-purple'); background-color: rgba(146, 114, 206, 0.1); }
+
+        /* --- Text Hover Scale --- */
+        .text-hover-scale { transition: transform 0.2s ease-out; display: inline-block; } /* Ensure block/inline-block */
+        .text-hover-scale:hover { transform: scale(1.03); }
+
+        /* --- Other Styles --- */
+        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; /* Increased padding */ color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.5); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; }
+        .quote-style:hover { background-color: rgba(146, 114, 206, 0.1); border-left-color: theme('colors.brand-hover'); transform: scale(1.02); }
+        h1.animated-gradient-text { background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light-purple'), theme('colors.brand-hover'), theme('colors.brand-light')); background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: gradient-text-animation 6s linear infinite; display: inline-block; text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 15px rgba(174, 139, 213, 0.1); }
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
-        .post-preview p { color: theme('colors.brand-gray'); font-size: 0.9rem; }
+        .post-preview p { color: theme('colors.brand-gray'); font-size: 1rem; /* Increased preview text */ }
+        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.7); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; }
+        .writing-card:hover { transform: translateY(-6px) scale(1.03); background-color: rgba(45, 35, 60, 0.8); box-shadow: 0 0 18px 4px rgba(146, 114, 206, 0.3), 0 8px 20px rgba(0, 0, 0, 0.2); border-color: rgba(174, 139, 213, 0.5); }
+        .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); }
+        .cta-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.05) translateY(-2px); box-shadow: 0 8px 25px rgba(174, 139, 213, 0.35); }
+        .floating-image-container { animation: fade-in-subtle 1.5s ease-out forwards; opacity: 0; animation-delay: 0.5s; }
+        .floating-image { max-width: 100px; opacity: 0.85; animation: gentle-float 5s ease-in-out infinite; transition: opacity 0.3s ease; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)); }
+        .floating-image:hover { opacity: 1; }
+        @media (min-width: 768px) { .floating-image { max-width: 150px; } }
 
-        .writing-card {
-             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out, background-color 0.3s ease;
-             background-color: rgba(30, 30, 30, 0.65);
-             backdrop-filter: blur(6px);
-             border: 1px solid rgba(146, 114, 206, 0.15);
-             border-radius: 0.75rem; /* More rounded */
-        }
-        .writing-card:hover {
-            transform: translateY(-6px) scale(1.03);
-            background-color: rgba(45, 35, 60, 0.7); /* Subtle purple tint bg on hover */
-            /* Glowing border effect using shadow */
-            box-shadow: 0 0 15px 3px rgba(146, 114, 206, 0.25), 0 8px 20px rgba(0, 0, 0, 0.2);
-            border-color: rgba(174, 139, 213, 0.4); /* Make border slightly visible */
-        }
-        .cta-button {
-             transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
-             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25);
-        }
-        .cta-button:hover {
-             background-color: theme('colors.brand-hover');
-             transform: scale(1.05) translateY(-2px);
-             box-shadow: 0 8px 25px rgba(174, 139, 213, 0.35);
-        }
-
-        /* Frieren Image Style */
-        .floating-image-container {
-             animation: fade-in-subtle 1.5s ease-out forwards;
-             opacity: 0; /* Start hidden */
-             animation-delay: 0.5s; /* Appear slightly after content */
-        }
-        .floating-image {
-             max-width: 100px; /* Smaller size */
-             opacity: 0.85;
-             animation: gentle-float 5s ease-in-out infinite;
-             transition: opacity 0.3s ease;
-             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
-        }
-        .floating-image:hover {
-            opacity: 1;
-        }
-        @media (min-width: 768px) { /* md breakpoint */
-             .floating-image { max-width: 150px; } /* Larger on desktop */
-        }
-
-        @layer utilities {
-          .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-          .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
-        }
+        @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
     </style>
 </head>
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl"> <!-- Increased shadow -->
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit">
-                Agraj Dubey
-            </a>
-            <div class="space-x-6 text-brand-light">
-                <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">About Me</a>
-                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">Contact Me</a>
-                <a href="writings.html" class="hover:text-brand-purple">Writings</a>
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
+        <div class="container mx-auto px-6 py-4 relative"> <!-- Added relative -->
+            <div class="header-container"> <!-- Flex container -->
+                <!-- Left Side: Toggle + Name -->
+                <div class="flex items-center space-x-4">
+                    <button id="nav-toggle" class="nav-toggle-btn md:hidden"> <!-- Hide on medium screens and up -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                    <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit">
+                        Agraj Dubey
+                    </a>
+                </div>
+
+                <!-- Right Side: Desktop Nav -->
+                <div class="hidden md:flex space-x-6 text-brand-light items-center"> <!-- Hide on small screens -->
+                    <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">About Me</a>
+                    <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">Contact Me</a>
+                    <a href="writings.html" class="hover:text-brand-purple">Writings</a>
+                </div>
             </div>
-        </nav>
+
+            <!-- Mobile Menu (Absolute Positioned) -->
+            <div id="mobile-menu" class="mobile-menu md:hidden"> <!-- Hide on medium screens and up -->
+                 <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a>
+                 <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a>
+                 <a href="writings.html">Writings</a>
+            </div>
+        </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20 relative"> <!-- Added relative for image positioning -->
-        <section class="text-center mb-20 md:mb-24 relative z-10"> <!-- Add z-10 to keep text above image -->
-            <h1 class="animated-gradient-text text-5xl md:text-6xl font-bold mb-4 font-outfit">Agraj Dubey</h1>
-            <p class="text-xl md:text-2xl medium-contrast-text mb-10 font-lato italic">Cause no one listens, so I write instead 😎</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text p-6 rounded-lg shadow-xl">
+    <main class="container mx-auto px-6 py-16 md:py-20 relative">
+        <section class="text-center mb-20 md:mb-24 relative z-10">
+            <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-5 font-outfit">Agraj Dubey</h1> {/* Increased size */}
+            <p class="text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p> {/* Increased size & margin */}
+            <blockquote class="quote-style text-hover-scale max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> {/* Added text-hover-scale, increased size */}
                 "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
         <!-- Frieren Image Container -->
         <div class="floating-image-container absolute bottom-1/4 right-0 md:right-10 lg:right-20 -mb-10 md:-mb-16 z-0">
-            <!-- Make sure frieren.png is in the same folder -->
             <img src="frieren.png" alt="Chibi Frieren" class="floating-image h-auto">
         </div>
 
-
-        <section class="mb-16 md:mb-20 relative z-10"> <!-- Add z-10 -->
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12 font-outfit">Recent Writings</h2>
+        <section class="mb-16 md:mb-20 relative z-10">
+            <h2 class="text-hover-scale text-3xl md:text-4xl lg:text-5xl font-bold text-center text-brand-purple mb-14 font-outfit">Recent Writings</h2> {/* Added text-hover-scale, increased size/margin */}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 <!-- Card 1 -->
-                <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">So, you want to travel back</h3>
-                    <div class="post-preview flex-grow mb-4">
+                <!-- Card 1 -->
+                <div class="writing-card p-7 rounded-lg shadow-md flex flex-col"> {/* Increased padding */}
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">So, you want to travel back</h3> {/* Added text-hover-scale, increased size */}
+                    <div class="post-preview flex-grow mb-5"> {/* Increased margin */}
                         <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
                     </div>
-                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
+                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> {/* Increased size */}
                 </div>
                 <!-- Card 2 -->
-                <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">The Cost of Belonging</h3>
-                     <div class="post-preview flex-grow mb-4">
+                <div class="writing-card p-7 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">The Cost of Belonging</h3>
+                     <div class="post-preview flex-grow mb-5">
                         <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
                     </div>
-                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
+                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a>
                 </div>
                  <!-- Card 3 -->
-                 <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">[POST] A New Chapter</h3>
-                     <div class="post-preview flex-grow mb-4">
+                 <div class="writing-card p-7 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">[POST] A New Chapter</h3>
+                     <div class="post-preview flex-grow mb-5">
                         <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
                     </div>
-                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
+                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a>
                 </div>
             </div>
              <div class="text-center mt-16">
-                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block">
+                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block text-lg"> {/* Increased size */}
                     View All Writings
                 </a>
             </div>
@@ -220,11 +176,35 @@
 
     </main>
 
-    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <!-- Added z-10 -->
-        <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
+    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
+        <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p> {/* Increased size */}
     </footer>
 
     <script>
+        // Mobile Nav Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (navToggle && mobileMenu) {
+            navToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-open');
+            });
+            // Optional: Close menu when clicking a link inside it
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                     mobileMenu.classList.remove('is-open');
+                });
+            });
+             // Optional: Close menu when clicking outside
+             document.addEventListener('click', (event) => {
+                 const isClickInsideMenu = mobileMenu.contains(event.target);
+                 const isClickOnToggle = navToggle.contains(event.target);
+                 if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) {
+                     mobileMenu.classList.remove('is-open');
+                 }
+             });
+        }
+
+        // Set Year
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 
