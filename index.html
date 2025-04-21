@@ -17,8 +17,8 @@
                 'brand-light-purple': '#CBB8E8',
                 'brand-dark': '#000000',
                 'brand-light': '#FFFFFF', // White
-                'brand-gray': '#D1D1D1',
-                'brand-text': '#A8A8A8',
+                'brand-gray': '#D1D1D1', // Main text
+                'brand-text': '#A8A8A8', // Secondary text
                 'dark-purple-bg': '#1a0a2e',
                 'darker-bg': '#050505',
                 'body-overlay': 'rgba(8, 5, 12, 0.88)'
@@ -29,10 +29,12 @@
     <style>
         /* --- Keyframes --- */
         @keyframes gradient-text-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } } /* Reduced float */
         @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 7px rgba(255, 255, 255, 0.3); } 50% { opacity: 0.9; text-shadow: 0 0 20px rgba(255, 255, 255, 0.55); } }
-        /* Removed tagline-color-cycle, will use gradient-text-animation */
+        /* Removed tagline-color-cycle-index keyframes */
+
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
@@ -68,23 +70,17 @@
         /* --- Text Styles & Animations --- */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         .text-hover-scale:hover { transform: scale(1.06); }
-        /* Gradient Text Style (Applies to Name and Tagline) */
-        .animated-gradient-text {
-            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #AE8BD5, #FFFFFF); /* White -> Light Purple -> Hover Purple -> White */
-            background-size: 300% auto; /* Control gradient size */
-            background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 6s linear infinite; /* Adjust speed */
-            display: inline-block; /* Important */
+        /* Name Gradient */
+        h1.animated-gradient-text {
+            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #FFFFFF); /* White -> Light Purple -> White */
+            background-size: 250% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+            animation: gradient-text-animation 6s linear infinite;
+            display: inline-block;
         }
-        /* Specific adjustment for tagline gradient if needed */
-        p.animated-gradient-text {
-             animation-duration: 8s; /* Make tagline cycle slower */
-             /* You could define a different gradient here if desired */
-        }
-
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
+        /* Tagline animation class removed */
         .animate-heading-pulse { animation: heading-pulse 2.8s ease-in-out infinite; }
 
 
@@ -103,26 +99,31 @@
 
         /* --- Floating Image --- */
         .floating-image-container {
-            position: absolute; /* Changed from fixed to absolute */
-            width: 90px; /* Base size */
-            z-index: 5; /* Above background/overlay */
-            opacity: 0; /* Start hidden for JS control */
+            position: absolute;
+            width: 45px; /* Significantly smaller base size */
+            z-index: 5;
+            opacity: 0; /* Start hidden */
             cursor: pointer;
-            transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out; /* Smooth transitions */
-            /* Initial position will be set by JS */
+            /* Faster fade, same movement speed */
+            transition: opacity 0.3s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out;
+            /* Initial position set by JS */
             /* Removed bounce animation */
         }
         .floating-image {
              width: 100%; height: auto;
+             opacity: 0.6; /* More subtle base opacity */
              transition: transform 0.3s ease, filter 0.3s ease;
-             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.8);
+             filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)) saturate(0.7); /* Less saturation */
         }
         .floating-image:hover {
+             opacity: 0.9; /* Less opaque on hover */
              transform: scale(1.1);
-             filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1);
+             filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4)) saturate(1);
+             /* Removed animation pause */
         }
-        @media (min-width: 768px) { .floating-image-container { width: 120px; } }
-        @media (min-width: 1024px) { .floating-image-container { width: 150px; } }
+        /* Adjusted responsive sizes */
+        @media (min-width: 768px) { .floating-image-container { width: 60px; } }
+        @media (min-width: 1024px) { .floating-image-container { width: 75px; } }
 
 
         /* --- Utilities --- */
@@ -144,13 +145,14 @@
              <div class="mb-3">
                  <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold font-outfit">Agraj Dubey</h1>
              </div>
-            <!-- Tagline with gradient animation class -->
-            <p class="animated-gradient-text text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
+            <!-- Removed animation class from tagline -->
+            <p class="text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
             <blockquote class="quote-style cursor-pointer max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
         </section>
 
-        <!-- Frieren Image Container - ID for JS, rounded-full -->
+        <!-- Frieren Image Container - Adjusted positioning -->
         <div id="frieren-container" class="floating-image-container">
+            <!-- Added rounded-full -->
             <img src="frieren.png" alt="Chibi Frieren" class="floating-image rounded-full">
         </div>
 
@@ -184,53 +186,50 @@
 
          // --- Frieren Image Logic ---
          const frierenContainer = document.getElementById('frieren-container');
-         const mainElement = document.querySelector('main'); // Use main element for bounds
+         const mainElement = document.querySelector('main');
 
          function getRandomPosition(containerWidth, containerHeight, elementWidth, elementHeight) {
-            // Calculate max positions ensuring element stays within bounds
             const maxX = containerWidth - elementWidth;
             const maxY = containerHeight - elementHeight;
-
-            // Generate random positions (add some padding from edges)
-            const randomX = Math.max(10, Math.random() * (maxX - 20)); // Min 10px padding
-            const randomY = Math.max(10, Math.random() * (maxY - 20)); // Min 10px padding
-
+            const randomX = Math.max(20, Math.random() * (maxX - 40)); // Increased padding
+            const randomY = Math.max(20, Math.random() * (maxY - 40)); // Increased padding
             return { top: randomY + 'px', left: randomX + 'px' };
          }
 
          function moveAndShowFrieren() {
              if (!frierenContainer || !mainElement) return;
-
              const mainRect = mainElement.getBoundingClientRect();
-             const containerRect = frierenContainer.getBoundingClientRect(); // Get current size
+             const containerRect = frierenContainer.getBoundingClientRect();
 
-             // Hide first, then move and fade in
+             // Hide first
              frierenContainer.style.opacity = '0';
 
+             // Wait longer before reappearing
              setTimeout(() => {
                  const newPos = getRandomPosition(
                      mainRect.width,
-                     mainRect.height,
-                     containerRect.width,
-                     containerRect.height
+                     // Use scrollHeight for potentially taller content area
+                     Math.max(mainRect.height, mainElement.scrollHeight),
+                     containerRect.width || 70, // Use default if rect not ready
+                     containerRect.height || 70
                  );
                  frierenContainer.style.top = newPos.top;
                  frierenContainer.style.left = newPos.left;
-                 frierenContainer.style.opacity = '1'; // Fade in
-             }, 600); // Delay before reappearing (adjust timing)
+                 frierenContainer.style.opacity = '1'; // Fade back in
+             }, 800); // Longer delay (800ms) before reappearing
          }
 
          if (frierenContainer) {
-             // Initial fade-in is handled by CSS animation
+             // Initial fade-in handled by CSS
 
              // Click listener
              frierenContainer.addEventListener('click', () => {
-                 const youtubeLink = 'https://www.youtube.com/watch?v=OIBODIPC_8Y'; // <-- PASTE YOUR LINK HERE
+                 const youtubeLink = 'https://www.youtube.com/watch?v=IXbFa2rQk3A'; // <-- PASTE YOUR LINK HERE
                  window.open(youtubeLink, '_blank');
              });
 
-             // Set interval to move and fade
-             setInterval(moveAndShowFrieren, 5000); // Appear/disappear every 5 seconds
+             // Set interval to move and fade (longer interval)
+             setInterval(moveAndShowFrieren, 10000); // Move every 10 seconds
 
          } else {
             console.error("Frieren image container not found");
