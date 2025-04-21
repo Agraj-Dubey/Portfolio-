@@ -215,64 +215,7 @@
              margin-top: 2rem; /* Space when it appears */
         }
          /* Individual articles are also hidden initially by JS, but setting here is backup */
-        #full-articles-container article {
-            display: none;
-            background-color: theme('colors.article-bg');
-            backdrop-filter: blur(8px);
-            border-radius: 0.75rem;
-            padding: 2.5rem 3rem; /* More padding */
-            margin-bottom: 3rem;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(146, 114, 206, 0.25);
-        }
-        #full-articles-container h2 {
-             color: theme('colors.brand-purple');
-             margin-bottom: 0.5rem;
-             font-size: 2rem; /* Larger title */
-             font-weight: 700;
-             font-family: theme('fontFamily.outfit');
-             line-height: 1.3;
-        }
-         #full-articles-container .post-meta-info {
-            font-size: 0.9rem;
-            color: theme('colors.brand-text');
-            margin-bottom: 2.5rem;
-            font-family: theme('fontFamily.lato');
-        }
-        /* Back Button Style */
-        .back-button {
-            display: inline-block;
-            margin-top: 2.5rem;
-            padding: 0.6rem 1.2rem;
-            background-color: theme('colors.brand-purple');
-            color: theme('colors.brand-light');
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .back-button:hover {
-             background-color: theme('colors.brand-hover');
-             transform: scale(1.03);
-        }
 
-
-        /* --- Blogger Content Styling (Keep as before) --- */
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1rem; line-height: 1.7; color: theme('colors.brand-gray'); background-color: transparent !important; text-align: left; margin: 0 0 1.25em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; }
-        .post-content-html span { margin: 0; }
-        /* Font overrides */
-        .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); } .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); } .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); } .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); } .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
-        /* Style overrides */
-        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: theme('colors.brand-purple'); text-decoration: underline; transition: color 0.2s ease; } .post-content-html a:hover { color: theme('colors.brand-hover'); }
-        /* Alignment */
-        .post-content-html p[style*="text-align: center;"], .post-content-html div[style*="text-align: center;"], .post-content-html blockquote[style*="text-align: center;"] { text-align: center; margin-left: auto; margin-right: auto; }
-        /* Blockquotes */
-        .post-content-html blockquote { border-left: 4px solid theme('colors.brand-purple'); padding-left: 1.5rem; margin-left: 0; margin-right: 0; font-style: italic; color: theme('colors.brand-text'); } .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.brand-hover'); padding-left: 1rem; } .post-content-html blockquote p { margin-bottom: 0.5em; }
-        /* Images */
-        .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-        /* Separator */
-        .post-content-html .separator { display: none; }
          /* Inside the <style> tag in writings.html */
 
         /* --- (Keep existing styles for body, animation, card previews, etc.) --- */
@@ -280,71 +223,42 @@
         /* --- Visibility Fixes for FULL ARTICLES --- */
 
         /* Make the full article background slightly less transparent if needed */
-        #full-articles-container article {
-            /* background-color: rgba(20, 20, 22, 0.8); /* Optional: Increase opacity from 0.7 if needed */
-            /* ... keep other article styles: padding, margin, border etc. ... */
-            border: 1px solid rgba(146, 114, 206, 0.35); /* Slightly more visible border */
-        }
-
-        /* Adjust Meta Info color inside full articles */
-        #full-articles-container .post-meta-info {
-            color: #a0aec0; /* Lighter Gray (Same as preview meta fix) */
-            font-size: 0.9rem; /* Keep or adjust as needed */
-            margin-bottom: 2rem; /* Reduced slightly from 2.5 */
-        }
-
-        /* Base styles for text within the full article content */
-        .post-content-html p,
-        .post-content-html span, /* Target spans directly too */
-        .post-content-html div,
-        .post-content-html li /* Add list items if you use them */
-        {
-            color: #FFFFFF; /* CHANGE TO PURE WHITE for main text */
-            font-size: 1.05rem; /* SLIGHTLY LARGER font size for readability */
-            line-height: 1.75; /* Adjust line height for new size */
-             /* Keep other inherited styles */
-        }
-
-        /* Ensure specific font styles are still applied over the base white */
-         .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; color: #FFFFFF; }
-         .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; color: #FFFFFF; }
-         /* Links already have specific color */
-         .post-content-html a { color: theme('colors.brand-purple'); }
-         .post-content-html a:hover { color: theme('colors.brand-hover'); }
-
-
-        /* Fix blockquote contrast */
-        .post-content-html blockquote {
-            border-left: 4px solid theme('colors.brand-purple');
-            padding-left: 1.5rem;
-            margin-left: 0;
-            margin-right: 0;
-            font-style: italic;
-            color: #E0E0E0; /* CHANGE to brand-gray (lighter than brand-text) */
-        }
-         /* Nested blockquotes (if any) */
-        .post-content-html blockquote blockquote {
-            margin-top: 1em;
-            margin-left: 1.5rem;
-            border-left-color: theme('colors.brand-hover');
-            padding-left: 1rem;
-            color: #B0B0B0; /* Can be slightly dimmer than main quote */
-        }
-        .post-content-html blockquote p {
-             color: inherit; /* Make sure p inside blockquote inherits the blockquote color */
-             font-size: inherit;
-             line-height: inherit;
-             margin-bottom: 0.5em;
-        }
-
-
-        /* Optional: Ensure article titles are clearly visible */
-        #full-articles-container h2 {
-             color: theme('colors.brand-purple'); /* Keep brand purple */
-             /* text-shadow: 0 0 5px rgba(146, 114, 206, 0.5); /* Optional: Subtle glow */
-        }
-
-        /* --- End FULL ARTICLE Visibility Fixes --- */
+/* --- Visibility Fixes for FULL ARTICLES --- */
+#full-articles-container article {
+    border: 1px solid rgba(146, 114, 206, 0.35);
+    /* Optional: background-color: rgba(20, 20, 22, 0.8); */
+    /* ... other styles ... */
+}
+#full-articles-container .post-meta-info {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+.post-content-html p,
+.post-content-html span,
+.post-content-html div,
+.post-content-html li {
+    color: #FFFFFF; /* White text */
+    font-size: 1.05rem; /* Slightly larger */
+    line-height: 1.75;
+}
+.post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; color: #FFFFFF; }
+.post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; color: #FFFFFF; }
+.post-content-html a { color: theme('colors.brand-purple'); }
+.post-content-html a:hover { color: theme('colors.brand-hover'); }
+.post-content-html blockquote {
+    border-left: 4px solid theme('colors.brand-purple');
+    padding-left: 1.5rem; margin-left: 0; margin-right: 0; font-style: italic;
+    color: #E0E0E0; /* Lighter gray */
+}
+.post-content-html blockquote blockquote {
+    margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.brand-hover'); padding-left: 1rem;
+    color: #B0B0B0; /* Dimmer gray */
+}
+.post-content-html blockquote p {
+     color: inherit; font-size: inherit; line-height: inherit; margin-bottom: 0.5em;
+}
+/* --- End FULL ARTICLE Visibility Fixes --- */
 
         @layer utilities {
           .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
@@ -367,7 +281,7 @@
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
+    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen pt-24">
         <h1 class="text-4xl md:text-5xl font-bold text-center text-brand-purple mb-12 font-outfit">Writings</h1>
 
         <!-- ==== Writings Preview Grid ==== -->
@@ -697,11 +611,9 @@
 
     </main>
 
-<!-- Find this line: -->
 <footer class="bg-gradient-to-t from-gray-900/60 to-black text-center py-8 mt-16">
-    <!-- CHANGE the <p> tag's class inside -->
+    <!-- Ensure this <p> has text-brand-gray -->
     <p class="text-brand-gray text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
-    <!-- Previously might have inherited from text-brand-text or had no specific class, explicitly set it -->
 </footer>
 
      <script>
