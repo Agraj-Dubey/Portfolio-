@@ -43,25 +43,20 @@
 
         body {
             font-family: theme('fontFamily.sans');
-            /* background-color: theme('colors.brand-dark'); */ /* REMOVED this line */
-            color: theme('colors.brand-gray'); /* Keep text color */
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            color: theme('colors.brand-gray'); /* Keep text color using theme */
+            overflow-x: hidden;
 
-            /* Apply the animated gradient USING ACTUAL HEX CODES */
-            background: linear-gradient(45deg, #000000, #9272CE, #110e18, #000000); /* <-- Use hex codes here */
+            /* --- New Animated Gradient Background --- */
+            /* Using darker, richer blues and purples */
+            background: linear-gradient(60deg, #0a0a1a, #1a0a2a, #0a1a2a, #110e18);
+            /* Angle changed slightly to 60deg */
+            /* Colors: Very Dark Blue -> Deep Purple -> Deep Tealish Blue -> Dark Gray/Purple */
 
-            background-size: 400% 400%; /* Make the background much larger */
-            animation: gradientAnimation 20s ease infinite; /* Apply animation */
+            background-size: 350% 350%; /* Slightly smaller size can make movement feel faster */
+            animation: gradientAnimation 15s ease infinite; /* Faster animation (15s) */
         }
 
-        /* Remove specific background from writings.html if it exists */
-        /* body {
-             ...
-            /* background: linear-gradient(to bottom, theme('colors.brand-dark') 0%, #110e18 100%); /* ENSURE THIS IS REMOVED in writings.html */
-        /* } */
-
-        html { scroll-behavior: smooth; }
-        /* ... rest of your existing styles ... */
+        /* Make sure NO other background or background-color rules are applied to the body */
         .quote-style {
             font-family: theme('fontFamily.outfit');
             /* ... rest of quote-style */
