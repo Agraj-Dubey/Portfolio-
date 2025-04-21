@@ -121,6 +121,8 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>
      <style>
+ /* Inside the <style> tag */
+
         /* --- Animated Gradient Background --- */
         @keyframes gradientAnimation {
             0% { background-position: 0% 50%; }
@@ -130,22 +132,25 @@
 
         body {
             font-family: theme('fontFamily.sans');
-            /* background-color: theme('colors.brand-dark'); */ /* Remove static background color */
-            color: theme('colors.brand-gray');
+            /* background-color: theme('colors.brand-dark'); */ /* REMOVED this line */
+            color: theme('colors.brand-gray'); /* Keep text color */
             overflow-x: hidden; /* Prevent horizontal scroll */
-            /* Apply the animated gradient */
-            background: linear-gradient(45deg, theme('colors.brand-dark'), theme('colors.brand-purple'), #110e18, theme('colors.brand-dark')); /* Define the gradient colors and angle */
-            background-size: 400% 400%; /* Make the background much larger than the viewport */
-            animation: gradientAnimation 20s ease infinite; /* Apply the animation */
+
+            /* Apply the animated gradient USING ACTUAL HEX CODES */
+            background: linear-gradient(45deg, #000000, #9272CE, #110e18, #000000); /* <-- Use hex codes here */
+
+            background-size: 400% 400%; /* Make the background much larger */
+            animation: gradientAnimation 20s ease infinite; /* Apply animation */
         }
 
         /* Remove specific background from writings.html if it exists */
         /* body {
              ...
-            background: linear-gradient(to bottom, theme('colors.brand-dark') 0%, #110e18 100%); /* REMOVE THIS LINE IN writings.html */
+            /* background: linear-gradient(to bottom, theme('colors.brand-dark') 0%, #110e18 100%); /* ENSURE THIS IS REMOVED in writings.html */
         /* } */
 
-        html { scroll-behavior: smooth; } /* Ensure smooth scroll for anchors */
+        html { scroll-behavior: smooth; }
+        /* ... rest of your existing styles ... */
         .quote-style {
             font-family: theme('fontFamily.outfit');
             /* ... rest of quote-style */
