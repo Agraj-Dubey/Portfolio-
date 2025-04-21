@@ -33,14 +33,13 @@
         }
     </script>
     <style>
-        /* Basic body styling */
+        html { scroll-behavior: smooth; } /* Ensure smooth scroll for anchors */
         body {
             font-family: theme('fontFamily.sans');
             background-color: theme('colors.brand-dark');
             color: theme('colors.brand-gray');
-            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
-        /* Style for the main quote */
         .quote-style {
             font-family: theme('fontFamily.outfit');
             font-style: italic;
@@ -48,45 +47,44 @@
             padding-left: 1.5rem;
             color: theme('colors.brand-text');
         }
-        /* Navbar link styling */
-        nav a {
-            transition: color 0.2s ease-in-out;
-        }
-        nav a:hover, nav a.active {
-            color: theme('colors.brand-purple');
-        }
-        /* Ensure sufficient contrast */
+        nav a { transition: color 0.3s ease-in-out; } /* Smoother nav transition */
+        nav a:hover, nav a.active { color: theme('colors.brand-purple'); }
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
+        .post-preview p { color: theme('colors.brand-gray'); }
 
-        /* Specific styles for post content preview */
-        .post-preview p {
-            color: theme('colors.brand-gray');
+        /* Card hover base style */
+        .writing-card {
+             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .writing-card:hover {
+            transform: translateY(-5px);
+             box-shadow: 0 10px 20px rgba(146, 114, 206, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1); /* Subtle purple glow shadow */
+        }
+         /* Button hover style */
+        .cta-button {
+             transition: background-color 0.3s ease-out, transform 0.2s ease-out;
+        }
+        .cta-button:hover {
+             transform: scale(1.03);
         }
 
-        /* Tailwind JIT helper for line-clamp */
         @layer utilities {
           .line-clamp-3 {
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
+            overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
           }
-          .line-clamp-4 { /* Added for writings page previews */
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 4;
+           .line-clamp-4 { /* For writings page */
+            overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;
           }
         }
     </style>
 </head>
-<body class="bg-brand-dark text-brand-gray leading-relaxed">
+<body class="bg-brand-dark text-brand-gray leading-relaxed antialiased"> <!-- Added antialiased -->
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg"> <!-- Increased shadow -->
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors">
+            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> <!-- Added font -->
                 Agraj Dubey
             </a>
             <div class="space-x-6 text-brand-light">
@@ -97,66 +95,57 @@
         </nav>
     </header>
 
-    <!-- ==== Main Content ==== -->
-    <main class="container mx-auto px-6 py-16"> <!-- Increased top/bottom padding -->
-        <!-- ==== Hero Section ==== -->
-        <section class="text-center mb-20"> <!-- Increased bottom margin -->
-            <h1 class="text-5xl md:text-6xl font-bold high-contrast-text mb-4">Agraj Dubey</h1>
+    <main class="container mx-auto px-6 py-16 md:py-20"> <!-- Responsive padding -->
+        <section class="text-center mb-20 md:mb-24">
+            <h1 class="text-5xl md:text-6xl font-bold high-contrast-text mb-4 font-outfit">Agraj Dubey</h1>
             <p class="text-xl md:text-2xl medium-contrast-text mb-10">Exploring thoughts, code, and the spaces in between.</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text bg-gray-900/40 p-6 rounded-lg shadow-lg"> <!-- Slightly darker bg, increased shadow -->
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text bg-gray-900/50 p-6 rounded-lg shadow-lg border-l-4 border-brand-purple"> <!-- Enhanced quote bg/border -->
                 "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
-        <!-- ==== Recent Writings Section ==== -->
-        <section class="mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12">Recent Writings</h2>
+        <section class="mb-16 md:mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12 font-outfit">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"> <!-- Increased bg opacity, shadow, flex -->
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3">So, you want to travel back</h3>
-                    <div class="post-preview flex-grow mb-4"> <!-- Added wrapper, flex-grow -->
-                        <p class="medium-contrast-text line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
+                <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col"> <!-- Added writing-card class -->
+                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">So, you want to travel back</h3>
+                    <div class="post-preview flex-grow mb-4">
+                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
                     </div>
-                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a> <!-- Aligned button -->
+                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a> <!-- Added mt-auto, pt-2 -->
                 </div>
                 <!-- Card 2 -->
-                <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3">The Cost of Belonging</h3>
+                <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">The Cost of Belonging</h3>
                      <div class="post-preview flex-grow mb-4">
-                        <p class="medium-contrast-text line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
+                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
                     </div>
-                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a>
+                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a>
                 </div>
                  <!-- Card 3 -->
-                 <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                    <h3 class="text-xl font-semibold high-contrast-text mb-3">[POST] A New Chapter</h3>
+                 <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col">
+                    <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">[POST] A New Chapter</h3>
                      <div class="post-preview flex-grow mb-4">
-                        <p class="medium-contrast-text line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
+                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
                     </div>
-                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a>
+                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a>
                 </div>
-                <!-- Add more cards if needed -->
             </div>
-             <div class="text-center mt-12"> <!-- Increased top margin -->
-                <a href="writings.html" class="bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover transition-colors duration-300 shadow-lg hover:shadow-md"> <!-- Larger button -->
+             <div class="text-center mt-12">
+                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover shadow-lg hover:shadow-md inline-block"> <!-- Added inline-block, cta-button class -->
                     View All Writings
                 </a>
             </div>
         </section>
-        <!-- ==== End Recent Writings Section ==== -->
 
     </main>
-    <!-- ==== End Main Content ==== -->
 
-    <!-- ==== Footer ==== -->
-    <footer class="bg-black text-center py-8 mt-16"> <!-- Increased padding/margin -->
+    <footer class="bg-gradient-to-t from-gray-900/50 to-black text-center py-8 mt-16"> <!-- Added gradient -->
         <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
-    <!-- ==== End Footer ==== -->
 
     <script>
-        // Set current year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 
