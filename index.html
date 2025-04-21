@@ -15,13 +15,14 @@
                 extend: {
                     colors: {
                         'brand-purple': '#9272CE',
+                        'brand-hover': '#AE8BD5', // Lighter purple
+                        'brand-light-purple': '#CBB8E8', // Even lighter for gradient
                         'brand-dark': '#000000',
                         'brand-light': '#FFFFFF',
                         'brand-gray': '#E0E0E0',
                         'brand-text': '#B0B0B0',
-                        'brand-hover': '#AE8BD5',
-                        'dark-purple-bg': '#1a0a2e', // For gradient
-                        'darker-bg': '#0a0a0a',      // For gradient
+                        'dark-purple-bg': '#1a0a2e', // Darker purple for bg gradient
+                        'darker-bg': '#050505',      // Very dark base
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -45,6 +46,14 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+         @keyframes gentle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes fade-in-subtle {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         html { scroll-behavior: smooth; }
         body {
@@ -52,57 +61,89 @@
             background-color: theme('colors.brand-dark');
             color: theme('colors.brand-gray');
             overflow-x: hidden;
-            /* Animated Gradient Background */
-            background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.darker-bg'), theme('colors.dark-purple-bg'), theme('colors.darker-bg'));
-            background-size: 400% 400%;
-            animation: background-pan 20s ease infinite; /* Adjust time as needed */
+            /* Animated Gradient Background using prominent colors */
+            background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.dark-purple-bg'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.dark-purple-bg'));
+            background-size: 600% 600%; /* Larger size for smoother transition */
+            animation: background-pan 25s ease infinite; /* Slower animation */
         }
         .quote-style {
             font-family: theme('fontFamily.outfit'); font-style: italic;
             border-left: 4px solid theme('colors.brand-purple');
             padding-left: 1.5rem; color: theme('colors.brand-text');
-            background-color: rgba(10, 10, 10, 0.4); /* Slightly darker quote bg */
-            backdrop-filter: blur(3px);
+            background-color: rgba(10, 10, 10, 0.5); /* Darker transparent bg */
+            backdrop-filter: blur(4px);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .quote-style:hover {
+             background-color: rgba(146, 114, 206, 0.1);
+             border-left-color: theme('colors.brand-hover');
         }
         nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
-        nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.05); }
+        nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); } /* Slightly more scale */
         nav a.active { color: theme('colors.brand-purple'); }
 
-        /* Animated Name H1 */
+        /* Animated Name H1 - Brighter Gradient & Shadow */
         h1.animated-gradient-text {
-            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-light'));
-            background-size: 250% auto; /* Control gradient size */
+            /* Gradient emphasizing lighter/hover colors */
+            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-hover'), theme('colors.brand-light-purple'), theme('colors.brand-hover'), theme('colors.brand-light'));
+            background-size: 300% auto;
             background-clip: text;
             -webkit-background-clip: text;
+            color: transparent; /* Fallback */
             -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 8s linear infinite; /* Adjust speed */
-            display: inline-block; /* Important for background clip */
+            animation: gradient-text-animation 6s linear infinite; /* Faster animation */
+            display: inline-block;
+            /* Subtle shadow for definition */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 15px rgba(174, 139, 213, 0.1);
         }
 
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
-        .post-preview p { color: theme('colors.brand-gray'); font-size: 0.9rem; } /* Slightly smaller preview text */
+        .post-preview p { color: theme('colors.brand-gray'); font-size: 0.9rem; }
 
         .writing-card {
-             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
-             background-color: rgba(30, 30, 30, 0.6); /* Card background */
-             backdrop-filter: blur(5px);
-             border: 1px solid rgba(146, 114, 206, 0.1);
-             border-left: 3px solid transparent; /* Left border for hover */
+             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out, background-color 0.3s ease;
+             background-color: rgba(30, 30, 30, 0.65);
+             backdrop-filter: blur(6px);
+             border: 1px solid rgba(146, 114, 206, 0.15);
+             border-radius: 0.75rem; /* More rounded */
         }
         .writing-card:hover {
-            transform: translateY(-5px) scale(1.02); /* Lift and slightly enlarge */
-            box-shadow: 0 10px 25px rgba(146, 114, 206, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-            border-left-color: theme('colors.brand-purple'); /* Highlight left border */
+            transform: translateY(-6px) scale(1.03);
+            background-color: rgba(45, 35, 60, 0.7); /* Subtle purple tint bg on hover */
+            /* Glowing border effect using shadow */
+            box-shadow: 0 0 15px 3px rgba(146, 114, 206, 0.25), 0 8px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(174, 139, 213, 0.4); /* Make border slightly visible */
         }
         .cta-button {
              transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
-             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.2);
+             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25);
         }
         .cta-button:hover {
-             transform: scale(1.05) translateY(-2px); /* Lift button slightly */
-             box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3);
+             background-color: theme('colors.brand-hover');
+             transform: scale(1.05) translateY(-2px);
+             box-shadow: 0 8px 25px rgba(174, 139, 213, 0.35);
+        }
+
+        /* Frieren Image Style */
+        .floating-image-container {
+             animation: fade-in-subtle 1.5s ease-out forwards;
+             opacity: 0; /* Start hidden */
+             animation-delay: 0.5s; /* Appear slightly after content */
+        }
+        .floating-image {
+             max-width: 100px; /* Smaller size */
+             opacity: 0.85;
+             animation: gentle-float 5s ease-in-out infinite;
+             transition: opacity 0.3s ease;
+             filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+        .floating-image:hover {
+            opacity: 1;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+             .floating-image { max-width: 150px; } /* Larger on desktop */
         }
 
         @layer utilities {
@@ -113,7 +154,7 @@
 </head>
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl"> <!-- Increased shadow -->
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit">
                 Agraj Dubey
@@ -126,21 +167,26 @@
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20">
-        <section class="text-center mb-20 md:mb-24">
-            <!-- Apply animation class to H1 -->
+    <main class="container mx-auto px-6 py-16 md:py-20 relative"> <!-- Added relative for image positioning -->
+        <section class="text-center mb-20 md:mb-24 relative z-10"> <!-- Add z-10 to keep text above image -->
             <h1 class="animated-gradient-text text-5xl md:text-6xl font-bold mb-4 font-outfit">Agraj Dubey</h1>
-            <!-- Updated Subtitle -->
             <p class="text-xl md:text-2xl medium-contrast-text mb-10 font-lato italic">Cause no one listens, so I write instead 😎</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text p-6 rounded-lg shadow-xl"> <!-- Enhanced quote shadow -->
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text p-6 rounded-lg shadow-xl">
                 "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
-        <section class="mb-16 md:mb-20">
+        <!-- Frieren Image Container -->
+        <div class="floating-image-container absolute bottom-1/4 right-0 md:right-10 lg:right-20 -mb-10 md:-mb-16 z-0">
+            <!-- Make sure frieren.png is in the same folder -->
+            <img src="frieren.png" alt="Chibi Frieren" class="floating-image h-auto">
+        </div>
+
+
+        <section class="mb-16 md:mb-20 relative z-10"> <!-- Add z-10 -->
             <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12 font-outfit">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Card 1 -->
+                 <!-- Card 1 -->
                 <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
                     <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">So, you want to travel back</h3>
                     <div class="post-preview flex-grow mb-4">
@@ -165,7 +211,7 @@
                     <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
                 </div>
             </div>
-             <div class="text-center mt-16"> <!-- Increased margin -->
+             <div class="text-center mt-16">
                 <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block">
                     View All Writings
                 </a>
@@ -174,7 +220,7 @@
 
     </main>
 
-    <footer class="bg-gradient-to-t from-gray-900/60 to-black text-center py-10 mt-20"> <!-- Increased padding/margin -->
+    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <!-- Added z-10 -->
         <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
