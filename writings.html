@@ -8,34 +8,118 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
-    <script>
-        // Tailwind Custom Configuration
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-purple': '#9272CE',
-                        'brand-dark': '#000000',
-                        'brand-light': '#FFFFFF',
-                        'brand-gray': '#E0E0E0',
-                        'brand-text': '#B0B0B0',
-                        'brand-hover': '#AE8BD5',
-                        'article-bg': 'rgba(20, 20, 22, 0.7)', // Darker article bg
-                        'card-bg': 'rgba(30, 30, 30, 0.8)',
-                    },
-                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        lato: ['Lato', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                        nunito: ['Nunito', 'sans-serif'],
-                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                        verdana: ['Verdana', 'sans-serif'],
-                        'trebuchet': ['Trebuchet MS', 'sans-serif']
-                    }
-                }
+ <script>
+    // --- Writings Page Interaction Logic ---
+    document.addEventListener('DOMContentLoaded', () => { // <--- Added DOMContentLoaded wrapper
+        const gridContainer = document.getElementById('writings-grid-container');
+        const fullArticlesContainer = document.getElementById('full-articles-container');
+        const readMoreLinks = document.querySelectorAll('.read-more-link');
+        const backButtons = document.querySelectorAll('.back-button');
+        const allFullArticles = fullArticlesContainer ? fullArticlesContainer.querySelectorAll('article') : [];
+
+        // Function to show a specific article
+        function showArticle(targetId) {
+            if (!gridContainer || !fullArticlesContainer) return;
+
+            // Hide grid
+            gridContainer.style.display = 'none';
+
+            // Hide all full articles first
+            allFullArticles.forEach(article => {
+                article.style.display = 'none';
+            });
+
+            // Show the target article
+            const targetArticle = document.getElementById(targetId);
+            if (targetArticle) {
+                targetArticle.style.display = 'block';
+                fullArticlesContainer.style.display = 'block'; // Show the container
+                // Scroll to the top of the article smoothly
+                 // Use setTimeout to ensure the element is fully visible before scrolling
+                setTimeout(() => {
+                    // Scroll slightly above the article start for better visibility of the back button
+                    const elementRect = targetArticle.getBoundingClientRect();
+                    const absoluteElementTop = elementRect.top + window.pageYOffset;
+                    const offsetPosition = absoluteElementTop - 80; // Adjust 80px offset as needed
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                     // Fallback focus just in case scrolling isn't perfect
+                     // targetArticle.querySelector('h2')?.focus(); // Optional: focus heading
+
+                }, 100); // Small delay
+            } else {
+                console.error(`Article with ID ${targetId} not found.`);
+                showGrid(); // Go back to grid if article not found
             }
         }
-    </script>
+
+        // Function to show the grid and hide articles
+        function showGrid() {
+             if (!gridContainer || !fullArticlesContainer) return;
+
+            // Hide all full articles & container
+             allFullArticles.forEach(article => {
+                article.style.display = 'none';
+            });
+            fullArticlesContainer.style.display = 'none';
+
+            // Show grid (restore display: block, Tailwind classes handle the inner grid)
+            gridContainer.style.display = 'block'; // <--- Changed from 'grid' to 'block'
+
+             // Scroll to top of the grid section
+             const gridElement = document.getElementById('writings-grid-container');
+             if(gridElement) {
+                 // Scroll slightly above the grid for better visibility
+                 const elementRect = gridElement.getBoundingClientRect();
+                 const absoluteElementTop = elementRect.top + window.pageYOffset;
+                 const offsetPosition = absoluteElementTop - 80; // Adjust offset
+
+                 window.scrollTo({
+                     top: offsetPosition < 0 ? 0 : offsetPosition, // Don't scroll to negative
+                     behavior: 'smooth'
+                 });
+             } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // Fallback to top of page
+             }
+        }
+
+        // Add event listeners to "Read More" links
+        readMoreLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                const targetId = event.currentTarget.getAttribute('data-target-id');
+                if (targetId) {
+                    // Update URL hash without triggering scroll jump immediately
+                    // history.pushState(null, null, `#${targetId}`); // Optional: Update URL bar
+                    showArticle(targetId);
+                }
+            });
+        });
+
+        // Add event listeners to "Back" buttons
+        backButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // history.pushState(null, null, window.location.pathname + window.location.search); // Optional: Clear hash
+                showGrid();
+            });
+        });
+
+         // --- Handle direct navigation via URL hash ---
+         if (window.location.hash && window.location.hash.startsWith('#post-')) {
+             const targetIdFromHash = window.location.hash.substring(1); // Remove #
+             // Use setTimeout to ensure the rest of the DOM is ready and styles applied
+             setTimeout(() => {
+                  showArticle(targetIdFromHash);
+             }, 150); // Slightly longer delay for hash navigation
+         }
+
+    }); // <--- End of DOMContentLoaded wrapper
+
+    // Set current year in footer (can be outside DOMContentLoaded)
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
      <style>
         html { scroll-behavior: smooth; }
         body {
