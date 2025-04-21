@@ -121,14 +121,36 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 </script>
      <style>
-        html { scroll-behavior: smooth; }
+        /* --- Animated Gradient Background --- */
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         body {
             font-family: theme('fontFamily.sans');
-            /*background-color: theme('colors.brand-dark');*/
+            /* background-color: theme('colors.brand-dark'); */ /* Remove static background color */
             color: theme('colors.brand-gray');
-            overflow-x: hidden;
-            background: linear-gradient(to bottom, theme('colors.brand-dark') 0%, #110e18 100%); /* Subtle gradient */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Apply the animated gradient */
+            background: linear-gradient(45deg, theme('colors.brand-dark'), theme('colors.brand-purple'), #110e18, theme('colors.brand-dark')); /* Define the gradient colors and angle */
+            background-size: 400% 400%; /* Make the background much larger than the viewport */
+            animation: gradientAnimation 20s ease infinite; /* Apply the animation */
         }
+
+        /* Remove specific background from writings.html if it exists */
+        /* body {
+             ...
+            background: linear-gradient(to bottom, theme('colors.brand-dark') 0%, #110e18 100%); /* REMOVE THIS LINE IN writings.html */
+        /* } */
+
+        html { scroll-behavior: smooth; } /* Ensure smooth scroll for anchors */
+        .quote-style {
+            font-family: theme('fontFamily.outfit');
+            /* ... rest of quote-style */
+        }
+        /* ... rest of your existing styles ... */
         nav a { transition: color 0.3s ease-in-out; }
         nav a:hover, nav a.active { color: theme('colors.brand-purple'); }
 
