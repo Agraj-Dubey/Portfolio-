@@ -59,13 +59,21 @@
             position: relative; z-index: 0;
             background-color: theme('colors.darker-bg'); /* Fallback */
         }
-        /* Increased Blur */
+        /* Blurred Background Image Pseudo-Element */
         body::before {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
-            background-image: url('mountains.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;
+            content: '';
+            position: fixed; /* Cover viewport */
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -2; /* Behind overlay and content */
+            background-image: url('mountains.jpg'); /* Your image file */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            /* ---- THIS IS THE LINE TO EDIT ---- */
             filter: blur(10px) brightness(0.65); /* Increased blur, slightly darker */
-            -webkit-filter: blur(10px) brightness(0.65);
-            transform: scale(1.1); /* Increased scale to avoid edge artifacts */
+            -webkit-filter: blur(10px) brightness(0.65); /* For Safari compatibility */
+            /* ---- ------------------------- ---- */
+            transform: scale(1.1); /* Avoid edge artifacts from blur */
         }
         /* Increased Overlay Opacity */
         body::after {
