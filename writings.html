@@ -10,20 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
     <script>
         // Tailwind Config (Same as before)
-        tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#E0E0E0', 'brand-text': '#B0B0B0', 'article-bg': 'rgba(20, 20, 22, 0.85)', 'card-bg': 'rgba(30, 30, 30, 0.8)', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'card-hover-bg': 'rgba(45, 35, 60, 0.85)', }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'] } } } }
+        tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#E0E0E0', 'brand-text': '#B0B0B0', 'article-bg': 'rgba(20, 20, 22, 0.85)', 'card-bg': 'rgba(30, 30, 30, 0.8)', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'card-hover-bg': 'rgba(45, 35, 60, 0.85)', 'body-overlay': 'rgba(5, 5, 8, 0.75)' /* Overlay color for readability */ }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'] } } } }
     </script>
      <style>
-         /* --- Keyframes --- */
+         /* --- Keyframes (Same as before) --- */
          @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
          @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-         /* Stronger Hover Glow */
          @keyframes card-glow { 0% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } 50% { box-shadow: 0 0 25px 6px rgba(146, 114, 206, 0.4), 0 8px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.7); } 100% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } }
-         /* Stronger Base Pulse */
-         @keyframes card-subtle-pulse {
-             0% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 5px 1px rgba(146, 114, 206, 0.15); }
-             50% { box-shadow: 0 5px 20px rgba(0,0,0, 0.38), 0 0 12px 2px rgba(146, 114, 206, 0.25); }
-             100% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 5px 1px rgba(146, 114, 206, 0.15); }
-         }
+         @keyframes card-subtle-pulse { 0% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 5px 1px rgba(146, 114, 206, 0.15); } 50% { box-shadow: 0 5px 20px rgba(0,0,0, 0.38), 0 0 12px 2px rgba(146, 114, 206, 0.25); } 100% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 5px 1px rgba(146, 114, 206, 0.15); } }
          @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- Base & Body --- */
@@ -31,11 +25,35 @@
         body {
             font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden;
             font-size: 17px;
-            background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.dark-purple-bg'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.dark-purple-bg'));
-            background-attachment: fixed; background-size: 600% 600%; animation: background-pan 30s ease infinite;
+            position: relative; /* Needed for pseudo-element positioning */
+            z-index: 0; /* Establish stacking context */
+            background-color: theme('colors.darker-bg'); /* Fallback */
+        }
+        /* Blurred Background Image Pseudo-Element */
+        body::before {
+            content: '';
+            position: fixed; /* Cover viewport */
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -2; /* Behind overlay and content */
+            background-image: url('mountains.jpg'); /* Your image file */
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            filter: blur(6px) brightness(0.7); /* Adjust blur and brightness */
+            -webkit-filter: blur(6px) brightness(0.7);
+            transform: scale(1.05); /* Avoid edge artifacts from blur */
+        }
+        /* Dark Overlay Pseudo-Element */
+        body::after {
+            content: '';
+            position: fixed; /* Cover viewport */
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1; /* Between background image and content */
+            background-color: theme('colors.body-overlay'); /* Use defined overlay color */
         }
 
-        /* --- Header & Nav (Same as index.html) --- */
+
+        /* --- Header & Nav (Same as before) --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
         .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
         .nav-toggle-btn svg { stroke: theme('colors.brand-light'); transition: stroke 0.3s ease; }
@@ -49,10 +67,9 @@
         .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
         .desktop-nav a.active { color: theme('colors.brand-purple'); font-weight: 600; }
 
-        /* --- Text Hover Scale --- */
-        /* Stronger Scale */
+        /* --- Text Hover Scale (Same as before) --- */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
-        .text-hover-scale:hover { transform: scale(1.05); } /* Increased scale */
+        .text-hover-scale:hover { transform: scale(1.05); }
 
         /* --- Preview Card Styling & Animation --- */
         .writing-preview-card {
@@ -61,19 +78,20 @@
             border: 1px solid rgba(146, 114, 206, 0.2);
             display: flex; flex-direction: column;
             transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
-            /* Apply stronger pulse animation by default */
-            animation: card-subtle-pulse 2.5s ease-in-out infinite; /* Faster pulse */
+            /* Apply subtle pulse animation by default */
+            animation: card-subtle-pulse 2.5s ease-in-out infinite;
         }
         .writing-preview-card:hover {
-            transform: translateY(-8px) scale(1.04); /* Increased transform */
+            transform: translateY(-8px) scale(1.04);
             background-color: theme('colors.card-hover-bg');
             /* Override base pulse with stronger hover glow animation */
-            animation: card-glow 1.8s ease-in-out infinite alternate; /* Faster glow */
+            animation: card-glow 1.8s ease-in-out infinite alternate;
         }
         .writing-preview-card h3 { color: theme('colors.brand-light'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
         /* Changed meta info color */
         .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-light-purple'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.9; }
         .writing-preview-card .excerpt { color: theme('colors.brand-gray'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
+        /* Changed button color */
         .writing-preview-card button.read-more-link { background: none; border: none; padding: 0; color: theme('colors.brand-purple'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
         .writing-preview-card button.read-more-link:hover { color: theme('colors.brand-hover'); text-decoration: underline; }
 
@@ -84,38 +102,35 @@
             border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
             box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
             border: 1px solid rgba(146, 114, 206, 0.3);
-            border-top: 5px solid theme('colors.brand-purple');
+            border-top: 5px solid theme('colors.brand-purple'); /* Thicker top border */
             opacity: 0;
-            transition: opacity 0.6s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Added transform/shadow transition */
+            transition: opacity 0.6s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
         /* Hover effect for full article */
         #full-articles-container article:hover {
             transform: scale(1.015); /* Subtle scale */
-            box-shadow: 0 15px 50px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.2); /* Enhanced shadow */
+            box-shadow: 0 15px 50px rgba(0,0,0, 0.7), 0 0 25px rgba(146, 114, 206, 0.25); /* Enhanced shadow */
         }
         #full-articles-container article.is-visible { display: block; opacity: 1; animation: fade-in 0.6s ease-out forwards; }
         #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
         /* Changed meta info color */
         #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.9; }
-        /* Stronger Button Hover */
         .back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; }
-        .back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.06) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.35); } /* Increased transform/shadow */
+        .back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.06) translateY(-2px); box-shadow: 0 8px 20px rgba(146, 114, 206, 0.35); }
 
         /* --- HR Separator --- */
         hr.separator {
             border: none; height: 2px;
             background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent);
-            margin-top: 4rem; margin-bottom: 4rem; opacity: 0.7; /* Increased opacity */
+            margin-top: 4rem; margin-bottom: 4rem; opacity: 0.7;
         }
 
-        /* --- Blogger Content Styling --- */
+        /* --- Blogger Content Styling (Same as before) --- */
         .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
         .post-content-html span { margin: 0; display: inline; }
-        /* Stronger Hover Scale */
-        .post-content-html p.text-hover-scale:hover, .post-content-html > div.text-hover-scale:hover, .post-content-html blockquote.text-hover-scale:hover { background-color: theme('colors.hover-highlight'); transform: scale(1.03); cursor: default; } /* Increased scale */
+        .post-content-html p.text-hover-scale:hover, .post-content-html > div.text-hover-scale:hover, .post-content-html blockquote.text-hover-scale:hover { background-color: theme('colors.hover-highlight'); transform: scale(1.03); cursor: default; }
         .post-content-html blockquote:has(blockquote:hover) { background-color: rgba(146, 114, 206, 0.03); transform: none; }
         .post-content-html blockquote:has(blockquote blockquote:hover) { background-color: rgba(174, 139, 213, 0.03); transform: none; }
-        /* Font/Style Overrides (No changes needed) */
         .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); } .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); } .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); } .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); } .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
         .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: theme('colors.brand-purple'); text-decoration: underline; transition: color 0.2s ease; display: inline; } .post-content-html a:hover { color: theme('colors.brand-hover'); }
         .post-content-html p[style*="text-align: center;"], .post-content-html div[style*="text-align: center;"], .post-content-html blockquote[style*="text-align: center;"] { text-align: center; margin-left: auto; margin-right: auto; }
@@ -123,7 +138,7 @@
         .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.brand-hover'); padding-left: 1rem; background-color: rgba(174, 139, 213, 0.03); }
         .post-content-html blockquote p { margin-bottom: 0.75em; }
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .post-content-html img:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.55); } /* Increased scale/shadow */
+        .post-content-html img:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.55); }
         .post-content-html .separator { display: none; }
 
         @layer utilities { .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
@@ -133,7 +148,7 @@
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
-        <!-- Header Content (Same as index.html, but note active class on Writings) -->
+        <!-- Header Content -->
         <div class="container mx-auto px-6 py-4 relative">
             <div class="header-container">
                 <div class="flex items-center space-x-4"> <button id="nav-toggle" class="nav-toggle-btn md:hidden"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> Agraj Dubey </a> </div>
@@ -144,23 +159,32 @@
     </header>
 
     <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
-        <!-- Changed heading color to white -->
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-brand-light mb-14 font-outfit text-hover-scale">Writings</h1>
+        <!-- Heading Removed -->
+        <!-- <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-brand-light mb-14 font-outfit text-hover-scale">Writings</h1> -->
 
         <!-- ==== Writings Preview Grid ==== -->
-        <section id="writings-grid-container" class="mb-20">
+        <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20"> <!-- Added padding-top -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 <!-- Cards Structure (Unchanged) -->
+                 <!-- Card 1 -->
                  <div class="writing-preview-card"> <h3 class="text-hover-scale">So, you want to travel back</h3> <div class="post-meta-info">April 19, 2025</div> <div class="excerpt line-clamp-4"> <p>"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..." Like a hawk that couldn’t be caged anymore...</p> </div> <button class="read-more-link" data-target-id="post-2137542659647715265">Read More →</button> </div>
+                 <!-- Card 2 -->
                  <div class="writing-preview-card"> <h3 class="text-hover-scale">The Cost of Belonging</h3> <div class="post-meta-info">April 18, 2025</div> <div class="excerpt line-clamp-4"> <p>Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life, probably after realizing how fucked up the world really is...</p> </div> <button class="read-more-link" data-target-id="post-3486396209614590705">Read More →</button> </div>
+                 <!-- Card 3 -->
                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POST] A New Chapter</h3> <div class="post-meta-info">February 14, 2025</div> <div class="excerpt line-clamp-4"> <p>It's been so long that we have written anything and so much has happened... I discovered myself, I discovered that I was an asexual... Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see...</p> </div> <button class="read-more-link" data-target-id="post-8246180062320707624">Read More →</button> </div>
+                 <!-- Card 4 -->
                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Time Flies By</h3> <div class="post-meta-info">November 28, 2024</div> <div class="excerpt line-clamp-4"> <p>Time flies by / For me it does so in gloom / Worries of the future / Regrets of the past / Time flies by / With the tick of the clocks / An infinite race / With no finish line to cross...</p> </div> <button class="read-more-link" data-target-id="post-6388410560920980765">Read More →</button> </div>
+                  <!-- Card 5 -->
                   <div class="writing-preview-card"> <h3 class="text-hover-scale">[POST] Reading</h3> <div class="post-meta-info">November 16, 2024</div> <div class="excerpt line-clamp-4"> <p>I was thinking about the way I like to read , I read 3 different kinds of books at the same time. One book must be thought provoking... One book must be fictional... One book should be non fiction... Personally the one's I love the most are stories that teach something valuable...</p> </div> <button class="read-more-link" data-target-id="post-2406648289663441748">Read More →</button> </div>
-                 <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] The Lad I Use To Be -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"So glad I wrote it down / Of what became of me / Now I smile at what made me frown / Oh what a lad I used to be / In search for all these years / Of where my true self was lost..."</p> </div> <button class="read-more-link" data-target-id="post-7505116423602657742">Read More →</button> </div>
-                 <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Winter Is Warm -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"The only season with so much warmth / Whispers of wind , a shiver so forth / Bringing us close , holding love and affection / Mornings so lazy , yet so cozy and full of perfection..."</p> </div> <button class="read-more-link" data-target-id="post-5851706812396763606">Read More →</button> </div>
-                 <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Sinnloses leben (Meaning Worthless Life) -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"As a kid I used to dream / Of all things mighty and high / Of things way beyond my reach / To fly way above the sky / That I'd grew up to be the greatest alive / To conquer all that is hidden from sight..."</p> </div> <button class="read-more-link" data-target-id="post-2503258102193667996">Read More →</button> </div>
-                 <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Fragmented Void -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"Would love to cry my heart out at the moment / But I can't / I can't do it without you / I am not strong enough to keep livin up / Without you / Lost / Just like I lost all my hope..."</p> </div> <button class="read-more-link" data-target-id="post-9063719817694048941">Read More →</button> </div>
-                 <div class="writing-preview-card"> <h3 class="text-hover-scale">THE FOUR BURNER THEORY -</h3> <div class="post-meta-info">November 4, 2020</div> <div class="excerpt line-clamp-4"> <p>FOUR BURNER THEORY: IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT... HEALTH... WORK... FAMILY... SOCIAL... IF YOU WANT TO BE SUCCESSFUL THEN YOU HAVE TO CUT DOWN ANY ONE BURNER TOTALLY...</p> </div> <button class="read-more-link" data-target-id="post-5585996557335817138">Read More →</button> </div>
+                 <!-- Card 6 -->
+                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] The Lad I Use To Be -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"So glad I wrote it down / Of what became of me / Now I smile at what made me frown / Oh what a lad I used to be / In search for all these years / Of where my true self was lost..."</p> </div> <button class="read-more-link" data-target-id="post-7505116423602657742">Read More →</button> </div>
+                 <!-- Card 7 -->
+                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Winter Is Warm -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"The only season with so much warmth / Whispers of wind , a shiver so forth / Bringing us close , holding love and affection / Mornings so lazy , yet so cozy and full of perfection..."</p> </div> <button class="read-more-link" data-target-id="post-5851706812396763606">Read More →</button> </div>
+                 <!-- Card 8 -->
+                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Sinnloses leben (Meaning Worthless Life) -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"As a kid I used to dream / Of all things mighty and high / Of things way beyond my reach / To fly way above the sky / That I'd grew up to be the greatest alive / To conquer all that is hidden from sight..."</p> </div> <button class="read-more-link" data-target-id="post-2503258102193667996">Read More →</button> </div>
+                 <!-- Card 9 -->
+                  <div class="writing-preview-card"> <h3 class="text-hover-scale">[POEM] Fragmented Void -</h3> <div class="post-meta-info">November 10, 2024</div> <div class="excerpt line-clamp-4"> <p>"Would love to cry my heart out at the moment / But I can't / I can't do it without you / I am not strong enough to keep livin up / Without you / Lost / Just like I lost all my hope..."</p> </div> <button class="read-more-link" data-target-id="post-9063719817694048941">Read More →</button> </div>
+                 <!-- Card 10 -->
+                  <div class="writing-preview-card"> <h3 class="text-hover-scale">THE FOUR BURNER THEORY -</h3> <div class="post-meta-info">November 4, 2020</div> <div class="excerpt line-clamp-4"> <p>FOUR BURNER THEORY: IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT... HEALTH... WORK... FAMILY... SOCIAL... IF YOU WANT TO BE SUCCESSFUL THEN YOU HAVE TO CUT DOWN ANY ONE BURNER TOTALLY...</p> </div> <button class="read-more-link" data-target-id="post-5585996557335817138">Read More →</button> </div>
             </div> <!-- End Grid -->
         </section>
         <!-- ==== End Writings Preview Grid ==== -->
@@ -273,7 +297,7 @@
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
-     <!-- Scripts (Readable Version) -->
+     <!-- Scripts (Readable Version - JS Logic unchanged) -->
      <script>
         // --- Mobile Nav Toggle JS ---
          const navToggle = document.getElementById('nav-toggle');
@@ -291,124 +315,52 @@
             const readMoreLinks = document.querySelectorAll('.read-more-link');
             const backButtons = document.querySelectorAll('.back-button');
             const allFullArticles = fullArticlesContainer ? fullArticlesContainer.querySelectorAll('article') : [];
-            const mainHeading = document.querySelector('main > h1'); // Target the main H1 heading
-            const separator = document.querySelector('hr.separator'); // Target the separator
+            // const mainHeading = document.querySelector('main > h1'); // Heading is removed, no longer needed here
+            const separator = document.querySelector('hr.separator');
 
-            // Function to show a specific article
             function showArticle(targetId, skipScroll = false) {
-                if (!gridContainer || !fullArticlesContainer || !mainHeading || !separator) {
-                    console.error("Required elements not found for showArticle");
-                    return; // Exit if essential elements are missing
+                // Removed check for mainHeading
+                if (!gridContainer || !fullArticlesContainer || !separator) {
+                    console.error("Required elements not found for showArticle"); return;
                 }
-
-                gridContainer.style.display = 'none'; // Hide grid immediately
-                mainHeading.style.display = 'none';  // Hide main "Writings" heading
-                separator.style.display = 'none';    // Hide separator
-
-                // Hide all full articles first
-                allFullArticles.forEach(article => {
-                    article.classList.remove('is-visible'); // Remove visible class
-                    article.style.display = 'none';         // Ensure it's hidden
-                });
-
+                gridContainer.style.display = 'none';
+                // mainHeading.style.display = 'none'; // Removed line
+                separator.style.display = 'none';
+                allFullArticles.forEach(article => { article.classList.remove('is-visible'); article.style.display = 'none'; });
                 const targetArticle = document.getElementById(targetId);
                 if (targetArticle) {
-                    fullArticlesContainer.style.display = 'block'; // Show the container
-                    targetArticle.style.display = 'block';        // Set display before adding class
-                     // Use a tiny delay before adding class to allow CSS transition
-                    setTimeout(() => {
-                         targetArticle.classList.add('is-visible');
-                    }, 10); // Small delay for transition
-
-                    // Scroll to the top of the article container only if not skipping
-                     if (!skipScroll) {
-                         // Slight delay for smoother scroll after content appears
-                         setTimeout(() => {
-                            // Scroll to the top of the full articles container
-                            fullArticlesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                         }, 150); // Delay might need adjustment
-                     }
-
-                } else {
-                    console.error(`Article with ID ${targetId} not found.`);
-                    showGrid(); // Go back to grid if article not found
-                }
+                    fullArticlesContainer.style.display = 'block'; targetArticle.style.display = 'block';
+                    setTimeout(() => { targetArticle.classList.add('is-visible'); }, 10);
+                    if (!skipScroll) { setTimeout(() => { fullArticlesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150); }
+                } else { console.error(`Article with ID ${targetId} not found.`); showGrid(); }
             }
 
-            // Function to show the grid and hide articles
             function showGrid() {
-                 if (!gridContainer || !fullArticlesContainer || !mainHeading || !separator) {
-                     console.error("Required elements not found for showGrid");
-                     return; // Exit if essential elements are missing
+                 // Removed check for mainHeading
+                 if (!gridContainer || !fullArticlesContainer || !separator) {
+                     console.error("Required elements not found for showGrid"); return;
                  }
-
-                // Hide all full articles & container
-                 allFullArticles.forEach(article => {
-                    article.classList.remove('is-visible');
-                    article.style.display = 'none';
-                });
+                allFullArticles.forEach(article => { article.classList.remove('is-visible'); article.style.display = 'none'; });
                 fullArticlesContainer.style.display = 'none';
-
-                // Show main heading, separator and grid
-                mainHeading.style.display = 'block';
+                // mainHeading.style.display = 'block'; // Removed line
                 separator.style.display = 'block';
-                gridContainer.style.display = 'grid'; // Show grid (restore display: grid)
-
-
-                 // Scroll back to the top of the grid section smoothly
-                 const gridElement = document.getElementById('writings-grid-container');
-                 if(gridElement) {
-                     // Adding a slight delay can sometimes help ensure the element is fully ready for scrollIntoView
-                     setTimeout(() => {
-                        gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                     }, 50);
-                 } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' }); // Fallback to top of page
-                 }
+                gridContainer.style.display = 'grid';
+                 const gridElement = document.getElementById('writings-grid-container'); // Target grid directly
+                 if(gridElement) { setTimeout(() => { gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); }
+                 else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             }
 
-            // Add event listeners to "Read More" links
-            readMoreLinks.forEach(link => {
-                link.addEventListener('click', (event) => {
-                    const targetId = event.currentTarget.getAttribute('data-target-id');
-                    if (targetId) {
-                        showArticle(targetId);
-                    } else {
-                        console.error("Read more link clicked, but no data-target-id found.");
-                    }
-                });
-            });
-
-            // Add event listeners to "Back" buttons
-            backButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    showGrid();
-                });
-            });
-
-             // --- Handle direct navigation via URL hash ---
-             if (window.location.hash && window.location.hash.startsWith('#post-')) {
-                 const targetIdFromHash = window.location.hash.substring(1); // Remove #
-                 // Use setTimeout to ensure the rest of the DOM is ready and styles applied
-                 setTimeout(() => {
-                      showArticle(targetIdFromHash, true); // Pass true to skip initial scroll
-                 }, 200); // Delay might need adjustment
-             }
+            readMoreLinks.forEach(link => { link.addEventListener('click', (event) => { const targetId = event.currentTarget.getAttribute('data-target-id'); if (targetId) { showArticle(targetId); } else { console.error("Read more link clicked, but no data-target-id found."); } }); });
+            backButtons.forEach(button => { button.addEventListener('click', () => { showGrid(); }); });
+            if (window.location.hash && window.location.hash.startsWith('#post-')) { const targetIdFromHash = window.location.hash.substring(1); setTimeout(() => { showArticle(targetIdFromHash, true); }, 200); }
 
             // Add text-hover-scale class dynamically
              const contentDivs = document.querySelectorAll('.post-content-html');
              contentDivs.forEach(div => {
-                 // Target direct P, DIV, and BLOCKQUOTE children
                  const blockElements = div.querySelectorAll(':scope > p, :scope > div, :scope > blockquote');
-                 blockElements.forEach(el => {
-                     // Avoid adding to elements that only contain an image
-                     if (!el.querySelector(':scope > img:only-child')) {
-                        el.classList.add('text-hover-scale');
-                     }
-                 });
+                 blockElements.forEach(el => { if (!el.querySelector(':scope > img:only-child')) { el.classList.add('text-hover-scale'); } });
              });
         });
-
         // Set current year
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
