@@ -21,7 +21,7 @@
                 'brand-text': '#A8A8A8',
                 'dark-purple-bg': '#1a0a2e',
                 'darker-bg': '#050505',
-                'body-overlay': 'rgba(8, 5, 12, 0.88)' // Darker overlay
+                'body-overlay': 'rgba(8, 5, 12, 0.88)'
             },
             fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], }
         } } }
@@ -31,22 +31,8 @@
         @keyframes gradient-text-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 7px rgba(255, 255, 255, 0.3); } 50% { opacity: 0.9; text-shadow: 0 0 20px rgba(255, 255, 255, 0.6); } }
-        /* Tagline Color Cycle Animation - Using Hex Codes */
-        @keyframes tagline-color-cycle-index {
-            0%, 100% { color: #FFFFFF; } /* brand-light */
-            25% { color: #9272CE; }    /* brand-purple */
-            50% { color: #A8A8A8; }    /* brand-text */
-            75% { color: #000000; }    /* brand-dark (black) */
-        }
-        /* Frieren Bounce Animation */
-        @keyframes bounce-around {
-            0%, 100% { top: 15%; left: 85%; transform: rotate(0deg); }
-            25% { top: 60%; left: 10%; transform: rotate(5deg); }
-            50% { top: 40%; left: 90%; transform: rotate(-5deg); }
-            75% { top: 75%; left: 50%; transform: rotate(0deg); }
-        }
-
+        @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 7px rgba(255, 255, 255, 0.3); } 50% { opacity: 0.9; text-shadow: 0 0 20px rgba(255, 255, 255, 0.55); } }
+        /* Removed tagline-color-cycle, will use gradient-text-animation */
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
@@ -56,10 +42,9 @@
         /* Wallpaper Background */
         body::before {
             content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
-            background-image: url('wallhaven-gpl8d3_1920x1080.png'); /* CORRECTED FILENAME */
+            background-image: url('wallhaven-gpl8d3_1920x1080.png'); /* Correct filename */
             background-attachment: fixed; background-size: cover; background-position: center center; background-repeat: no-repeat;
-            filter: blur(8px) brightness(0.6); /* Adjusted blur/brightness */
-            -webkit-filter: blur(8px) brightness(0.6);
+            filter: blur(10px) brightness(0.55); -webkit-filter: blur(10px) brightness(0.55);
             transform: scale(1.1);
         }
         /* Dark Overlay */
@@ -83,22 +68,23 @@
         /* --- Text Styles & Animations --- */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         .text-hover-scale:hover { transform: scale(1.06); }
-        /* Brighter Name Gradient */
-        h1.animated-gradient-text {
-            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #FFFFFF); /* White, Light Purple, White */
-            background-size: 250% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 6s linear infinite; /* Speed */
-            display: inline-block;
+        /* Gradient Text Style (Applies to Name and Tagline) */
+        .animated-gradient-text {
+            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #AE8BD5, #FFFFFF); /* White -> Light Purple -> Hover Purple -> White */
+            background-size: 300% auto; /* Control gradient size */
+            background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+            animation: gradient-text-animation 6s linear infinite; /* Adjust speed */
+            display: inline-block; /* Important */
         }
+        /* Specific adjustment for tagline gradient if needed */
+        p.animated-gradient-text {
+             animation-duration: 8s; /* Make tagline cycle slower */
+             /* You could define a different gradient here if desired */
+        }
+
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
-        /* Apply Tagline Animation */
-        .animate-tagline-colors {
-            animation: tagline-color-cycle 8s ease-in-out infinite; /* Adjust duration */
-            display: inline-block;
-        }
-        /* Apply Heading Pulse Animation */
         .animate-heading-pulse { animation: heading-pulse 2.8s ease-in-out infinite; }
 
 
@@ -115,30 +101,28 @@
         .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); cursor: pointer; }
         .cta-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 30px rgba(174, 139, 213, 0.4); }
 
-        /* --- Floating/Bouncing Image --- */
+        /* --- Floating Image --- */
         .floating-image-container {
-            position: absolute;
-            width: 100px; /* Base size */
-            z-index: 5; /* Above background/overlay, below header */
-            animation: fade-in-subtle 1.5s ease-out forwards, bounce-around 15s ease-in-out infinite; /* Add bounce animation */
-            opacity: 0; animation-delay: 0.7s;
-            cursor: pointer; /* Add pointer cursor */
-            /* Initial position set by bounce animation */
+            position: absolute; /* Changed from fixed to absolute */
+            width: 90px; /* Base size */
+            z-index: 5; /* Above background/overlay */
+            opacity: 0; /* Start hidden for JS control */
+            cursor: pointer;
+            transition: opacity 0.5s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out; /* Smooth transitions */
+            /* Initial position will be set by JS */
+            /* Removed bounce animation */
         }
         .floating-image {
              width: 100%; height: auto;
-             opacity: 0.75;
-             transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+             transition: transform 0.3s ease, filter 0.3s ease;
              filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3)) saturate(0.8);
         }
         .floating-image:hover {
-            opacity: 1;
-            transform: scale(1.1); /* Scale on hover */
-            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1);
-            animation-play-state: paused; /* Pause bounce on hover */
+             transform: scale(1.1);
+             filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4)) saturate(1);
         }
-        @media (min-width: 768px) { .floating-image-container { width: 130px; } }
-        @media (min-width: 1024px) { .floating-image-container { width: 160px; } }
+        @media (min-width: 768px) { .floating-image-container { width: 120px; } }
+        @media (min-width: 1024px) { .floating-image-container { width: 150px; } }
 
 
         /* --- Utilities --- */
@@ -160,14 +144,13 @@
              <div class="mb-3">
                  <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold font-outfit">Agraj Dubey</h1>
              </div>
-            <!-- Tagline with corrected animation class -->
-            <p class="animate-tagline-colors text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
+            <!-- Tagline with gradient animation class -->
+            <p class="animated-gradient-text text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
             <blockquote class="quote-style cursor-pointer max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
         </section>
 
-        <!-- Frieren Image Container - Added ID for JS -->
+        <!-- Frieren Image Container - ID for JS, rounded-full -->
         <div id="frieren-container" class="floating-image-container">
-            <!-- Added rounded-full -->
             <img src="frieren.png" alt="Chibi Frieren" class="floating-image rounded-full">
         </div>
 
@@ -199,14 +182,56 @@
              document.addEventListener('click', (event) => { const isClickInsideMenu = mobileMenu.contains(event.target); const isClickOnToggle = navToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { mobileMenu.classList.remove('is-open'); } });
          }
 
-         // --- Frieren Image Click ---
+         // --- Frieren Image Logic ---
          const frierenContainer = document.getElementById('frieren-container');
+         const mainElement = document.querySelector('main'); // Use main element for bounds
+
+         function getRandomPosition(containerWidth, containerHeight, elementWidth, elementHeight) {
+            // Calculate max positions ensuring element stays within bounds
+            const maxX = containerWidth - elementWidth;
+            const maxY = containerHeight - elementHeight;
+
+            // Generate random positions (add some padding from edges)
+            const randomX = Math.max(10, Math.random() * (maxX - 20)); // Min 10px padding
+            const randomY = Math.max(10, Math.random() * (maxY - 20)); // Min 10px padding
+
+            return { top: randomY + 'px', left: randomX + 'px' };
+         }
+
+         function moveAndShowFrieren() {
+             if (!frierenContainer || !mainElement) return;
+
+             const mainRect = mainElement.getBoundingClientRect();
+             const containerRect = frierenContainer.getBoundingClientRect(); // Get current size
+
+             // Hide first, then move and fade in
+             frierenContainer.style.opacity = '0';
+
+             setTimeout(() => {
+                 const newPos = getRandomPosition(
+                     mainRect.width,
+                     mainRect.height,
+                     containerRect.width,
+                     containerRect.height
+                 );
+                 frierenContainer.style.top = newPos.top;
+                 frierenContainer.style.left = newPos.left;
+                 frierenContainer.style.opacity = '1'; // Fade in
+             }, 600); // Delay before reappearing (adjust timing)
+         }
+
          if (frierenContainer) {
+             // Initial fade-in is handled by CSS animation
+
+             // Click listener
              frierenContainer.addEventListener('click', () => {
-                 // Replace with your actual YouTube link
-                 const youtubeLink = 'https://www.youtube.com/watch?v=JgwyqG1HSCU&list=PLPanbgyToX0x6kf-0s4_df854M4OI3oKP&index=1'; // <-- PASTE YOUR LINK HERE
-                 window.open(youtubeLink, '_blank'); // Opens in a new tab
+                 const youtubeLink = 'https://www.youtube.com/watch?v=OIBODIPC_8Y'; // <-- PASTE YOUR LINK HERE
+                 window.open(youtubeLink, '_blank');
              });
+
+             // Set interval to move and fade
+             setInterval(moveAndShowFrieren, 5000); // Appear/disappear every 5 seconds
+
          } else {
             console.error("Frieren image container not found");
          }
