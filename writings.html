@@ -273,6 +273,78 @@
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
         /* Separator */
         .post-content-html .separator { display: none; }
+         /* Inside the <style> tag in writings.html */
+
+        /* --- (Keep existing styles for body, animation, card previews, etc.) --- */
+
+        /* --- Visibility Fixes for FULL ARTICLES --- */
+
+        /* Make the full article background slightly less transparent if needed */
+        #full-articles-container article {
+            /* background-color: rgba(20, 20, 22, 0.8); /* Optional: Increase opacity from 0.7 if needed */
+            /* ... keep other article styles: padding, margin, border etc. ... */
+            border: 1px solid rgba(146, 114, 206, 0.35); /* Slightly more visible border */
+        }
+
+        /* Adjust Meta Info color inside full articles */
+        #full-articles-container .post-meta-info {
+            color: #a0aec0; /* Lighter Gray (Same as preview meta fix) */
+            font-size: 0.9rem; /* Keep or adjust as needed */
+            margin-bottom: 2rem; /* Reduced slightly from 2.5 */
+        }
+
+        /* Base styles for text within the full article content */
+        .post-content-html p,
+        .post-content-html span, /* Target spans directly too */
+        .post-content-html div,
+        .post-content-html li /* Add list items if you use them */
+        {
+            color: #FFFFFF; /* CHANGE TO PURE WHITE for main text */
+            font-size: 1.05rem; /* SLIGHTLY LARGER font size for readability */
+            line-height: 1.75; /* Adjust line height for new size */
+             /* Keep other inherited styles */
+        }
+
+        /* Ensure specific font styles are still applied over the base white */
+         .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; color: #FFFFFF; }
+         .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; color: #FFFFFF; }
+         /* Links already have specific color */
+         .post-content-html a { color: theme('colors.brand-purple'); }
+         .post-content-html a:hover { color: theme('colors.brand-hover'); }
+
+
+        /* Fix blockquote contrast */
+        .post-content-html blockquote {
+            border-left: 4px solid theme('colors.brand-purple');
+            padding-left: 1.5rem;
+            margin-left: 0;
+            margin-right: 0;
+            font-style: italic;
+            color: #E0E0E0; /* CHANGE to brand-gray (lighter than brand-text) */
+        }
+         /* Nested blockquotes (if any) */
+        .post-content-html blockquote blockquote {
+            margin-top: 1em;
+            margin-left: 1.5rem;
+            border-left-color: theme('colors.brand-hover');
+            padding-left: 1rem;
+            color: #B0B0B0; /* Can be slightly dimmer than main quote */
+        }
+        .post-content-html blockquote p {
+             color: inherit; /* Make sure p inside blockquote inherits the blockquote color */
+             font-size: inherit;
+             line-height: inherit;
+             margin-bottom: 0.5em;
+        }
+
+
+        /* Optional: Ensure article titles are clearly visible */
+        #full-articles-container h2 {
+             color: theme('colors.brand-purple'); /* Keep brand purple */
+             /* text-shadow: 0 0 5px rgba(146, 114, 206, 0.5); /* Optional: Subtle glow */
+        }
+
+        /* --- End FULL ARTICLE Visibility Fixes --- */
 
         @layer utilities {
           .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
@@ -282,7 +354,7 @@
 </head>
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
+    <header class="bg-black/90 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
          <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit">
                 Agraj Dubey
@@ -625,9 +697,12 @@
 
     </main>
 
-    <footer class="bg-gradient-to-t from-gray-900/60 to-black text-center py-8 mt-16">
-        <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
-    </footer>
+<!-- Find this line: -->
+<footer class="bg-gradient-to-t from-gray-900/60 to-black text-center py-8 mt-16">
+    <!-- CHANGE the <p> tag's class inside -->
+    <p class="text-brand-gray text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
+    <!-- Previously might have inherited from text-brand-text or had no specific class, explicitly set it -->
+</footer>
 
      <script>
         // --- Writings Page Interaction Logic ---
