@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agraj Dubey - Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Removed style.css link as styles are inline or Tailwind -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
@@ -15,15 +14,15 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-purple': '#9272CE', // Primary purple
-                        'brand-dark': '#000000',   // Black
-                        'brand-light': '#FFFFFF',  // White
-                        'brand-gray': '#E0E0E0',   // Light gray text (main content)
-                        'brand-text': '#B0B0B0',   // Slightly darker gray for specific text (like quote)
-                        'brand-hover': '#AE8BD5', // Lighter purple for hover
+                        'brand-purple': '#9272CE',
+                        'brand-dark': '#000000',
+                        'brand-light': '#FFFFFF',
+                        'brand-gray': '#E0E0E0',
+                        'brand-text': '#B0B0B0',
+                        'brand-hover': '#AE8BD5',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'], // Modern default
+                        sans: ['Inter', 'sans-serif'],
                         lato: ['Lato', 'sans-serif'],
                         outfit: ['Outfit', 'sans-serif'],
                         nunito: ['Nunito', 'sans-serif'],
@@ -36,24 +35,24 @@
     <style>
         /* Basic body styling */
         body {
-            font-family: theme('fontFamily.sans'); /* Default: Inter */
+            font-family: theme('fontFamily.sans');
             background-color: theme('colors.brand-dark');
             color: theme('colors.brand-gray');
-            scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+            scroll-behavior: smooth;
         }
         /* Style for the main quote */
         .quote-style {
             font-family: theme('fontFamily.outfit');
             font-style: italic;
             border-left: 4px solid theme('colors.brand-purple');
-            padding-left: 1.5rem; /* Increased padding */
+            padding-left: 1.5rem;
             color: theme('colors.brand-text');
         }
         /* Navbar link styling */
         nav a {
             transition: color 0.2s ease-in-out;
         }
-        nav a:hover, nav a.active { /* Style for active link */
+        nav a:hover, nav a.active {
             color: theme('colors.brand-purple');
         }
         /* Ensure sufficient contrast */
@@ -63,16 +62,22 @@
 
         /* Specific styles for post content preview */
         .post-preview p {
-            color: theme('colors.brand-gray'); /* Ensure preview text is readable */
+            color: theme('colors.brand-gray');
         }
 
-        /* Tailwind JIT might not pick up dynamic classes like line-clamp, ensure it's available */
+        /* Tailwind JIT helper for line-clamp */
         @layer utilities {
           .line-clamp-3 {
             overflow: hidden;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
+          }
+          .line-clamp-4 { /* Added for writings page previews */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
           }
         }
     </style>
@@ -84,9 +89,7 @@
             <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors">
                 Agraj Dubey
             </a>
-
             <div class="space-x-6 text-brand-light">
-                 <!-- Target blank for external links -->
                 <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">About Me</a>
                 <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-purple">Contact Me</a>
                 <a href="writings.html" class="hover:text-brand-purple">Writings</a>
@@ -94,25 +97,28 @@
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-16"> {/* Increased top/bottom padding */}
-        <section class="text-center mb-20"> {/* Increased bottom margin */}
+    <!-- ==== Main Content ==== -->
+    <main class="container mx-auto px-6 py-16"> <!-- Increased top/bottom padding -->
+        <!-- ==== Hero Section ==== -->
+        <section class="text-center mb-20"> <!-- Increased bottom margin -->
             <h1 class="text-5xl md:text-6xl font-bold high-contrast-text mb-4">Agraj Dubey</h1>
             <p class="text-xl md:text-2xl medium-contrast-text mb-10">Exploring thoughts, code, and the spaces in between.</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text bg-gray-900/40 p-6 rounded-lg shadow-lg"> {/* Slightly darker bg, increased shadow */}
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text bg-gray-900/40 p-6 rounded-lg shadow-lg"> <!-- Slightly darker bg, increased shadow -->
                 "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
+        <!-- ==== Recent Writings Section ==== -->
         <section class="mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"> {/* Increased bg opacity, shadow, flex */}
+                <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"> <!-- Increased bg opacity, shadow, flex -->
                     <h3 class="text-xl font-semibold high-contrast-text mb-3">So, you want to travel back</h3>
-                    <div class="post-preview flex-grow mb-4"> {/* Added wrapper, flex-grow */}
+                    <div class="post-preview flex-grow mb-4"> <!-- Added wrapper, flex-grow -->
                         <p class="medium-contrast-text line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
                     </div>
-                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a> {/* Aligned button */}
+                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a> <!-- Aligned button -->
                 </div>
                 <!-- Card 2 -->
                 <div class="bg-gray-800/60 p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
@@ -130,19 +136,24 @@
                     </div>
                     <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start">Read More →</a>
                 </div>
+                <!-- Add more cards if needed -->
             </div>
-             <div class="text-center mt-12"> {/* Increased top margin */}
-                <a href="writings.html" class="bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover transition-colors duration-300 shadow-lg hover:shadow-md"> {/* Larger button */}
+             <div class="text-center mt-12"> <!-- Increased top margin -->
+                <a href="writings.html" class="bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover transition-colors duration-300 shadow-lg hover:shadow-md"> <!-- Larger button -->
                     View All Writings
                 </a>
             </div>
         </section>
+        <!-- ==== End Recent Writings Section ==== -->
 
     </main>
+    <!-- ==== End Main Content ==== -->
 
-    <footer class="bg-black text-center py-8 mt-16"> {/* Increased padding/margin */}
+    <!-- ==== Footer ==== -->
+    <footer class="bg-black text-center py-8 mt-16"> <!-- Increased padding/margin -->
         <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
-        </footer>
+    </footer>
+    <!-- ==== End Footer ==== -->
 
     <script>
         // Set current year in footer
