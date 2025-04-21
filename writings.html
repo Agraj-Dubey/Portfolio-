@@ -156,7 +156,7 @@
 
         /* --- Preview Card Styling & Animation --- */
         .writing-preview-card {
-            background-color: theme('colors.card-bg');
+            background-color: theme('colors.brand-purple');
             backdrop-filter: blur(5px); /* Frosted glass effect */
             border-radius: 0.75rem; /* More rounded */
             padding: 1.75rem;
@@ -174,7 +174,7 @@
         }
         .writing-preview-card h3 {
             color: theme('colors.brand-light');
-            font-size: 1.3rem;
+            font-size: 5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             font-family: theme('fontFamily.outfit');
@@ -186,27 +186,27 @@
         /* --- Visibility & Size Fixes for Writing Previews --- */
         .writing-preview-card .post-meta-info {
              color: #a0aec0; /* Lighter Gray (Tailwind gray-500 equivalent) - Good for secondary info */
-             font-size: 0.875rem; /* Slightly larger (text-sm) */
+             font-size: 2rem; /* Slightly larger (text-sm) */
              /* Inherits other styles */
         }
 
         .writing-preview-card .excerpt {
             color: #e2e8f0; /* Very Light Gray / Off-white (Tailwind gray-200 equivalent) - Better contrast */
-            font-size: 1rem;   /* Larger (text-base) */
+            font-size: 2rem;   /* Larger (text-base) */
             line-height: 1.65; /* Adjust line height slightly for the new font size */
              /* Inherits other styles like flex-grow, margin */
         }
 
          /* Optional: Make Title slightly bolder if needed (already white) */
         .writing-preview-card h3 {
-             /* color: #FFFFFF; /* Should already be white via brand-light */
-             /* font-weight: 700; /* Uncomment if semibold isn't distinct enough */
+              color: #FFFFFF; /* Should already be white via brand-light */
+              font-weight: 700; /* Uncomment if semibold isn't distinct enough */
         }
 
         /* Ensure Read More link is still visible */
         .writing-preview-card button.read-more-link {
-             /* color: theme('colors.brand-purple'); /* Keep original purple */
-             /* Consider a slightly brighter hover if needed */
+              color: theme('colors.brand-purple'); /* Keep original purple */
+              Consider a slightly brighter hover if needed */
         }
         /* --- End Visibility Fixes --- */
 
@@ -232,7 +232,7 @@
 }
 #full-articles-container .post-meta-info {
     color: #a0aec0;
-    font-size: 0.9rem;
+    font-size: 2rem;
     margin-bottom: 2rem;
 }
 .post-content-html p,
