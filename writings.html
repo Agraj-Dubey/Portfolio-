@@ -9,25 +9,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
     <script>
-        // Tailwind Custom Configuration (Same as index.html)
+        // Tailwind Config (Same as before)
         tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#E0E0E0', 'brand-text': '#B0B0B0', 'article-bg': 'rgba(20, 20, 22, 0.85)', 'card-bg': 'rgba(30, 30, 30, 0.8)', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'card-hover-bg': 'rgba(45, 35, 60, 0.85)', }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'] } } } }
     </script>
      <style>
          /* --- Keyframes --- */
          @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
          @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+         /* Hover Glow */
          @keyframes card-glow { 0% { box-shadow: 0 0 5px 1px rgba(146, 114, 206, 0.15), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.2); } 50% { box-shadow: 0 0 18px 4px rgba(146, 114, 206, 0.3), 0 8px 20px rgba(0, 0, 0, 0.2); border-color: rgba(174, 139, 213, 0.5); } 100% { box-shadow: 0 0 5px 1px rgba(146, 114, 206, 0.15), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.2); } }
+         /* Subtle Base Pulse */
+         @keyframes card-subtle-pulse {
+             0% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 3px 0px rgba(146, 114, 206, 0.1); }
+             50% { box-shadow: 0 5px 18px rgba(0,0,0, 0.35), 0 0 8px 1px rgba(146, 114, 206, 0.18); }
+             100% { box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 3px 0px rgba(146, 114, 206, 0.1); }
+         }
          @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
         body {
             font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden;
-            font-size: 17px; /* Base font size */
+            font-size: 17px;
             background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.dark-purple-bg'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.dark-purple-bg'));
-            background-attachment: fixed;
-            background-size: 600% 600%;
-            animation: background-pan 30s ease infinite;
+            background-attachment: fixed; background-size: 600% 600%; animation: background-pan 30s ease infinite;
         }
 
         /* --- Header & Nav --- */
@@ -45,28 +50,60 @@
         .desktop-nav a.active { color: theme('colors.brand-purple'); font-weight: 600; }
 
         /* --- Text Hover Scale --- */
-        .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; } /* Use inline-block or block */
+        .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         .text-hover-scale:hover { transform: scale(1.03); }
 
         /* --- Preview Card Styling & Animation --- */
-        .writing-preview-card { background-color: theme('colors.card-bg'); backdrop-filter: blur(6px); border-radius: 0.75rem; padding: 1.75rem; box-shadow: 0 5px 15px rgba(0,0,0, 0.3); border: 1px solid rgba(146, 114, 206, 0.2); display: flex; flex-direction: column; transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; }
-        .writing-preview-card:hover { transform: translateY(-6px) scale(1.03); background-color: theme('colors.card-hover-bg'); animation: card-glow 2s ease-in-out infinite alternate; }
+        .writing-preview-card {
+            background-color: theme('colors.card-bg'); backdrop-filter: blur(6px);
+            border-radius: 0.75rem; padding: 1.75rem;
+            border: 1px solid rgba(146, 114, 206, 0.2);
+            display: flex; flex-direction: column;
+            transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
+            /* Apply subtle pulse animation by default */
+            animation: card-subtle-pulse 3s ease-in-out infinite;
+        }
+        .writing-preview-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            background-color: theme('colors.card-hover-bg');
+            /* Override base pulse with hover glow animation */
+            animation: card-glow 2s ease-in-out infinite alternate;
+        }
         .writing-preview-card h3 { color: theme('colors.brand-light'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
-        .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-text'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); }
+        /* Changed meta info color */
+        .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-light-purple'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.9; }
         .writing-preview-card .excerpt { color: theme('colors.brand-gray'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
         .writing-preview-card button.read-more-link { background: none; border: none; padding: 0; color: theme('colors.brand-purple'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
         .writing-preview-card button.read-more-link:hover { color: theme('colors.brand-hover'); text-decoration: underline; }
 
         /* --- Full Article Styling & Animation --- */
         #full-articles-container { display: none; margin-top: 2rem; }
-        #full-articles-container article { display: none; background-color: theme('colors.article-bg'); backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0, 0.6); border: 1px solid rgba(146, 114, 206, 0.3); border-top: 4px solid theme('colors.brand-purple'); opacity: 0; transition: opacity 0.6s ease-out; }
+        #full-articles-container article {
+            display: none; background-color: theme('colors.article-bg'); backdrop-filter: blur(10px);
+            border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); /* Added subtle inner shadow */
+            border: 1px solid rgba(146, 114, 206, 0.3);
+            border-top: 5px solid theme('colors.brand-purple'); /* Thicker top border */
+            opacity: 0; transition: opacity 0.6s ease-out;
+        }
         #full-articles-container article.is-visible { display: block; opacity: 1; animation: fade-in 0.6s ease-out forwards; }
         #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
-        #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-text'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); }
+        /* Changed meta info color */
+        #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.9; }
         .back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; }
         .back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.03) translateY(-1px); box-shadow: 0 6px 15px rgba(146, 114, 206, 0.3); }
 
-        /* --- Blogger Content Styling --- */
+        /* --- HR Separator --- */
+        hr.separator {
+            border: none;
+            height: 2px; /* Thickness */
+            background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent); /* Gradient */
+            margin-top: 4rem; /* Adjust spacing */
+            margin-bottom: 4rem;
+            opacity: 0.6;
+        }
+
+        /* --- Blogger Content Styling (No functional changes needed) --- */
         .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
         .post-content-html span { margin: 0; display: inline; }
         .post-content-html p.text-hover-scale:hover, .post-content-html > div.text-hover-scale:hover, .post-content-html blockquote.text-hover-scale:hover { background-color: theme('colors.hover-highlight'); transform: scale(1.02); cursor: default; }
@@ -89,7 +126,7 @@
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
-        <!-- Header Content -->
+        <!-- Header Content (Same as index.html, but note active class on Writings) -->
         <div class="container mx-auto px-6 py-4 relative">
             <div class="header-container">
                 <div class="flex items-center space-x-4"> <button id="nav-toggle" class="nav-toggle-btn md:hidden"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> Agraj Dubey </a> </div>
@@ -100,7 +137,7 @@
     </header>
 
     <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-brand-purple mb-14 font-outfit text-hover-scale"></h1>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-center text-brand-purple mb-14 font-outfit text-hover-scale">Writings</h1>
 
         <!-- ==== Writings Preview Grid ==== -->
         <section id="writings-grid-container" class="mb-20">
@@ -129,13 +166,16 @@
         </section>
         <!-- ==== End Writings Preview Grid ==== -->
 
+        <!-- Separator -->
+        <hr class="separator">
+
         <!-- ==== Full Articles Section (Initially Hidden) ==== -->
         <section id="full-articles-container">
             <div class="full-articles-content max-w-4xl mx-auto">
 
                 <!-- Article 1: post-2137542659647715265 -->
                 <article id="post-2137542659647715265">
-                    <button class="back-button mb-6">← Back to Writings</button>
+                    <!-- Removed top back button -->
                     <h2 class="text-hover-scale">So, you want to travel back</h2>
                     <div class="post-meta-info">Published: April 19, 2025</div>
                     <div class="post-content-html">
@@ -155,7 +195,7 @@
 
                 <!-- Article 2: post-3486396209614590705 -->
                  <article id="post-3486396209614590705">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                    <!-- Removed top back button -->
                     <h2 class="text-hover-scale">The Cost of Belonging</h2>
                     <div class="post-meta-info">Published: April 18, 2025</div>
                     <div class="post-content-html">
@@ -194,7 +234,7 @@
 
                 <!-- Article 3: post-8246180062320707624 -->
                 <article id="post-8246180062320707624">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                     <!-- Removed top back button -->
                     <h2 class="text-hover-scale">[POST] A New Chapter</h2>
                     <div class="post-meta-info">Published: February 14, 2025</div>
                      <div class="post-content-html">
@@ -207,7 +247,7 @@
 
                  <!-- Article 4: post-6388410560920980765 -->
                 <article id="post-6388410560920980765">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                     <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POEM] Time Flies By</h2>
                      <div class="post-meta-info">Published: November 28, 2024</div>
                      <div class="post-content-html">
@@ -223,7 +263,7 @@
 
                  <!-- Article 5: post-2406648289663441748 -->
                  <article id="post-2406648289663441748">
-                      <button class="back-button mb-6">← Back to Writings</button>
+                      <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POST] Reading</h2>
                      <div class="post-meta-info">Published: November 16, 2024</div>
                      <div class="post-content-html">
@@ -256,7 +296,7 @@
 
                  <!-- Article 6: post-7505116423602657742 -->
                 <article id="post-7505116423602657742">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                     <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POEM] The Lad I Use To Be -</h2>
                      <div class="post-meta-info">Published: November 10, 2024</div>
                      <div class="post-content-html">
@@ -268,7 +308,7 @@
 
                  <!-- Article 7: post-5851706812396763606 -->
                 <article id="post-5851706812396763606">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                     <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POEM] Winter Is Warm -</h2>
                      <div class="post-meta-info">Published: November 10, 2024</div>
                      <div class="post-content-html">
@@ -287,7 +327,7 @@
 
                 <!-- Article 8: post-2503258102193667996 -->
                 <article id="post-2503258102193667996">
-                    <button class="back-button mb-6">← Back to Writings</button>
+                    <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POEM] Sinnloses leben (Meaning Worthless Life) -</h2>
                      <div class="post-meta-info">Published: November 10, 2024</div>
                      <div class="post-content-html">
@@ -299,7 +339,7 @@
 
                 <!-- Article 9: post-9063719817694048941 -->
                  <article id="post-9063719817694048941">
-                      <button class="back-button mb-6">← Back to Writings</button>
+                      <!-- Removed top back button -->
                      <h2 class="text-hover-scale">[POEM] Fragmented Void -</h2>
                      <div class="post-meta-info">Published: November 10, 2024</div>
                      <div class="post-content-html">
@@ -312,7 +352,7 @@
 
                  <!-- Article 10: post-5585996557335817138 -->
                  <article id="post-5585996557335817138">
-                     <button class="back-button mb-6">← Back to Writings</button>
+                     <!-- Removed top back button -->
                      <h2 class="text-hover-scale">THE FOUR BURNER THEORY -</h2>
                      <div class="post-meta-info">Published: November 4, 2020</div>
                      <div class="post-content-html">
@@ -336,7 +376,7 @@
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
-     <!-- Scripts -->
+     <!-- Scripts (Using readable version) -->
      <script>
         // --- Mobile Nav Toggle JS ---
          const navToggle = document.getElementById('nav-toggle');
