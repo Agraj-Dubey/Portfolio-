@@ -20,6 +20,8 @@
                         'brand-gray': '#E0E0E0',
                         'brand-text': '#B0B0B0',
                         'brand-hover': '#AE8BD5',
+                        'dark-purple-bg': '#1a0a2e', // For gradient
+                        'darker-bg': '#0a0a0a',      // For gradient
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -33,58 +35,87 @@
         }
     </script>
     <style>
-        html { scroll-behavior: smooth; } /* Ensure smooth scroll for anchors */
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes gradient-text-animation {
+             0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        html { scroll-behavior: smooth; }
         body {
             font-family: theme('fontFamily.sans');
             background-color: theme('colors.brand-dark');
             color: theme('colors.brand-gray');
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, theme('colors.brand-dark'), theme('colors.darker-bg'), theme('colors.dark-purple-bg'), theme('colors.darker-bg'));
+            background-size: 400% 400%;
+            animation: background-pan 20s ease infinite; /* Adjust time as needed */
         }
         .quote-style {
-            font-family: theme('fontFamily.outfit');
-            font-style: italic;
+            font-family: theme('fontFamily.outfit'); font-style: italic;
             border-left: 4px solid theme('colors.brand-purple');
-            padding-left: 1.5rem;
-            color: theme('colors.brand-text');
+            padding-left: 1.5rem; color: theme('colors.brand-text');
+            background-color: rgba(10, 10, 10, 0.4); /* Slightly darker quote bg */
+            backdrop-filter: blur(3px);
         }
-        nav a { transition: color 0.3s ease-in-out; } /* Smoother nav transition */
-        nav a:hover, nav a.active { color: theme('colors.brand-purple'); }
+        nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
+        nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.05); }
+        nav a.active { color: theme('colors.brand-purple'); }
+
+        /* Animated Name H1 */
+        h1.animated-gradient-text {
+            background: linear-gradient(90deg, theme('colors.brand-light'), theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-light'));
+            background-size: 250% auto; /* Control gradient size */
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text-animation 8s linear infinite; /* Adjust speed */
+            display: inline-block; /* Important for background clip */
+        }
+
         .high-contrast-text { color: theme('colors.brand-light'); }
         .medium-contrast-text { color: theme('colors.brand-gray'); }
         .lower-contrast-text { color: theme('colors.brand-text'); }
-        .post-preview p { color: theme('colors.brand-gray'); }
+        .post-preview p { color: theme('colors.brand-gray'); font-size: 0.9rem; } /* Slightly smaller preview text */
 
-        /* Card hover base style */
         .writing-card {
-             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+             background-color: rgba(30, 30, 30, 0.6); /* Card background */
+             backdrop-filter: blur(5px);
+             border: 1px solid rgba(146, 114, 206, 0.1);
+             border-left: 3px solid transparent; /* Left border for hover */
         }
         .writing-card:hover {
-            transform: translateY(-5px);
-             box-shadow: 0 10px 20px rgba(146, 114, 206, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1); /* Subtle purple glow shadow */
+            transform: translateY(-5px) scale(1.02); /* Lift and slightly enlarge */
+            box-shadow: 0 10px 25px rgba(146, 114, 206, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
+            border-left-color: theme('colors.brand-purple'); /* Highlight left border */
         }
-         /* Button hover style */
         .cta-button {
-             transition: background-color 0.3s ease-out, transform 0.2s ease-out;
+             transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
+             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.2);
         }
         .cta-button:hover {
-             transform: scale(1.03);
+             transform: scale(1.05) translateY(-2px); /* Lift button slightly */
+             box-shadow: 0 8px 20px rgba(146, 114, 206, 0.3);
         }
 
         @layer utilities {
-          .line-clamp-3 {
-            overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;
-          }
-           .line-clamp-4 { /* For writings page */
-            overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;
-          }
+          .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+          .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
         }
     </style>
 </head>
-<body class="bg-brand-dark text-brand-gray leading-relaxed antialiased"> <!-- Added antialiased -->
+<body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg"> <!-- Increased shadow -->
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> <!-- Added font -->
+            <a href="index.html" class="text-2xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit">
                 Agraj Dubey
             </a>
             <div class="space-x-6 text-brand-light">
@@ -95,11 +126,13 @@
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20"> <!-- Responsive padding -->
+    <main class="container mx-auto px-6 py-16 md:py-20">
         <section class="text-center mb-20 md:mb-24">
-            <h1 class="text-5xl md:text-6xl font-bold high-contrast-text mb-4 font-outfit">Agraj Dubey</h1>
-            <p class="text-xl md:text-2xl medium-contrast-text mb-10">Exploring thoughts, code, and the spaces in between.</p>
-            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text bg-gray-900/50 p-6 rounded-lg shadow-lg border-l-4 border-brand-purple"> <!-- Enhanced quote bg/border -->
+            <!-- Apply animation class to H1 -->
+            <h1 class="animated-gradient-text text-5xl md:text-6xl font-bold mb-4 font-outfit">Agraj Dubey</h1>
+            <!-- Updated Subtitle -->
+            <p class="text-xl md:text-2xl medium-contrast-text mb-10 font-lato italic">Cause no one listens, so I write instead 😎</p>
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lower-contrast-text p-6 rounded-lg shadow-xl"> <!-- Enhanced quote shadow -->
                 "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
@@ -108,32 +141,32 @@
             <h2 class="text-3xl md:text-4xl font-bold text-center text-brand-purple mb-12 font-outfit">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col"> <!-- Added writing-card class -->
+                <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
                     <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">So, you want to travel back</h3>
                     <div class="post-preview flex-grow mb-4">
-                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
                     </div>
-                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a> <!-- Added mt-auto, pt-2 -->
+                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
                 </div>
                 <!-- Card 2 -->
-                <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col">
+                <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
                     <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">The Cost of Belonging</h3>
                      <div class="post-preview flex-grow mb-4">
-                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
                     </div>
-                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a>
+                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
                 </div>
                  <!-- Card 3 -->
-                 <div class="writing-card bg-gray-800/70 p-6 rounded-lg shadow-md flex flex-col">
+                 <div class="writing-card p-6 rounded-lg shadow-md flex flex-col">
                     <h3 class="text-xl font-semibold high-contrast-text mb-3 font-outfit">[POST] A New Chapter</h3>
                      <div class="post-preview flex-grow mb-4">
-                        <p class="medium-contrast-text line-clamp-3 text-sm leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
                     </div>
-                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm">Read More →</a>
+                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-sm transition-colors duration-200">Read More →</a>
                 </div>
             </div>
-             <div class="text-center mt-12">
-                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover shadow-lg hover:shadow-md inline-block"> <!-- Added inline-block, cta-button class -->
+             <div class="text-center mt-16"> <!-- Increased margin -->
+                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block">
                     View All Writings
                 </a>
             </div>
@@ -141,7 +174,7 @@
 
     </main>
 
-    <footer class="bg-gradient-to-t from-gray-900/50 to-black text-center py-8 mt-16"> <!-- Added gradient -->
+    <footer class="bg-gradient-to-t from-gray-900/60 to-black text-center py-10 mt-20"> <!-- Increased padding/margin -->
         <p class="text-brand-text text-sm">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
