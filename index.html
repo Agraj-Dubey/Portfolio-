@@ -29,214 +29,757 @@
     <style>
         /* --- Keyframes --- */
         @keyframes gradient-text-animation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } } /* Reduced float */
+        @keyframes gentle-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         @keyframes fade-in-subtle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes heading-pulse { 0%, 100% { opacity: 1; text-shadow: 0 0 7px rgba(255, 255, 255, 0.3); } 50% { opacity: 0.9; text-shadow: 0 0 20px rgba(255, 255, 255, 0.55); } }
-        /* Removed tagline-color-cycle-index keyframes */
-
+        @keyframes fade-in-left { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fade-in-right { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes scale-in { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5); } 50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8); } }
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
         body {
-            font-family: theme('fontFamily.sans'); background-color: theme('colors.darker-bg'); color: theme('colors.brand-gray'); overflow-x: hidden; font-size: 17px; position: relative; z-index: 0;
+            font-family: theme('fontFamily.sans'); 
+            background-color: theme('colors.darker-bg'); 
+            color: theme('colors.brand-gray'); 
+            overflow-x: hidden; 
+            font-size: 17px; 
+            position: relative; 
+            z-index: 0;
+            line-height: 1.6;
         }
         /* Wallpaper Background */
         body::before {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
-            background-image: url('wallhaven-gpl8d3_1920x1080.png'); /* Correct filename */
-            background-attachment: fixed; background-size: cover; background-position: center center; background-repeat: no-repeat;
-            filter: blur(10px) brightness(0.55); -webkit-filter: blur(10px) brightness(0.55);
+            content: ''; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            z-index: -2;
+            background-image: url('wallhaven-gpl8d3_1920x1080.png');
+            background-attachment: fixed; 
+            background-size: cover; 
+            background-position: center center; 
+            background-repeat: no-repeat;
+            filter: blur(10px) brightness(0.55); 
+            -webkit-filter: blur(10px) brightness(0.55);
             transform: scale(1.1);
+            transition: filter 1s ease-out;
         }
         /* Dark Overlay */
         body::after {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+            content: ''; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            z-index: -1;
             background-color: theme('colors.body-overlay');
+            background-image: radial-gradient(circle at 50% 50%, rgba(146, 114, 206, 0.08) 0%, transparent 80%);
         }
 
+        /* --- Scroll Animations --- */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .scale-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
         /* --- Header & Nav --- */
-        .header-container { display: flex; justify-content: space-between; align-items: center; }
-        .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
-        .nav-toggle-btn svg { stroke: theme('colors.brand-light'); transition: stroke 0.3s ease; }
-        .nav-toggle-btn:hover svg { stroke: theme('colors.brand-purple'); }
-        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.92); backdrop-filter: blur(8px); padding: 1.5rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slide-down-fade 0.4s ease-out forwards; }
-        .mobile-menu.is-open { display: block; }
-        .mobile-menu a { display: block; padding: 0.8rem 1.5rem; color: theme('colors.brand-light'); font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
-        .mobile-menu a:hover { color: theme('colors.brand-purple'); background-color: rgba(146, 114, 206, 0.1); }
-        .desktop-nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
-        .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
+        .header-container { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .nav-toggle-btn { 
+            background: none; 
+            border: none; 
+            padding: 0.5rem; 
+            cursor: pointer; 
+            z-index: 60; 
+            transition: transform 0.3s ease;
+        }
+        .nav-toggle-btn:hover {
+            transform: scale(1.1);
+        }
+        .nav-toggle-btn svg { 
+            stroke: theme('colors.brand-light'); 
+            transition: stroke 0.3s ease, transform 0.3s ease; 
+        }
+        .nav-toggle-btn:hover svg { 
+            stroke: theme('colors.brand-purple'); 
+            transform: rotate(90deg);
+        }
+        .mobile-menu { 
+            display: none; 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            width: 100%; 
+            background-color: rgba(10, 10, 10, 0.92); 
+            backdrop-filter: blur(8px); 
+            padding: 1.5rem 0; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
+            z-index: 55; 
+            animation: slide-down-fade 0.4s ease-out forwards; 
+            border-bottom: 1px solid rgba(146, 114, 206, 0.2);
+        }
+        .mobile-menu.is-open { 
+            display: block; 
+        }
+        .mobile-menu a { 
+            display: block; 
+            padding: 0.8rem 1.5rem; 
+            color: theme('colors.brand-light'); 
+            font-size: 1.1rem; 
+            transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease; 
+            text-align: center; 
+        }
+        .mobile-menu a:hover { 
+            color: theme('colors.brand-purple'); 
+            background-color: rgba(146, 114, 206, 0.1); 
+            transform: translateX(5px);
+        }
+        .desktop-nav a { 
+            transition: color 0.3s ease-in-out, transform 0.2s ease; 
+            display: inline-block; 
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .desktop-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: theme('colors.brand-purple');
+            transition: width 0.3s ease;
+        }
+        .desktop-nav a:hover::after {
+            width: 100%;
+        }
+        .desktop-nav a:hover { 
+            color: theme('colors.brand-purple'); 
+            transform: scale(1.08); 
+        }
 
         /* --- Text Styles & Animations --- */
-        .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
-        .text-hover-scale:hover { transform: scale(1.06); }
+        .text-hover-scale { 
+            transition: transform 0.25s ease-out, color 0.25s ease-out; 
+            display: inline-block; 
+        }
+        .text-hover-scale:hover { 
+            transform: scale(1.06); 
+            color: theme('colors.brand-purple');
+        }
         /* Name Gradient */
         h1.animated-gradient-text {
-            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #FFFFFF); /* White -> Light Purple -> White */
-            background-size: 250% auto; background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
-            animation: gradient-text-animation 6s linear infinite;
+            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF);
+            background-size: 300% auto; 
+            background-clip: text; 
+            -webkit-background-clip: text; 
+            color: transparent; 
+            -webkit-text-fill-color: transparent;
+            animation: gradient-text-animation 8s linear infinite;
             display: inline-block;
+            text-shadow: 0 0 30px rgba(146, 114, 206, 0.6);
+            letter-spacing: -0.02em;
         }
-        .high-contrast-text { color: theme('colors.brand-light'); }
-        .medium-contrast-text { color: theme('colors.brand-gray'); }
-        .lower-contrast-text { color: theme('colors.brand-text'); }
-        /* Tagline animation class removed */
-        .animate-heading-pulse { animation: heading-pulse 2.8s ease-in-out infinite; }
-
+        .high-contrast-text { 
+            color: theme('colors.brand-light'); 
+        }
+        .medium-contrast-text { 
+            color: theme('colors.brand-gray'); 
+        }
+        .lower-contrast-text { 
+            color: theme('colors.brand-text'); 
+        }
+        .animate-heading-pulse { 
+            animation: heading-pulse 2.8s ease-in-out infinite; 
+        }
+        .tagline-animation {
+            opacity: 0;
+            animation: fade-in-subtle 0.8s ease-out 0.3s forwards;
+        }
+        .bounce-in {
+            animation: bounce-subtle 4s ease-in-out infinite;
+        }
 
         /* --- Quote --- */
-        .quote-style { font-family: theme('fontFamily.outfit'); font-style: italic; border-left: 4px solid theme('colors.brand-purple'); padding: 1.5rem; color: theme('colors.brand-text'); background-color: rgba(10, 10, 10, 0.65); backdrop-filter: blur(4px); transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease-out; cursor: pointer; }
-        .quote-style:hover { background-color: rgba(146, 114, 206, 0.15); border-left-color: theme('colors.brand-hover'); transform: scale(1.03); }
+        .quote-style { 
+            font-family: theme('fontFamily.outfit'); 
+            font-style: italic; 
+            border-left: 4px solid theme('colors.brand-purple'); 
+            padding: 1.5rem; 
+            color: theme('colors.brand-text'); 
+            background-color: rgba(10, 10, 10, 0.65); 
+            backdrop-filter: blur(4px); 
+            transition: background-color 0.5s ease, border-color 0.3s ease, transform 0.4s ease-out, box-shadow 0.4s ease; 
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-style::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 6rem;
+            color: rgba(146, 114, 206, 0.1);
+            font-family: serif;
+        }
+        .quote-style::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(146, 114, 206, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+        .quote-style:hover { 
+            background-color: rgba(146, 114, 206, 0.15); 
+            border-left-color: theme('colors.brand-hover'); 
+            transform: scale(1.03); 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(146, 114, 206, 0.3);
+        }
+        .quote-style:hover::after {
+            transform: translateX(100%);
+        }
 
         /* --- Writing Cards (Homepage) --- */
-        .writing-card { transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; background-color: rgba(30, 30, 30, 0.8); backdrop-filter: blur(6px); border: 1px solid rgba(146, 114, 206, 0.2); border-radius: 0.75rem; cursor: pointer; }
-        .writing-card:hover { transform: translateY(-8px) scale(1.04); background-color: rgba(45, 35, 60, 0.9); box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.6); }
-        .post-preview p { color: theme('colors.brand-gray'); font-size: 1rem; }
+        .writing-card { 
+            transition: transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.4s ease-out, background-color 0.5s ease; 
+            background-color: rgba(30, 30, 30, 0.8); 
+            backdrop-filter: blur(6px); 
+            border: 1px solid rgba(146, 114, 206, 0.2); 
+            border-radius: 0.75rem; 
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .writing-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(146, 114, 206, 0.1), 
+                transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .writing-card:hover { 
+            transform: translateY(-8px) scale(1.04); 
+            background-color: rgba(45, 35, 60, 0.9); 
+            box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25); 
+            border-color: rgba(174, 139, 213, 0.6); 
+        }
+        .writing-card:hover::after {
+            transform: translateX(0);
+        }
+        .post-preview p { 
+            color: theme('colors.brand-gray'); 
+            font-size: 1rem; 
+            line-height: 1.6;
+        }
 
         /* --- Buttons --- */
-        .cta-button { transition: background-color 0.3s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); cursor: pointer; }
-        .cta-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 30px rgba(174, 139, 213, 0.4); }
+        .cta-button { 
+            transition: background-color 0.5s ease-out, transform 0.3s ease-out, box-shadow 0.4s ease-out; 
+            box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25); 
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .cta-button:hover { 
+            background-color: theme('colors.brand-hover'); 
+            transform: scale(1.08) translateY(-3px); 
+            box-shadow: 0 10px 30px rgba(174, 139, 213, 0.4);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        .cta-button:hover::after {
+            transform: translateX(0);
+        }
 
         /* --- Floating Image --- */
         .floating-image-container {
             position: absolute;
-            width: 45px; /* Significantly smaller base size */
+            width: 45px;
             z-index: 5;
-            opacity: 0; /* Start hidden */
+            opacity: 0;
             cursor: pointer;
-            /* Faster fade, same movement speed */
             transition: opacity 0.3s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out;
-            /* Initial position set by JS */
-            /* Removed bounce animation */
         }
         .floating-image {
-             width: 100%; height: auto;
-             opacity: 0.6; /* More subtle base opacity */
-             transition: transform 0.3s ease, filter 0.3s ease;
-             filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)) saturate(0.7); /* Less saturation */
+             width: 100%; 
+             height: auto;
+             opacity: 0.6;
+             transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
+             filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3)) saturate(0.7);
+             animation: gentle-float 4s ease-in-out infinite;
         }
         .floating-image:hover {
-             opacity: 0.9; /* Less opaque on hover */
-             transform: scale(1.1);
-             filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4)) saturate(1);
-             /* Removed animation pause */
+             opacity: 1;
+             transform: scale(1.15) rotate(5deg);
+             filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)) saturate(1.2) brightness(1.1);
         }
-        /* Adjusted responsive sizes */
         @media (min-width: 768px) { .floating-image-container { width: 60px; } }
         @media (min-width: 1024px) { .floating-image-container { width: 75px; } }
 
-
         /* --- Utilities --- */
-        @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
+        @layer utilities { 
+            .line-clamp-3 { 
+                overflow: hidden; 
+                display: -webkit-box; 
+                -webkit-box-orient: vertical; 
+                -webkit-line-clamp: 3; 
+            } 
+            .line-clamp-4 { 
+                overflow: hidden; 
+                display: -webkit-box; 
+                -webkit-box-orient: vertical; 
+                -webkit-line-clamp: 4; 
+            } 
+        }
+        
+        /* --- Enhanced Scroll Bar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(146, 114, 206, 0.5);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(146, 114, 206, 0.8);
+        }
+        
+        /* --- Enhanced Link Hover --- */
+        .link-hover {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .link-hover::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: theme('colors.brand-purple');
+            transition: width 0.3s ease;
+        }
+        .link-hover:hover::after {
+            width: 100%;
+        }
+        
+        /* --- Enhanced Footer --- */
+        .footer-gradient {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(10, 10, 10, 0.7));
+            border-top: 1px solid rgba(146, 114, 206, 0.1);
+        }
+        
+        /* --- Header Animation --- */
+        .header-animation {
+            animation: scale-in 0.5s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
+    <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl header-animation">
         <!-- Header Content -->
-        <div class="container mx-auto px-6 py-4 relative"> <div class="header-container"> <div class="flex items-center space-x-4"> <button id="nav-toggle" class="nav-toggle-btn md:hidden"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg> </button> <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> Agraj Dubey </a> </div> <div class="desktop-nav hidden md:flex space-x-7 text-brand-light items-center text-lg"> <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="writings.html">Writings</a> </div> </div> <div id="mobile-menu" class="mobile-menu md:hidden"> <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> <a href="writings.html">Writings</a> </div> </div>
+        <div class="container mx-auto px-6 py-4 relative"> 
+            <div class="header-container"> 
+                <div class="flex items-center space-x-4"> 
+                    <button id="nav-toggle" class="nav-toggle-btn md:hidden"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg> 
+                    </button> 
+                    <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> 
+                        Agraj Dubey 
+                    </a> 
+                </div> 
+                <div class="desktop-nav hidden md:flex space-x-7 text-brand-light items-center text-lg"> 
+                    <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> 
+                    <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> 
+                    <a href="writings.html">Writings</a> 
+                </div> 
+            </div> 
+            <div id="mobile-menu" class="mobile-menu md:hidden"> 
+                <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer">About Me</a> 
+                <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer">Contact Me</a> 
+                <a href="writings.html">Writings</a> 
+            </div> 
+        </div>
     </header>
 
-    <!-- Added position: relative -->
     <main class="container mx-auto px-6 py-16 md:py-20 relative">
-        <!-- Added relative z-10 -->
         <section class="text-center mb-20 md:mb-24 relative z-10">
-             <!-- Wrapped H1 in a div for block layout -->
-             <div class="mb-3">
+             <!-- Hero Section with animations -->
+             <div class="mb-3 fade-in">
                  <h1 class="animated-gradient-text text-5xl md:text-6xl lg:text-7xl font-bold font-outfit">Agraj Dubey</h1>
              </div>
-            <!-- Removed animation class from tagline -->
-            <p class="text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic">Cause no one listens, so I write instead 😎</p>
-            <blockquote class="quote-style cursor-pointer max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl"> "If determinism holds, there’s a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" </blockquote>
+            <p class="text-xl md:text-2xl lg:text-3xl medium-contrast-text mb-12 font-lato italic tagline-animation">Cause no one listens, so I write instead 😎</p>
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl lg:text-2xl lower-contrast-text p-6 rounded-lg shadow-xl fade-in"> 
+                "If determinism holds, there's a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will" 
+            </blockquote>
         </section>
 
-        <!-- Frieren Image Container - Adjusted positioning -->
+        <!-- Frieren Image Container -->
         <div id="frieren-container" class="floating-image-container">
-            <!-- Added rounded-full -->
             <img src="frieren.png" alt="Chibi Frieren" class="floating-image rounded-full">
         </div>
 
-        <!-- Added relative z-10 -->
         <section class="mb-16 md:mb-20 relative z-10">
-            <!-- Centered, White Color, Added Animation Class -->
-            <h2 class="animate-heading-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-center text-brand-light mb-14 font-outfit">Recent Writings</h2>
+            <h2 class="animate-heading-pulse text-3xl md:text-4xl lg:text-5xl font-bold text-center text-brand-light mb-14 font-outfit fade-in">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Added cursor-pointer to cards -->
-                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">So, you want to travel back</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p> </div> <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
-                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">The Cost of Belonging</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p> </div> <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
-                 <div class="writing-card cursor-pointer p-7 rounded-lg shadow-md flex flex-col"> <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">[POST] A New Chapter</h3> <div class="post-preview flex-grow mb-5"> <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p> </div> <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200">Read More →</a> </div>
+                <!-- Writing cards with animations -->
+                <div class="writing-card p-7 rounded-lg shadow-md flex flex-col fade-in-left" data-delay="0"> 
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">So, you want to travel back</h3> 
+                    <div class="post-preview flex-grow mb-5"> 
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p> 
+                    </div> 
+                    <a href="writings.html#post-2137542659647715265" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200 link-hover">Read More →</a> 
+                </div>
+                <div class="writing-card p-7 rounded-lg shadow-md flex flex-col fade-in" data-delay="150"> 
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">The Cost of Belonging</h3> 
+                    <div class="post-preview flex-grow mb-5"> 
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p> 
+                    </div> 
+                    <a href="writings.html#post-3486396209614590705" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200 link-hover">Read More →</a> 
+                </div>
+                <div class="writing-card p-7 rounded-lg shadow-md flex flex-col fade-in-right" data-delay="300"> 
+                    <h3 class="text-hover-scale text-xl lg:text-2xl font-semibold high-contrast-text mb-4 font-outfit">[POST] A New Chapter</h3> 
+                    <div class="post-preview flex-grow mb-5"> 
+                        <p class="medium-contrast-text line-clamp-3 leading-relaxed">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p> 
+                    </div> 
+                    <a href="writings.html#post-8246180062320707624" class="text-brand-purple hover:text-brand-hover font-medium self-start mt-auto pt-2 text-base transition-colors duration-200 link-hover">Read More →</a> 
+                </div>
             </div>
-            <div class="text-center mt-16"> <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block text-lg"> View All Writings </a> </div>
+            <div class="text-center mt-16 scale-in" data-delay="450"> 
+                <a href="writings.html" class="cta-button bg-brand-purple text-brand-light font-semibold py-3 px-8 rounded-lg hover:bg-brand-hover inline-block text-lg bounce-in"> 
+                    View All Writings 
+                </a> 
+            </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p> </footer>
+    <!-- Enhanced Footer -->
+    <footer class="footer-gradient text-center py-10 mt-20 relative z-10 fade-in"> 
+        <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p> 
+    </footer>
 
     <!-- Scripts -->
     <script>
         // --- Mobile Nav Toggle JS ---
-         const navToggle = document.getElementById('nav-toggle');
-         const mobileMenu = document.getElementById('mobile-menu');
-         if (navToggle && mobileMenu) {
-             navToggle.addEventListener('click', () => { mobileMenu.classList.toggle('is-open'); });
-             mobileMenu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); }); });
-             document.addEventListener('click', (event) => { const isClickInsideMenu = mobileMenu.contains(event.target); const isClickOnToggle = navToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { mobileMenu.classList.remove('is-open'); } });
-         }
+        const navToggle = document.getElementById('nav-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (navToggle && mobileMenu) {
+            navToggle.addEventListener('click', () => { 
+                mobileMenu.classList.toggle('is-open'); 
+            });
+            mobileMenu.querySelectorAll('a').forEach(link => { 
+                link.addEventListener('click', () => { 
+                    mobileMenu.classList.remove('is-open'); 
+                }); 
+            });
+            document.addEventListener('click', (event) => { 
+                const isClickInsideMenu = mobileMenu.contains(event.target); 
+                const isClickOnToggle = navToggle.contains(event.target); 
+                if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { 
+                    mobileMenu.classList.remove('is-open'); 
+                } 
+            });
+        }
 
-         // --- Frieren Image Logic ---
-         const frierenContainer = document.getElementById('frieren-container');
-         const mainElement = document.querySelector('main');
+        // --- Frieren Image Logic ---
+        const frierenContainer = document.getElementById('frieren-container');
+        const mainElement = document.querySelector('main');
 
-         function getRandomPosition(containerWidth, containerHeight, elementWidth, elementHeight) {
-            const maxX = containerWidth - elementWidth;
-            const maxY = containerHeight - elementHeight;
-            const randomX = Math.max(20, Math.random() * (maxX - 40)); // Increased padding
-            const randomY = Math.max(20, Math.random() * (maxY - 40)); // Increased padding
-            return { top: randomY + 'px', left: randomX + 'px' };
-         }
+        function getRandomPosition(containerWidth, containerHeight, elementWidth, elementHeight) {
+           const maxX = containerWidth - elementWidth;
+           const maxY = containerHeight - elementHeight;
+           const randomX = Math.max(20, Math.random() * (maxX - 40));
+           const randomY = Math.max(20, Math.random() * (maxY - 40));
+           return { top: randomY + 'px', left: randomX + 'px' };
+        }
 
-         function moveAndShowFrieren() {
-             if (!frierenContainer || !mainElement) return;
-             const mainRect = mainElement.getBoundingClientRect();
-             const containerRect = frierenContainer.getBoundingClientRect();
+        function moveAndShowFrieren() {
+            if (!frierenContainer || !mainElement) return;
+            const mainRect = mainElement.getBoundingClientRect();
+            const containerRect = frierenContainer.getBoundingClientRect();
 
-             // Hide first
-             frierenContainer.style.opacity = '0';
+            // Hide first
+            frierenContainer.style.opacity = '0';
 
-             // Wait longer before reappearing
-             setTimeout(() => {
-                 const newPos = getRandomPosition(
-                     mainRect.width,
-                     // Use scrollHeight for potentially taller content area
-                     Math.max(mainRect.height, mainElement.scrollHeight),
-                     containerRect.width || 70, // Use default if rect not ready
-                     containerRect.height || 70
-                 );
-                 frierenContainer.style.top = newPos.top;
-                 frierenContainer.style.left = newPos.left;
-                 frierenContainer.style.opacity = '1'; // Fade back in
-             }, 800); // Longer delay (800ms) before reappearing
-         }
+            // Wait longer before reappearing
+            setTimeout(() => {
+                const newPos = getRandomPosition(
+                    mainRect.width,
+                    // Use scrollHeight for potentially taller content area
+                    Math.max(mainRect.height, mainElement.scrollHeight),
+                    containerRect.width || 70,
+                    containerRect.height || 70
+                );
+                frierenContainer.style.top = newPos.top;
+                frierenContainer.style.left = newPos.left;
+                frierenContainer.style.opacity = '1'; // Fade back in
+            }, 800);
+        }
 
-         if (frierenContainer) {
-             // Initial fade-in handled by CSS
+        if (frierenContainer) {
+            // Initial position
+            setTimeout(() => {
+                if (mainElement) {
+                    const mainRect = mainElement.getBoundingClientRect();
+                    const containerRect = frierenContainer.getBoundingClientRect();
+                    const initialPos = getRandomPosition(
+                        mainRect.width,
+                        Math.max(mainRect.height, mainElement.scrollHeight),
+                        containerRect.width || 70,
+                        containerRect.height || 70
+                    );
+                    frierenContainer.style.top = initialPos.top;
+                    frierenContainer.style.left = initialPos.left;
+                    frierenContainer.style.opacity = '1';
+                }
+            }, 1200);
 
-             // Click listener
-             frierenContainer.addEventListener('click', () => {
-                 const youtubeLink = 'https://www.youtube.com/watch?v=IXbFa2rQk3A'; // <-- PASTE YOUR LINK HERE
-                 window.open(youtubeLink, '_blank');
-             });
+            // Click listener
+            frierenContainer.addEventListener('click', () => {
+                const youtubeLink = 'https://www.youtube.com/watch?v=IXbFa2rQk3A';
+                window.open(youtubeLink, '_blank');
+            });
 
-             // Set interval to move and fade (longer interval)
-             setInterval(moveAndShowFrieren, 10000); // Move every 10 seconds
+            // Set interval to move and fade
+            setInterval(moveAndShowFrieren, 10000); // Move every 10 seconds
 
-         } else {
-            console.error("Frieren image container not found");
-         }
+        } else {
+           console.error("Frieren image container not found");
+        }
 
-         // Set Year
-         document.getElementById('year').textContent = new Date().getFullYear();
+        // --- Scroll Animations ---
+        function handleScrollAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in');
+            
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                const delay = element.getAttribute('data-delay') || 0;
+                
+                if (elementTop < windowHeight * 0.85) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, delay);
+                }
+            });
+        }
+
+        // Run animations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            handleScrollAnimations();
+            
+            // Set initial animations
+            setTimeout(() => {
+                document.querySelectorAll('.tagline-animation').forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 300);
+        });
+
+        // Run animations on scroll
+        window.addEventListener('scroll', () => {
+            handleScrollAnimations();
+        });
+
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // --- Add subtle parallax effect on mouse move ---
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            
+            // Apply subtle movement to quote
+            const quote = document.querySelector('.quote-style');
+            if (quote) {
+                quote.style.transform = `translate(${moveX * 0.5}px, ${moveY * 0.5}px) scale(1.0)`;
+            }
+            
+            // Apply even more subtle movement to cards
+            document.querySelectorAll('.writing-card').forEach(card => {
+                const randomOffset = (Math.random() - 0.5) * 2;
+                card.style.transform = `translate(${moveX * 0.3 + randomOffset}px, ${moveY * 0.3}px)`;
+            });
+        });
+        
+        // --- Add mouseover glow effect to cards ---
+        document.querySelectorAll('.writing-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.background = `radial-gradient(circle at ${x}px ${y}px, 
+                                        rgba(146, 114, 206, 0.15), 
+                                        rgba(30, 30, 30, 0.8) 40%)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.background = 'rgba(30, 30, 30, 0.8)';
+            });
+        });
+        
+        // --- Enhance quote with click effect ---
+        const quote = document.querySelector('.quote-style');
+        if (quote) {
+            quote.addEventListener('click', () => {
+                quote.style.transform = 'scale(1.03)';
+                quote.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(146, 114, 206, 0.5)';
+                
+                setTimeout(() => {
+                    quote.style.transform = '';
+                    quote.style.boxShadow = '';
+                }, 500);
+            });
+        }
+        
+        // --- Text scramble effect for header ---
+        class TextScramble {
+            constructor(el) {
+                this.el = el;
+                this.chars = '!<>-_\\/[]{}—=+*^?#________';
+                this.update = this.update.bind(this);
+            }
+            
+            setText(newText) {
+                const oldText = this.el.innerText;
+                const length = Math.max(oldText.length, newText.length);
+                const promise = new Promise(resolve => this.resolve = resolve);
+                this.queue = [];
+                
+                for (let i = 0; i < length; i++) {
+                    const from = oldText[i] || '';
+                    const to = newText[i] || '';
+                    const start = Math.floor(Math.random() * 40);
+                    const end = start + Math.floor(Math.random() * 40);
+                    this.queue.push({ from, to, start, end });
+                }
+                
+                cancelAnimationFrame(this.frameRequest);
+                this.frame = 0;
+                this.update();
+                return promise;
+            }
+            
+            update() {
+                let output = '';
+                let complete = 0;
+                
+                for (let i = 0, n = this.queue.length; i < n; i++) {
+                    let { from, to, start, end, char } = this.queue[i];
+                    
+                    if (this.frame >= end) {
+                        complete++;
+                        output += to;
+                    } else if (this.frame >= start) {
+                        if (!char || Math.random() < 0.28) {
+                            char = this.randomChar();
+                            this.queue[i].char = char;
+                        }
+                        output += `<span class="text-brand-purple">${char}</span>`;
+                    } else {
+                        output += from;
+                    }
+                }
+                
+                this.el.innerHTML = output;
+                
+                if (complete === this.queue.length) {
+                    this.resolve();
+                } else {
+                    this.frameRequest = requestAnimationFrame(this.update);
+                    this.frame++;
+                }
+            }
+            
+            randomChar() {
+                return this.chars[Math.floor(Math.random() * this.chars.length)];
+            }
+        }
+        
+        // Apply text scramble effect on the View All Writings button on hover
+        const ctaButton = document.querySelector('.cta-button');
+        if (ctaButton) {
+            let originalText = ctaButton.textContent.trim();
+            let scrambleText = new TextScramble(ctaButton);
+            
+            ctaButton.addEventListener('mouseenter', () => {
+                scrambleText.setText(originalText);
+            });
+        }
     </script>
 
 </body>
