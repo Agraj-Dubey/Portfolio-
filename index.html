@@ -55,7 +55,7 @@
         }
         .bg-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.08), rgba(15, 10, 25, 0.98) 75%); /* Slightly adjusted gradient */
+            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.08), rgba(15, 10, 25, 0.98) 75%);
             z-index: -5;
         }
 
@@ -72,35 +72,34 @@
         /* Easter Egg Animation: Subtle pulse for glow/opacity */
         @keyframes subtle-pulse {
             0%, 100% {
-                opacity: 0.65; /* Slightly lower base opacity */
-                filter: drop-shadow(0 0 6px rgba(146, 114, 206, 0.4)); /* Subtler base glow */
+                opacity: 0.65;
+                filter: drop-shadow(0 0 6px rgba(146, 114, 206, 0.4));
             }
             50% {
-                opacity: 0.85; /* Slightly higher peak opacity */
-                filter: drop-shadow(0 0 12px rgba(146, 114, 206, 0.7)); /* Slightly brighter peak glow */
+                opacity: 0.85;
+                filter: drop-shadow(0 0 12px rgba(146, 114, 206, 0.7));
             }
         }
         /* Button Animation: Glow Pulse */
         @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5), 0 4px 15px rgba(146, 114, 206, 0.25); } /* Combine base shadow */
-            50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8), 0 10px 30px rgba(174, 139, 213, 0.4); } /* Combine hover shadow */
+            0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5), 0 4px 15px rgba(146, 114, 206, 0.25); }
+            50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8), 0 10px 30px rgba(174, 139, 213, 0.4); }
         }
 
 
         /* Typography */
-        /* Font Setup: Specific rule for h2-h6 using Poppins */
         h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif; /* Use Poppins from config */
+            font-family: 'Poppins', sans-serif;
             color: #ffffff;
             font-weight: 700;
         }
-        /* Note: Main H1 ("agraj") gets Baloo Bhai 2 via the 'font-serif' Tailwind class */
-        /* Note: Header link gets Baloo Bhai 2 via the 'font-serif' Tailwind class */
 
         .gradient-text {
             background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF);
             background-size: 300% auto; background-clip: text; -webkit-background-clip: text;
             color: transparent; animation: gradient 8s linear infinite;
+            /* Ensure no conflicting text shadows are applied by default */
+            text-shadow: none;
         }
 
         .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: #9272CE; margin-left: 4px; animation: pulse 1s infinite; }
@@ -127,7 +126,7 @@
         .quote::before {
             content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            font-family: 'Baloo Bhai 2', cursive; /* Use Baloo Bhai 2 */
+            font-family: 'Baloo Bhai 2', cursive;
         }
 
         /* Reading progress bar */
@@ -136,30 +135,26 @@
 
         /* Interactive Image Style Update (Easter Egg - Static Position) */
         .interactive-image-container {
-            /* Removed position: absolute */
-            z-index: 10; /* Keep above background, below header potentially */
-            /* Centering and margin added via Tailwind classes */
+            z-index: 10;
         }
         .interactive-image {
-             width: 9rem; /* Size Maintained */
+             width: 9rem;
              height: 9rem;
              cursor: pointer;
              transform-style: preserve-3d;
-             /* Apply CSS animations for subtle effect */
              animation: slow-spin 25s linear infinite, subtle-pulse 6s ease-in-out infinite;
+             display: inline-block; /* Allow margin auto to work */
         }
 
-        /* Button Animation Styles (from haha.html) */
+        /* Button Animation Styles (Corrected) */
         .cta-button {
-            /* Keep existing layout/text styles: py-3 px-8 rounded-lg inline-block text-lg font-semibold text-text-primary */
+            /* Base styles from Tailwind applied in HTML: font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary */
             background-color: theme('colors.accent'); /* Base color */
             transition: background-color 0.5s ease-out, transform 0.3s ease-out, box-shadow 0.4s ease-out;
             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25);
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            /* Remove potentially conflicting Tailwind hover bg */
-            /* hover:bg-accent-hover */
         }
         .cta-button::after { /* Shimmer effect */
             content: '';
@@ -174,14 +169,13 @@
                 transparent);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
+            pointer-events: none; /* Allow clicks on the button text */
         }
         .cta-button:hover {
             background-color: theme('colors.accent-hover'); /* Hover color */
             transform: scale(1.08) translateY(-3px);
-            /* box-shadow is handled by glow-pulse animation */
+            /* Apply glow pulse animation on hover */
             animation: glow-pulse 2s ease-in-out infinite;
-            /* Remove potentially conflicting Tailwind hover shadow */
-            /* hover:shadow-lg hover:shadow-accent/20 */
         }
         .cta-button:hover::after {
             transform: translateX(0); /* Activate shimmer */
@@ -191,7 +185,6 @@
         /* Additional utility classes */
         .text-accent { color: #9272CE; }
         .hover\:text-accent-hover:hover { color: #AE8BD5; }
-        /* bg-accent and hover:bg-accent-hover are now handled by .cta-button */
         .text-text-primary { color: #ffffff; }
     </style>
 </head>
@@ -209,7 +202,6 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     agraj
                 </a>
@@ -235,12 +227,10 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
-            {/* Quote Updated */}
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
                 "If determinism holds, there's a chance I exit early—something dramatic maybe. So I leave fragments of myself here—at least the algorithm might remember me better than my family will😒"
             </blockquote>
@@ -278,14 +268,13 @@
 
             <!-- Button and Static Image Container -->
             <div class="text-center mt-16">
-                {/* Button Animation Applied */}
-                <a href="writings.html" class="cta-button text-text-primary font-semibold py-3 px-8 rounded-lg inline-block text-lg relative group">
+                {/* Button with Corrected Styles */}
+                <a href="writings.html" class="cta-button font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary">
                     <span class="relative z-10">View All Writings</span>
-                    {/* Removed old shimmer span: <span class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span> */}
                 </a>
 
                 {/* Interactive Image Container (Static Position) */}
-                <div id="interactiveImageContainer" class="interactive-image-container mt-8 block mx-auto">
+                <div id="interactiveImageContainer" class="interactive-image-container mt-8 block mx-auto w-max"> {/* Added w-max for centering */}
                     <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
                 </div>
             </div>
@@ -370,18 +359,18 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particleCount = 1500; // Increased particle count
+                const particleCount = 1500;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                const spread = 30; // Increased spread
+                const spread = 30;
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
                     positions[i] = (Math.random() - 0.5) * spread;
                     positions[i+1] = (Math.random() - 0.5) * spread;
-                    positions[i+2] = (Math.random() - 0.5) * spread - 12; // Slightly deeper field
+                    positions[i+2] = (Math.random() - 0.5) * spread - 12;
 
-                    const baseColor = new THREE.Color(Math.random() > 0.6 ? '#AE8BD5' : '#CBB8E8'); // Mix accent colors
-                    baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3); // Blend slightly with white
+                    const baseColor = new THREE.Color(Math.random() > 0.6 ? '#AE8BD5' : '#CBB8E8');
+                    baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3);
                     colors[i] = baseColor.r;
                     colors[i+1] = baseColor.g;
                     colors[i+2] = baseColor.b;
@@ -390,12 +379,8 @@
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
                 const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.045, // Slightly larger size
-                    vertexColors: true,
-                    transparent: true,
-                    opacity: 0.85, // Slightly higher opacity
-                    blending: THREE.AdditiveBlending, // Additive blending
-                    depthWrite: false // Often needed with additive blending
+                    size: 0.045, vertexColors: true, transparent: true,
+                    opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false
                 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
@@ -409,7 +394,7 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
-                    particleSystem.rotation.x += 0.0006 + mouseY * 0.0008; // Increased mouse influence
+                    particleSystem.rotation.x += 0.0006 + mouseY * 0.0008;
                     particleSystem.rotation.y += 0.0006 + mouseX * 0.0008;
                     renderer.render(scene, camera);
                 }
@@ -426,7 +411,6 @@
 
 
         // --- Interactive Image Click Listener (Static Position) ---
-        // Ensure this runs after the DOM is ready
         document.addEventListener('DOMContentLoaded', () => {
             const imageContainer = document.getElementById('interactiveImageContainer');
             if (imageContainer) {
@@ -437,7 +421,7 @@
                                    'https://www.youtube.com/shorts/D-kkjR0NyGg',
                                    'https://www.youtube.com/shorts/LFsS-9lT0Rk',
                                    'https://www.youtube.com/shorts/TTU1g8IU22I'
-                                  ]; // Keep your actual URLs here
+                                  ];
                 imageContainer.addEventListener('click', () => {
                     const randomIndex = Math.floor(Math.random() * videoUrls.length);
                     window.open(videoUrls[randomIndex], '_blank');
@@ -455,11 +439,9 @@
                 const x = e.clientX - rect.left; const y = e.clientY - rect.top;
                 const centerX = rect.width / 2; const centerY = rect.height / 2;
                 const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                // Apply perspective transform on hover
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
             card.addEventListener('mouseleave', () => {
-                // Return to non-hover state
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
             });
         });
