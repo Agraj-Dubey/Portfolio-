@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agraj Dubey - Portfolio</title>
-    <!-- Favicon Added -->
+    <!-- Title Updated -->
+    <title>agraj - Portfolio</title>
     <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font Update: Replaced Playfair Display with Nunito -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Update: Replaced Nunito with Baloo Bhai 2 -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Tailwind Config - Fixed by properly using window.tailwind
+        // Tailwind Config
         window.tailwind.config = {
             theme: {
                 extend: {
@@ -30,8 +30,8 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        // Font Update: Replaced Playfair Display with Nunito
-                        serif: ['Nunito', 'sans-serif'], // Using serif key for headings as before, but with Nunito
+                        // Font Update: Replaced Nunito with Baloo Bhai 2
+                        serif: ['Baloo Bhai 2', 'cursive'], // Using serif key for headings, but with Baloo Bhai 2
                     },
                 }
             }
@@ -69,12 +69,6 @@
         }
 
         /* Animations */
-        /* Removed float animation as it's replaced by JS */
-        /* @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        } */
-
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.8; }
@@ -93,8 +87,8 @@
 
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
-            /* Font Update: Replaced Playfair Display with Nunito */
-            font-family: 'Nunito', sans-serif;
+            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
+            font-family: 'Baloo Bhai 2', cursive;
             color: #ffffff;
             font-weight: 700;
         }
@@ -141,9 +135,7 @@
             pointer-events: none;
         }
 
-        /* Card hover effect slightly adjusted to work with perspective */
         .card:hover {
-            /* transform: translateY(-10px); // Replaced by JS perspective transform */
             box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3);
             border-color: rgba(146, 114, 206, 0.4);
         }
@@ -204,8 +196,8 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            /* Font Update: Replaced Playfair Display with Nunito */
-            font-family: 'Nunito', sans-serif;
+            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
+            font-family: 'Baloo Bhai 2', cursive;
         }
 
         /* Reading progress bar */
@@ -226,45 +218,29 @@
 
         /* Interactive Image Style Update */
         .interactive-image-container {
-            position: absolute; /* Changed from fixed if needed, keep absolute for positioning relative to body/main */
+            position: absolute;
             z-index: 10;
-            opacity: 0.7; /* Initial opacity */
-            transition: opacity 0.3s ease; /* Keep opacity transition */
-            /* Removed animation property */
-            /* Removed hover effects to prevent conflict with JS animation */
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
         }
 
         .interactive-image {
-             width: 6rem; /* Adjusted size slightly */
-             height: 6rem;
+             /* Size Increased */
+             width: 8rem; /* e.g., 128px */
+             height: 8rem;
              cursor: pointer;
-             /* Ensure transform-style is preserved for 3D rotation */
              transform-style: preserve-3d;
              /* Initial state for transform */
-             transform: rotateY(0deg);
+             transform: rotateX(0deg) rotateY(0deg); /* Updated initial state */
         }
 
 
-        /* Additional utility classes to support Tailwind-like styling */
-        .text-accent {
-            color: #9272CE;
-        }
-
-        .hover\:text-accent-hover:hover {
-            color: #AE8BD5;
-        }
-
-        .bg-accent {
-            background-color: #9272CE;
-        }
-
-        .hover\:bg-accent-hover:hover {
-            background-color: #AE8BD5;
-        }
-
-        .text-text-primary {
-            color: #ffffff;
-        }
+        /* Additional utility classes */
+        .text-accent { color: #9272CE; }
+        .hover\:text-accent-hover:hover { color: #AE8BD5; }
+        .bg-accent { background-color: #9272CE; }
+        .hover\:bg-accent-hover:hover { background-color: #AE8BD5; }
+        .text-text-primary { color: #ffffff; }
     </style>
 </head>
 <body>
@@ -281,8 +257,9 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
+                <!-- Name Updated -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
-                    Agraj Dubey
+                    agraj
                 </a>
 
                 <!-- Mobile Menu Button -->
@@ -314,7 +291,8 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">Agraj Dubey</h1>
+            <!-- Name Updated -->
+            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
@@ -323,9 +301,8 @@
             </blockquote>
         </section>
 
-        <!-- Interactive Image Container Update -->
+        <!-- Interactive Image Container -->
         <div id="interactiveImageContainer" class="hidden interactive-image-container">
-            <!-- Image Source Updated -->
             <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
         </div>
 
@@ -395,7 +372,8 @@
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-text-tertiary">© <span id="currentYear"></span> Agraj Dubey. All rights reserved.</p>
+            <!-- Name Updated -->
+            <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved.</p>
         </div>
     </footer>
 
@@ -421,8 +399,8 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = entry.target.classList.contains('card') ? 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)' : 'translateY(0)'; // Adjust card initial transform reset
-                    observer.unobserve(entry.target); // Optional: Unobserve after first animation
+                    entry.target.style.transform = entry.target.classList.contains('card') ? 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)' : 'translateY(0)';
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -450,38 +428,32 @@
         cards.forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
             card.style.opacity = '0';
-            // Initial state for perspective transform
             card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
-
             observer.observe(card);
         });
 
-        // Typewriter effect for the tagline
+        // Typewriter effect
         function typeWriter(element, text, speed = 100) {
             let i = 0;
             element.innerHTML = '';
-
             function type() {
                 if (i < text.length) {
                     element.innerHTML += text.charAt(i);
                     i++;
                     setTimeout(type, speed);
                 } else {
-                    // Add blinking cursor at the end
                     const cursor = document.createElement('span');
                     cursor.className = 'typed-cursor';
                     element.appendChild(cursor);
                 }
             }
-
             setTimeout(type, 500);
         }
 
         const typewriterElement = document.getElementById('typewriter');
         const taglineText = "Cause no one listens, so I write instead 😎";
 
-        // Start typewriter after hero section becomes visible
         const typewriterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -503,99 +475,62 @@
             document.getElementById("progressBar").style.width = scrolled + "%";
         };
 
-        // Particle background using Three.js (No changes needed here)
+        // Particle background (No changes needed here)
         function initParticles() {
             try {
                 const container = document.getElementById('particles');
-                if (!container) return; // Exit if container not found
-                if (!THREE) { console.error("THREE.js not loaded"); return; } // Check if THREE is loaded
+                if (!container || !THREE) return;
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
                 const renderer = new THREE.WebGLRenderer({ alpha: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setClearColor(0x000000, 0);
                 container.appendChild(renderer.domElement);
 
-                // Create particles
                 const particlesGeometry = new THREE.BufferGeometry();
                 const particleCount = 500;
-
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
-                    // Position particles in a sphere
                     positions[i] = (Math.random() - 0.5) * 20;
                     positions[i+1] = (Math.random() - 0.5) * 20;
                     positions[i+2] = (Math.random() - 0.5) * 20 - 10;
-
-                    // Particle colors (purples and blues)
-                    colors[i] = Math.random() * 0.5 + 0.5; // R: 0.5-1
-                    colors[i+1] = Math.random() * 0.3 + 0.2; // G: 0.2-0.5
-                    colors[i+2] = Math.random() * 0.5 + 0.5; // B: 0.5-1
+                    colors[i] = Math.random() * 0.5 + 0.5;
+                    colors[i+1] = Math.random() * 0.3 + 0.2;
+                    colors[i+2] = Math.random() * 0.5 + 0.5;
                 }
-
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.03,
-                    vertexColors: true,
-                    transparent: true,
-                    opacity: 0.7,
-                });
-
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
-
                 camera.position.z = 5;
 
-                // Mouse interaction
-                let mouseX = 0;
-                let mouseY = 0;
-
+                let mouseX = 0, mouseY = 0;
                 document.addEventListener('mousemove', (event) => {
                     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
                     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
                 });
 
-                // Animation loop
                 function animate() {
                     requestAnimationFrame(animate);
-
-                    particleSystem.rotation.x += 0.0005;
-                    particleSystem.rotation.y += 0.0005;
-
-                    // Gentle movement following mouse
-                    particleSystem.rotation.x += mouseY * 0.0005;
-                    particleSystem.rotation.y += mouseX * 0.0005;
-
+                    particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
+                    particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
                     renderer.render(scene, camera);
                 }
-
                 animate();
 
-                // Handle window resize
                 window.addEventListener('resize', () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
                     renderer.setSize(window.innerWidth, window.innerHeight);
                 });
-            } catch (error) {
-                console.error("Error initializing particles:", error);
-            }
+            } catch (error) { console.error("Error initializing particles:", error); }
         }
+        window.addEventListener('load', initParticles);
 
-        // Initialize particles on load with error handling
-        window.addEventListener('load', function() {
-            try {
-                initParticles();
-            } catch (error) {
-                console.error("Failed to initialize particles:", error);
-            }
-        });
 
         // --- Interactive Image Logic Update ---
         function setupInteractiveImage() {
@@ -604,132 +539,100 @@
             if (!imageContainer || !imageElement) return;
 
             imageContainer.classList.remove('hidden');
-            imageContainer.style.opacity = '0.7'; // Set initial opacity
+            imageContainer.style.opacity = '0.7';
 
             // --- OnClick Behavior ---
-            // !!! REPLACE THESE PLACEHOLDERS WITH YOUR ACTUAL YOUTUBE URLS !!!
-            const videoUrls = [
-                'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Placeholder 1
-                'https://www.youtube.com/watch?v=-jGBp5HBLFs', // Placeholder 2
-                'https://www.youtube.com/shorts/2Dv2hO3rYVg', // Placeholder 3
-                'https://www.youtube.com/watch?v=x6YcdgB9e48', // Placeholder 4
-                'https://www.youtube.com/shorts/D-kkjR0NyGg', // Placeholder 5
-                'https://www.youtube.com/shorts/LFsS-9lT0Rk', // Placeholder 6
-                'https://www.youtube.com/shorts/TTU1g8IU22I'  // Placeholder 7
-            ];
-
+            const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                               'https://www.youtube.com/watch?v=-jGBp5HBLFs',
+                               'https://www.youtube.com/shorts/2Dv2hO3rYVg',
+                               'https://www.youtube.com/watch?v=x6YcdgB9e48',
+                               'https://www.youtube.com/shorts/D-kkjR0NyGg',
+                               'https://www.youtube.com/shorts/LFsS-9lT0Rk', 
+                               'https://www.youtube.com/shorts/TTU1g8IU22I'
+                              ];
             imageContainer.addEventListener('click', () => {
                 const randomIndex = Math.floor(Math.random() * videoUrls.length);
-                const randomUrl = videoUrls[randomIndex];
-                window.open(randomUrl, '_blank');
+                window.open(videoUrls[randomIndex], '_blank');
             });
 
             // --- Animation Logic ---
             let animationInterval;
-            const spinDuration = 2000; // 2 seconds for spin
-            const pauseDuration = 500; // 0.5 seconds pause before next cycle
+            const spinDuration = 4000; // Spin Time Increased to 4 seconds
+            const pauseDuration = 500;
             const totalCycleTime = spinDuration + pauseDuration;
 
             const randomPosition = () => {
-                // Position within the main content area, avoiding edges
                 const mainRect = document.querySelector('main').getBoundingClientRect();
                 const containerWidth = imageContainer.offsetWidth;
                 const containerHeight = imageContainer.offsetHeight;
-
-                // Calculate bounds relative to the viewport, considering scroll position
                 const minX = mainRect.left + window.scrollX + 20;
                 const maxX = mainRect.right + window.scrollX - containerWidth - 20;
-                const minY = mainRect.top + window.scrollY + 100; // Avoid header area
+                const minY = mainRect.top + window.scrollY + 100;
                 const maxY = Math.min(window.innerHeight + window.scrollY - containerHeight - 20, mainRect.bottom + window.scrollY - containerHeight - 20);
-
                 const randomX = Math.max(minX, Math.random() * (maxX - minX) + minX);
                 const randomY = Math.max(minY, Math.random() * (maxY - minY) + minY);
-
                 return { x: randomX, y: randomY };
             };
 
             const performAnimationCycle = () => {
-                // 1. Instantly jump to a new random position
+                // 1. Jump to new position
                 const newPos = randomPosition();
-                imageContainer.style.transition = 'none'; // Disable transition for jump
+                imageContainer.style.transition = 'none';
                 imageElement.style.transition = 'none';
-                imageElement.style.transform = 'rotateY(0deg)'; // Reset rotation before jump
+                // Reset rotation before jump
+                imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
                 imageContainer.style.left = `${newPos.x}px`;
                 imageContainer.style.top = `${newPos.y}px`;
 
-                // Use a tiny timeout or rAF to ensure the position update is rendered before starting the spin transition
                 requestAnimationFrame(() => {
-                    requestAnimationFrame(() => { // Double rAF for robustness in some browsers
-                         // 2. Animate spin on Y-axis (XZ plane)
+                    requestAnimationFrame(() => {
+                         // 2. Animate spin on XY plane
                          imageElement.style.transition = `transform ${spinDuration}ms linear`;
-                         imageElement.style.transform = 'rotateY(360deg)';
+                         // Combined X and Y rotation for "XY plane" spin
+                         imageElement.style.transform = 'rotateX(360deg) rotateY(360deg)';
                     });
                 });
 
-                 // 3. After spin duration, reset transform without transition (ready for next jump)
+                 // 3. Reset transform after spin
                  setTimeout(() => {
                      imageElement.style.transition = 'none';
-                     imageElement.style.transform = 'rotateY(0deg)';
-                 }, spinDuration); // Reset exactly when spin ends
+                     imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                 }, spinDuration);
             };
 
-            // Start the first cycle
-            performAnimationCycle();
+            performAnimationCycle(); // Start first cycle
+            animationInterval = setInterval(performAnimationCycle, totalCycleTime); // Start interval
 
-            // Set interval for subsequent cycles
-            animationInterval = setInterval(performAnimationCycle, totalCycleTime);
-
-            // Optional: Pause animation when tab is not visible
+            // Pause animation when tab is hidden
             document.addEventListener("visibilitychange", () => {
                 if (document.hidden) {
                     clearInterval(animationInterval);
                 } else {
-                    // Restart immediately when visible again
-                    performAnimationCycle();
+                    performAnimationCycle(); // Restart immediately
                     animationInterval = setInterval(performAnimationCycle, totalCycleTime);
                 }
             });
         }
-
-        // Delay setup slightly to ensure layout is stable
-        setTimeout(setupInteractiveImage, 1500);
+        setTimeout(setupInteractiveImage, 1500); // Delay setup
 
 
-        // Enhanced hover effects for cards (Adjusted for perspective)
+        // Enhanced hover effects for cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                const rotateX = (y - centerY) / 20; // Slightly increased sensitivity
-                const rotateY = (centerX - x) / 20;
-
-                // Apply perspective transform on hover
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; // Lift card slightly
-
-                // Dynamic gradient (optional, can be intensive)
-                // card.style.background = `radial-gradient(circle at ${x}px ${y}px,
-                //                           rgba(146, 114, 206, 0.15),
-                //                           rgba(15, 10, 25, 0.7) 40%)`;
+                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                const centerX = rect.width / 2; const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
-
             card.addEventListener('mouseleave', () => {
-                // Return to non-hover state (slight perspective or flat)
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-                // card.style.background = 'rgba(15, 10, 25, 0.7)'; // Reset background if dynamic gradient was used
             });
         });
 
-        // Fix for "Read More" buttons - Ensuring they work properly
+        // Fix for "Read More" buttons
         document.querySelectorAll('.card a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                // Make sure the link works normally
-                e.stopPropagation(); // Prevent card's hover/click handlers from interfering
-            });
+            link.addEventListener('click', (e) => e.stopPropagation());
         });
     </script>
 </body>
