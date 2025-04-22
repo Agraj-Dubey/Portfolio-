@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
-    <!-- Removed Three.js -->
     <!-- Add tsParticles -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,85 +37,51 @@
     </script>
     <style>
         /* Base Styles */
-        body {
-            background-color: #0f0a19;
-            color: #D1D1D1;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Background Particle Container Style (tsParticles handles positioning via fullScreen mode) */
-        #tsparticles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -10; /* Ensure it's behind everything */
-        }
-
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%);
-            z-index: -5; /* Above particles, below content */
-        }
-
+        body { background-color: #0f0a19; color: #D1D1D1; font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        /* Background Particle Container Style */
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%); z-index: -5; }
         /* Animations */
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
         /* Typography */
         h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 700; font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Baloo Bhai 2', cursive; }
         .gradient-text { background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF); background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: gradient 8s linear infinite; display: inline-block; }
-
         /* Animated cursor */
         .typed-cursor { display: inline-block; width: 2px; height: 1.1em; background-color: #9272CE; margin-left: 4px; animation: pulse 1s infinite; vertical-align: text-bottom; }
         h1 .typed-cursor { height: 1em; background-color: #CBB8E8; mix-blend-mode: normal; opacity: 0.8; }
         blockquote .typed-cursor { background-color: #A8A8A8; }
         #typewriter .typed-cursor { background-color: #D1D1D1; }
-
         /* Card Hover Effects */
         .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
         .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3); border-color: rgba(146, 114, 206, 0.4); }
         .card:hover::before { transform: translateX(100%); }
-
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
         ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
-
         /* Hover Link Effect */
         .hover-link { position: relative; display: inline-block; }
         .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; }
         .hover-link:hover::after { width: 100%; }
-
         /* Quote Block */
         .quote { position: relative; border-left: 3px solid #9272CE; }
         .quote::before { content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem; color: rgba(146, 114, 206, 0.1); font-family: 'Inter', sans-serif; font-weight: 700; }
-
         /* Reading progress bar */
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
-
         /* Static Image Style */
         .static-image-container { display: block; margin: 2.5rem auto 0 auto; width: fit-content; opacity: 0.8; transition: opacity 0.3s ease; z-index: 5; }
         .static-image { width: 8rem; height: 8rem; cursor: pointer; transition: transform 0.3s ease; }
         .static-image:hover { transform: scale(1.1); }
-
         /* Minimum height for rotating text containers */
         #typewriter { min-height: 3em; display: inline-block; width: 100%; }
         #main-heading-text { min-height: 1.2em; display: inline-block; }
         #blockquote-text { min-height: 4em; display: inline-block; }
-
         /* Additional utility classes */
         .text-accent { color: #9272CE; }
         .hover\:text-accent-hover:hover { color: #AE8BD5; }
@@ -131,7 +96,7 @@
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <!-- Background Particles Container - ID Updated -->
+    <!-- Background Particles Container -->
     <div id="tsparticles"></div>
     <div class="bg-overlay"></div>
 
@@ -143,9 +108,7 @@
                     a-g-r-a-j
                 </a>
                 <button id="menuButton" class="md:hidden text-text-primary focus:outline-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                 </button>
                 <nav class="hidden md:flex space-x-8 text-text-primary">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">About Me</a>
@@ -182,39 +145,21 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
-                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
-                    </h3>
-                    <div class="mb-5">
-                        <p class="text-text-secondary line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p>
-                    </div>
-                    <a href="writings.html#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
-                        Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    </a>
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span></h3>
+                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p></div>
+                    <a href="writings.html#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
                 <!-- Card 2 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
-                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
-                    </h3>
-                    <div class="mb-5">
-                        <p class="text-text-secondary line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p>
-                    </div>
-                    <a href="writings.html#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
-                        Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    </a>
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span></h3>
+                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p></div>
+                    <a href="writings.html#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
                 <!-- Card 3 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
-                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
-                    </h3>
-                    <div class="mb-5">
-                        <p class="text-text-secondary line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p>
-                    </div>
-                    <a href="writings.html#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
-                        Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    </a>
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group"><span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span></h3>
+                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p></div>
+                    <a href="writings.html#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
             </div>
             <div class="text-center mt-16">
@@ -238,216 +183,148 @@
 
     <script>
         // --- Configuration ---
-        const ROTATING_TEXT_CONFIG = {
-            'typewriter': {
-                texts: ["Cause no one listens, so I write instead 😎"],
-                typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000
-            },
-            'main-heading-text': {
-                texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"],
-                typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500
-            },
-            'blockquote-text': {
-                texts: [
-                    "If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒",
-                    "Is free will an illusion, or is the illusion the only free will we have?",
-                    "Perhaps the 'fragments' are the only coherent parts left.",
-                    "What if the algorithm forgets too?",
-                    "Maybe exiting early isn't dramatic, just... efficient.",
-                    "Family remembers differently. Algorithms remember precisely. Which is better?",
-                    "The universe is indifferent, but the code persists. For now.",
-                    "Do androids dream of electric sheep? Do algorithms dream of better data?",
-                    "To be, or not to be, that is the computation.",
-                    "Cogito, ergo sum... I think, therefore I am... coded?"
-                ],
-                typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500
-            }
+        const ROTATING_TEXT_CONFIG = { /* ... remains the same ... */
+             'typewriter': { texts: ["Cause no one listens, so I write instead 😎"], typeSpeed: 80, deleteSpeed: 50, pauseDuration: 3000 },
+             'main-heading-text': { texts: ["agraj", "アグラジ", "अग्रज", "αγραξ"], typeSpeed: 100, deleteSpeed: 60, pauseDuration: 2500 },
+             'blockquote-text': { texts: ["If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒", "Is free will an illusion, or is the illusion the only free will we have?", "Perhaps the 'fragments' are the only coherent parts left.", "What if the algorithm forgets too?", "Maybe exiting early isn't dramatic, just... efficient.", "Family remembers differently. Algorithms remember precisely. Which is better?", "The universe is indifferent, but the code persists. For now.", "Do androids dream of electric sheep? Do algorithms dream of better data?", "To be, or not to be, that is the computation.", "Cogito, ergo sum... I think, therefore I am... coded?"], typeSpeed: 70, deleteSpeed: 40, pauseDuration: 4500 }
         };
 
         // --- Reusable Rotating Text Logic ---
-        function setupRotatingText(elementId, config) {
-            const element = document.getElementById(elementId);
-            if (!element) { console.error(`Rotating text target element with ID "${elementId}" not found.`); return; }
-
-            let currentIndex = -1, isBusy = false, cycleTimeout = null, intersectionObserver = null, isVisible = false;
-            const runOnce = (elementId === 'typewriter');
-            element.textContent = ''; // Start empty
-
-            function typeWriterInternal(text, callback) {
-                let i = 0; isBusy = true;
-                function type() {
-                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
-                    if (i < text.length) {
-                        element.textContent += text.charAt(i); i++; setTimeout(type, config.typeSpeed);
-                    } else {
-                        const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
-                        isBusy = false; if (callback) callback();
-                    }
-                } type();
-            }
-
-            function deleteWriterInternal(callback) {
-                if (runOnce) { if (callback) callback(); return; }
-                let text = element.textContent;
-                const existingCursor = element.querySelector('.typed-cursor');
-                if (existingCursor) element.removeChild(existingCursor);
-                text = element.textContent; let i = text.length; isBusy = true;
-                function del() {
-                    if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; }
-                    if (i > 0) {
-                        element.textContent = text.substring(0, i - 1); i--;
-                        if (!element.querySelector('.typed-cursor')) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); }
-                        setTimeout(del, config.deleteSpeed);
-                    } else {
-                        const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor);
-                        element.textContent = ''; isBusy = false; if (callback) callback();
-                    }
-                } del();
-            }
-
-            function scheduleCycle(delay) {
-                if (runOnce) return; clearTimeout(cycleTimeout);
-                cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay);
-            }
-
-            function startCycle() {
-                if (runOnce || isBusy || !isVisible) return;
-                deleteWriterInternal(() => {
-                    if (!isVisible) return; let nextIndex;
-                    do { nextIndex = Math.floor(Math.random() * config.texts.length); } while (nextIndex === currentIndex && config.texts.length > 1);
-                    currentIndex = nextIndex; const nextText = config.texts[currentIndex];
-                    element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration));
-                });
-            }
-
-            let initialized = false;
-            intersectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    const wasVisible = isVisible; isVisible = entry.isIntersecting;
-                    if (isVisible && !wasVisible) { // Became visible
-                        if (!initialized) {
-                            initialized = true;
-                            currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length));
-                            const firstText = config.texts[currentIndex];
-                            element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); });
-                        } else { // Resuming visibility
-                            if (!isBusy) {
-                                if (runOnce) { element.textContent = ''; typeWriterInternal(config.texts[0], () => {}); }
-                                else { element.textContent = ''; scheduleCycle(100); }
-                            }
-                        }
-                    } else if (!isVisible && wasVisible) { // Became hidden
-                        clearTimeout(cycleTimeout); isBusy = false; element.textContent = '';
-                    }
-                });
-            }, { threshold: 0.1 });
-            intersectionObserver.observe(element);
+        function setupRotatingText(elementId, config) { /* ... remains the same ... */
+            const element = document.getElementById(elementId); if (!element) { console.error(`Rotating text target element with ID "${elementId}" not found.`); return; }
+            let currentIndex = -1, isBusy = false, cycleTimeout = null, intersectionObserver = null, isVisible = false; const runOnce = (elementId === 'typewriter'); element.textContent = '';
+            function typeWriterInternal(text, callback) { let i = 0; isBusy = true; function type() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i < text.length) { element.textContent += text.charAt(i); i++; setTimeout(type, config.typeSpeed); } else { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); isBusy = false; if (callback) callback(); } } type(); }
+            function deleteWriterInternal(callback) { if (runOnce) { if (callback) callback(); return; } let text = element.textContent; const existingCursor = element.querySelector('.typed-cursor'); if (existingCursor) element.removeChild(existingCursor); text = element.textContent; let i = text.length; isBusy = true; function del() { if (!isVisible || !isBusy) { isBusy = false; if (!isVisible) element.textContent = ''; return; } if (i > 0) { element.textContent = text.substring(0, i - 1); i--; if (!element.querySelector('.typed-cursor')) { const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor); } setTimeout(del, config.deleteSpeed); } else { const finalCursor = element.querySelector('.typed-cursor'); if (finalCursor) element.removeChild(finalCursor); element.textContent = ''; isBusy = false; if (callback) callback(); } } del(); }
+            function scheduleCycle(delay) { if (runOnce) return; clearTimeout(cycleTimeout); cycleTimeout = setTimeout(() => { if(isVisible) startCycle(); }, delay); }
+            function startCycle() { if (runOnce || isBusy || !isVisible) return; deleteWriterInternal(() => { if (!isVisible) return; let nextIndex; do { nextIndex = Math.floor(Math.random() * config.texts.length); } while (nextIndex === currentIndex && config.texts.length > 1); currentIndex = nextIndex; const nextText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(nextText, () => scheduleCycle(config.pauseDuration)); }); }
+            let initialized = false; intersectionObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { const wasVisible = isVisible; isVisible = entry.isIntersecting; if (isVisible && !wasVisible) { if (!initialized) { initialized = true; currentIndex = runOnce ? 0 : (elementId === 'main-heading-text' ? 0 : Math.floor(Math.random() * config.texts.length)); const firstText = config.texts[currentIndex]; element.textContent = ''; typeWriterInternal(firstText, () => { if (!runOnce) scheduleCycle(config.pauseDuration); }); } else { if (!isBusy) { if (runOnce) { element.textContent = ''; typeWriterInternal(config.texts[0], () => {}); } else { element.textContent = ''; scheduleCycle(100); } } } } else if (!isVisible && wasVisible) { clearTimeout(cycleTimeout); isBusy = false; element.textContent = ''; } }); }, { threshold: 0.1 }); intersectionObserver.observe(element);
         }
 
-        // --- tsParticles Initialization ---
+        // --- tsParticles Initialization (UPDATED CONFIG) ---
         function initTsParticles() {
             if (typeof tsParticles === 'undefined') {
                 console.error("tsParticles library not loaded.");
                 return;
             }
             tsParticles.load("tsparticles", {
-                fullScreen: { enable: true, zIndex: -10 },
+                fullScreen: {
+                    enable: true,
+                    zIndex: -10 // Keep behind content
+                },
                 particles: {
-                    number: { value: 60, density: { enable: true, value_area: 800 } },
-                    color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
-                    shape: { type: "circle" },
-                    opacity: { value: 0.4, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.1, sync: false } },
-                    size: { value: 2, random: true },
-                    line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.15, width: 1 },
-                    move: { enable: true, speed: 0.6, direction: "none", random: true, straight: false, out_mode: "out", attract: { enable: false } }
+                    number: {
+                        value: 80, // Slightly more particles for interaction
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: ["#ffffff", "#CBB8E8", "#9272CE"] // Keep color theme
+                    },
+                    shape: {
+                        type: "circle"
+                    },
+                    opacity: {
+                        value: 0.5, // Slightly more visible
+                        random: true,
+                        anim: {
+                            enable: true,
+                            speed: 0.8, // Slightly faster opacity flicker
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 2.5, // Slightly larger
+                        random: true,
+                        anim: {
+                            enable: true, // Animate size slightly
+                            speed: 3,
+                            size_min: 1,
+                            sync: false
+                        }
+                    },
+                    // REMOVED line_linked section
+                    move: {
+                        enable: true,
+                        speed: 1.5, // Faster base movement speed
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out", // Particles leave the screen
+                        bounce: false,
+                        attract: {
+                            enable: false // Keep attract off
+                        }
+                    }
                 },
                 interactivity: {
-                    detect_on: "canvas",
-                    events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: false }, resize: true },
-                    modes: { repulse: { distance: 100, duration: 0.4 } }
+                    detect_on: "canvas", // Detect interactions on the canvas area
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "repulse" // Repulse mode on hover
+                        },
+                        onclick: {
+                            enable: true, // Enable click interaction
+                            mode: "push" // Push mode on click (adds particles)
+                        },
+                        resize: true // Adjust on window resize
+                    },
+                    modes: {
+                        repulse: {
+                            distance: 150, // Increase repulsion distance
+                            duration: 0.4,
+                            speed: 1 // Make repulsion faster
+                        },
+                        push: {
+                            quantity: 4 // Add 4 particles on click
+                        },
+                        // Other modes not used but kept for reference if needed
+                        grab: { distance: 400, line_opacity: 1 },
+                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                        remove: { particles_nb: 2 }
+                    }
                 },
                 retina_detect: true,
-                background: { color: "#0f0a19" }
+                background: {
+                     color: "#0f0a19", // Match your CSS background
+                }
             }).catch(error => {
                 console.error("Error loading tsParticles:", error);
             });
         }
 
+
         // --- Other Setup Functions ---
-        function setupMobileMenu() {
-            const menuButton = document.getElementById('menuButton');
-            const mobileMenu = document.getElementById('mobileMenu');
-            if (menuButton && mobileMenu) { menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden')); }
-            const currentYearEl = document.getElementById('currentYear');
-            if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+        function setupMobileMenu() { /* ... remains the same ... */
+            const menuButton = document.getElementById('menuButton'); const mobileMenu = document.getElementById('mobileMenu'); if (menuButton && mobileMenu) { menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden')); } const currentYearEl = document.getElementById('currentYear'); if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
         }
-
-        function setupScrollProgressBar() {
-            const progressBar = document.getElementById("progressBar");
-            if (!progressBar) return;
-            window.addEventListener('scroll', () => {
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-                progressBar.style.width = scrolled + "%";
-            }, { passive: true });
+        function setupScrollProgressBar() { /* ... remains the same ... */
+            const progressBar = document.getElementById("progressBar"); if (!progressBar) return; window.addEventListener('scroll', () => { const winScroll = document.body.scrollTop || document.documentElement.scrollTop; const height = document.documentElement.scrollHeight - document.documentElement.clientHeight; const scrolled = height > 0 ? (winScroll / height) * 100 : 0; progressBar.style.width = scrolled + "%"; }, { passive: true });
         }
-
-        function setupStaticImageClick() {
-            const imageElement = document.getElementById('staticImage');
-            if (!imageElement) return;
-            const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ];
-            imageElement.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });
+        function setupStaticImageClick() { /* ... remains the same ... */
+            const imageElement = document.getElementById('staticImage'); if (!imageElement) return; const videoUrls = [ 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I' ]; imageElement.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });
         }
-
-        function setupCardHoverEffects() {
-            document.querySelectorAll('.card').forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-                });
-                card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; });
-                card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); });
-            });
+        function setupCardHoverEffects() { /* ... remains the same ... */
+            document.querySelectorAll('.card').forEach(card => { card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; }); card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; }); card.querySelectorAll('a').forEach(link => { link.addEventListener('click', (e) => e.stopPropagation()); }); });
         }
-
-        function setupScrollAnimations() {
-             const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' };
-             const observer = new IntersectionObserver((entries, obs) => {
-                 entries.forEach(entry => {
-                     const isRotatingText = Object.keys(ROTATING_TEXT_CONFIG).includes(entry.target.id);
-                     if (entry.isIntersecting) {
-                         if (!isRotatingText) {
-                             entry.target.style.opacity = '1'; entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)';
-                             obs.unobserve(entry.target);
-                         }
-                     }
-                 });
-             }, observerOptions);
-
-             const heroSection = document.getElementById('heroSection');
-             if (heroSection) { heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)'; heroSection.dataset.initialTransform = 'translateY(0)'; heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(heroSection); }
-             const writingsSection = document.getElementById('writingsSection');
-             if (writingsSection) { writingsSection.style.opacity = '0'; writingsSection.style.transform = 'translateY(20px)'; writingsSection.dataset.initialTransform = 'translateY(0)'; writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(writingsSection); }
-             document.querySelectorAll('.card').forEach(card => {
-                 const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card);
-             });
+        function setupScrollAnimations() { /* ... remains the same ... */
+             const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }; const observer = new IntersectionObserver((entries, obs) => { entries.forEach(entry => { const isRotatingText = Object.keys(ROTATING_TEXT_CONFIG).includes(entry.target.id); if (entry.isIntersecting) { if (!isRotatingText) { entry.target.style.opacity = '1'; entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; obs.unobserve(entry.target); } } }); }, observerOptions); const heroSection = document.getElementById('heroSection'); if (heroSection) { heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)'; heroSection.dataset.initialTransform = 'translateY(0)'; heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(heroSection); } const writingsSection = document.getElementById('writingsSection'); if (writingsSection) { writingsSection.style.opacity = '0'; writingsSection.style.transform = 'translateY(20px)'; writingsSection.dataset.initialTransform = 'translateY(0)'; writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(writingsSection); } document.querySelectorAll('.card').forEach(card => { const delay = parseInt(card.getAttribute('data-delay')) || 0; card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)'; card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; observer.observe(card); });
         }
 
         // --- Initializations ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Call initializations in order
-            setupMobileMenu(); // Basic UI first
+            setupMobileMenu();
             setupScrollProgressBar();
             setupStaticImageClick();
-            initTsParticles(); // Initialize particles
-            // Setup rotating text after basic UI/particles are ready
+            initTsParticles(); // Initialize NEW particles
             for (const elementId in ROTATING_TEXT_CONFIG) {
                 setupRotatingText(elementId, ROTATING_TEXT_CONFIG[elementId]);
             }
             setupCardHoverEffects();
-            setupScrollAnimations(); // Initialize scroll animations last
+            setupScrollAnimations();
         });
 
     </script>
