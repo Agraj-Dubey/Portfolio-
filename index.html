@@ -100,7 +100,7 @@
         .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: #9272CE; margin-left: 4px; animation: pulse 1s infinite; }
 
         /* Card Hover Effects */
-        .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); }
+        .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); position: relative; /* Needed for ::before */ overflow: hidden; /* Contain pseudo-elements */ }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
         .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3); border-color: rgba(146, 114, 206, 0.4); }
         .card:hover::before { transform: translateX(100%); }
@@ -167,22 +167,18 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     agraj
                 </a>
-                {/* Mobile Menu Button */}
                 <button id="menuButton" class="md:hidden text-text-primary focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                 </button>
-                {/* Desktop Navigation */}
                 <nav class="hidden md:flex space-x-8 text-text-primary">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">About Me</a>
                     <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">Contact Me</a>
                     <a href="writings.html" class="hover-link hover:text-accent transition-colors">Writings</a>
                 </nav>
             </div>
-            {/* Mobile Menu */}
             <div id="mobileMenu" class="hidden md:hidden mt-4 py-4 border-t border-accent/10 animate-in">
                 <nav class="flex flex-col space-y-4">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors py-2 px-4 hover:bg-accent/10 rounded">About Me</a>
@@ -194,51 +190,44 @@
     </header>
 
     <main class="container mx-auto px-6 pt-32 pb-16">
-        {/* Hero Section */}
+        <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
-            {/* Font Setup: Quote::before uses Baloo Bhai 2 via CSS */}
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
                 "If determinism holds, there's a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
-        {/* Interactive Image Container (Easter Egg) */}
+        <!-- Interactive Image Container (Easter Egg) -->
         <div id="interactiveImageContainer" class="hidden interactive-image-container">
-             {/* Image Source: Using FrierenRing.png as requested */}
             <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
         </div>
 
-        {/* Recent Writings Section */}
+        <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
-             {/* Font Setup: H2 uses Poppins via CSS */}
             <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Card 1 */}
-                <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
-                     {/* Font Setup: H3 uses Poppins via CSS */}
+                <!-- Card 1 -->
+                <div class="card rounded-lg p-7 shadow-lg" data-delay="0">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
                     </h3>
                     <div class="mb-5"><p class="text-text-secondary line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p></div>
                     <a href="writings.html#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
-                {/* Card 2 */}
-                <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
-                     {/* Font Setup: H3 uses Poppins via CSS */}
+                <!-- Card 2 -->
+                <div class="card rounded-lg p-7 shadow-lg" data-delay="150">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
                     </h3>
                     <div class="mb-5"><p class="text-text-secondary line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p></div>
                     <a href="writings.html#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
-                {/* Card 3 */}
-                <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
-                     {/* Font Setup: H3 uses Poppins via CSS */}
+                <!-- Card 3 -->
+                <div class="card rounded-lg p-7 shadow-lg" data-delay="300">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
                     </h3>
@@ -255,7 +244,7 @@
         </section>
     </main>
 
-    {/* Footer */}
+    <!-- Footer -->
     <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
             <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved.</p>
@@ -333,21 +322,18 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                // Background Enhancement: Increased particle count significantly
-                const particleCount = 1500;
+                const particleCount = 1500; // Increased particle count
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                // Background Enhancement: Increased spread
-                const spread = 30;
+                const spread = 30; // Increased spread
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
                     positions[i] = (Math.random() - 0.5) * spread;
                     positions[i+1] = (Math.random() - 0.5) * spread;
                     positions[i+2] = (Math.random() - 0.5) * spread - 12; // Slightly deeper field
 
-                    // Background Enhancement: More vibrant colors, leaning towards accent
                     const baseColor = new THREE.Color(Math.random() > 0.6 ? '#AE8BD5' : '#CBB8E8'); // Mix accent colors
-                    baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3); // Blend slightly with white for brightness
+                    baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3); // Blend slightly with white
                     colors[i] = baseColor.r;
                     colors[i+1] = baseColor.g;
                     colors[i+2] = baseColor.b;
@@ -356,15 +342,12 @@
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
                 const particlesMaterial = new THREE.PointsMaterial({
-                    // Background Enhancement: Slightly larger size
-                    size: 0.045,
+                    size: 0.045, // Slightly larger size
                     vertexColors: true,
                     transparent: true,
-                    // Background Enhancement: Slightly higher opacity
-                    opacity: 0.85,
-                    // Background Enhancement: Additive blending for brighter feel
-                    blending: THREE.AdditiveBlending,
-                    depthWrite: false // Often needed with additive blending/transparency
+                    opacity: 0.85, // Slightly higher opacity
+                    blending: THREE.AdditiveBlending, // Additive blending
+                    depthWrite: false // Often needed with additive blending
                 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
@@ -378,7 +361,6 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
-                    // Background Enhancement: Slightly faster base rotation + mouse influence
                     particleSystem.rotation.x += 0.0006 + mouseY * 0.0008; // Increased mouse influence
                     particleSystem.rotation.y += 0.0006 + mouseX * 0.0008;
                     renderer.render(scene, camera);
@@ -398,13 +380,13 @@
         // --- Interactive Image Logic (Easter Egg - Position Jumps Only) ---
         function setupInteractiveImage() {
             const imageContainer = document.getElementById('interactiveImageContainer');
-            const imageElement = document.getElementById('interactiveImage'); // We still need the element ref if needed later
+            const imageElement = document.getElementById('interactiveImage');
             if (!imageContainer || !imageElement) return;
 
             imageContainer.classList.remove('hidden');
             // Opacity and rotation are now handled by CSS animation
 
-            // --- OnClick Behavior (No changes needed here) ---
+            // --- OnClick Behavior ---
             const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
                                'https://www.youtube.com/watch?v=-jGBp5HBLFs',
                                'https://www.youtube.com/shorts/2Dv2hO3rYVg',
@@ -420,24 +402,18 @@
 
             // --- Animation Logic (Position Jumps Only) ---
             let positionInterval;
-            // Time between position jumps (e.g., 5 seconds)
-            const jumpIntervalTime = 5000;
+            const jumpIntervalTime = 5000; // Time between jumps (5 seconds)
 
             const randomPosition = () => {
                 const mainRect = document.querySelector('main').getBoundingClientRect();
-                // Use imageContainer offsetWidth/Height as it's the positioned element
                 const containerWidth = imageContainer.offsetWidth;
                 const containerHeight = imageContainer.offsetHeight;
-                // Ensure bounds calculation is robust
-                const minX = mainRect.left + window.scrollX + 30; // Increased padding
+                const minX = mainRect.left + window.scrollX + 30;
                 const maxX = mainRect.right + window.scrollX - containerWidth - 30;
-                const minY = mainRect.top + window.scrollY + 120; // Ensure below header
+                const minY = mainRect.top + window.scrollY + 120;
                 const maxY = Math.min(window.innerHeight + window.scrollY - containerHeight - 30, mainRect.bottom + window.scrollY - containerHeight - 30);
-
-                // Prevent negative ranges if window/main area is too small
                 const validMaxX = Math.max(minX, maxX);
                 const validMaxY = Math.max(minY, maxY);
-
                 const randomX = Math.random() * (validMaxX - minX) + minX;
                 const randomY = Math.random() * (validMaxY - minY) + minY;
                 return { x: randomX, y: randomY };
@@ -450,25 +426,20 @@
                 imageContainer.style.top = `${newPos.y}px`;
             };
 
-            // Initial position set
-            jumpToRandomPosition();
-
-            // Set interval for subsequent position jumps
-            positionInterval = setInterval(jumpToRandomPosition, jumpIntervalTime);
+            jumpToRandomPosition(); // Initial position set
+            positionInterval = setInterval(jumpToRandomPosition, jumpIntervalTime); // Start interval
 
             // Pause position jumps when tab is hidden
             document.addEventListener("visibilitychange", () => {
                 if (document.hidden) {
                     clearInterval(positionInterval);
                 } else {
-                    // Jump to a new position immediately when visible again
-                    jumpToRandomPosition();
+                    jumpToRandomPosition(); // Jump immediately when visible again
                     positionInterval = setInterval(jumpToRandomPosition, jumpIntervalTime);
                 }
             });
         }
-        // Delay setup slightly to ensure layout is stable for position calculation
-        setTimeout(setupInteractiveImage, 1500);
+        setTimeout(setupInteractiveImage, 1500); // Delay setup
 
 
         // Enhanced hover effects for cards
