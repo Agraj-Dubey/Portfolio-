@@ -119,14 +119,17 @@
         /* Adjust cursor height specifically for h1 */
         h1 .typed-cursor {
              height: 1em;
-             /* Ensure cursor color is visible even with gradient text */
-             background-color: #CBB8E8; /* Match a lighter color from gradient */
-             mix-blend-mode: normal; /* Prevent blending issues */
+             background-color: #CBB8E8;
+             mix-blend-mode: normal;
              opacity: 0.8;
         }
         /* Adjust cursor color for blockquote */
         blockquote .typed-cursor {
-             background-color: #A8A8A8; /* Match text-tertiary */
+             background-color: #A8A8A8;
+        }
+        /* Adjust cursor color for typewriter p */
+        #typewriter .typed-cursor {
+            background-color: #D1D1D1; /* Match text-secondary */
         }
 
 
@@ -284,7 +287,7 @@
             <div class="flex justify-between items-center">
                 <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
-                    a-g-r-a-j {/* Static part */}
+                    a-g-r-a-j
                 </a>
 
                 <!-- Mobile Menu Button -->
@@ -318,15 +321,14 @@
         <section class="text-center mb-20 opacity-0" id="heroSection">
             <!-- Main Heading with rotating text span - Initially empty -->
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">
-                <span id="main-heading-text"></span>{/* Empty */}
+                <span id="main-heading-text"></span>
             </h1>
             <!-- Tagline/Quote Element - Initially empty -->
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
-                {/* Empty */}
             </p>
             <!-- Blockquote with rotating text span - Initially empty -->
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
-                "<span id="blockquote-text"></span>"{/* Empty */}
+                "<span id="blockquote-text"></span>"
             </blockquote>
         </section>
 
@@ -410,30 +412,21 @@
         // --- Configuration ---
         const ROTATING_TEXT_CONFIG = {
             // Target Element ID -> Settings
-            'typewriter': {
+            'typewriter': { // This one will now run only once
                 texts: [
-                    "Cause no one listens, so I write instead 😎",
-                    "Don't forget the ring at the bottom",
-                    "There is a chance for a rick roll",
-                    "who knows how many videos you can find🤔",
-                    "Who knows how much has left to read (^///^)",
-                    "Just fragments of thoughts...",
-                    "Maybe this is all just a simulation?",
-                    "Error 404: Deep meaning not found.",
-                    "Probably contemplating existential dread.",
-                    "Fueled by caffeine and curiosity.",
-                    "Is this the real life? Is this just fantasy?",
-                    "Coding, writing, overthinking.",
-                    "My therapist told me to write it down."
+                    "Cause no one listens, so I write instead 😎"
+                    // Only the first text will be shown
                 ],
                 typeSpeed: 80,
-                deleteSpeed: 50,
-                pauseDuration: 3000
+                deleteSpeed: 50, // Not used, but kept for structure
+                pauseDuration: 3000 // Not used, but kept for structure
             },
             'main-heading-text': {
-                texts: [ // Simplified list
-                    "agraj",
-                    "a-g-r-a-j"
+                texts: [ // Updated list with placeholders
+                    "agraj",        // English
+                    "アグラジ",      // Japanese (Katakana example)
+                    "अग्रज",        // Hindi (Devanagari example)
+                    "αγραξ"         // Greek (Example)
                 ],
                 typeSpeed: 100,
                 deleteSpeed: 60,
@@ -454,7 +447,7 @@
                 ],
                 typeSpeed: 70,
                 deleteSpeed: 40,
-                pauseDuration: 4500 // Longer pause for longer text
+                pauseDuration: 4500
             }
         };
 
@@ -470,20 +463,18 @@
             let isBusy = false;
             let cycleTimeout = null;
             let intersectionObserver = null;
-            let isVisible = false; // Track visibility state
+            let isVisible = false;
+            const runOnce = (elementId === 'typewriter'); // Flag for run-once behavior
 
-            // Ensure element is empty initially
-            element.textContent = '';
+            element.textContent = ''; // Ensure element is empty initially
 
             function typeWriterInternal(text, callback) {
                 let i = 0;
-                // element.textContent = ''; // Clear previous content - Removed, clearing happens before calling this now
                 isBusy = true;
 
                 function type() {
                     if (!isVisible || !isBusy) {
                         isBusy = false;
-                        // Clear potentially incomplete text if stopped
                         if (!isVisible) element.textContent = '';
                         return;
                     }
@@ -503,6 +494,12 @@
             }
 
             function deleteWriterInternal(callback) {
+                // Skip delete if it's run-once (shouldn't be called, but safe)
+                if (runOnce) {
+                    if (callback) callback();
+                    return;
+                }
+
                 let text = element.textContent;
                 const existingCursor = element.querySelector('.typed-cursor');
                 if (existingCursor) element.removeChild(existingCursor);
@@ -514,7 +511,6 @@
                 function del() {
                     if (!isVisible || !isBusy) {
                         isBusy = false;
-                         // Clear potentially incomplete text if stopped
                         if (!isVisible) element.textContent = '';
                         return;
                     }
@@ -530,7 +526,7 @@
                     } else {
                          const finalCursor = element.querySelector('.typed-cursor');
                          if (finalCursor) element.removeChild(finalCursor);
-                         element.textContent = ''; // Ensure fully empty
+                         element.textContent = '';
                         isBusy = false;
                         if (callback) callback();
                     }
@@ -539,6 +535,9 @@
             }
 
             function scheduleCycle(delay) {
+                 // Do not schedule next cycle if it's run-once
+                 if (runOnce) return;
+
                  clearTimeout(cycleTimeout);
                  cycleTimeout = setTimeout(() => {
                      if(isVisible) {
@@ -548,12 +547,13 @@
             }
 
             function startCycle() {
-                if (isBusy || !isVisible) {
+                // Skip cycle if run-once or busy or not visible
+                if (runOnce || isBusy || !isVisible) {
                     return;
                 }
 
                 deleteWriterInternal(() => {
-                    if (!isVisible) return; // Check again after delete
+                    if (!isVisible) return;
 
                     let nextIndex;
                     do {
@@ -563,7 +563,6 @@
                     currentIndex = nextIndex;
                     const nextText = config.texts[currentIndex];
 
-                    // Clear element content *before* typing the new text
                     element.textContent = '';
                     typeWriterInternal(nextText, () => {
                         scheduleCycle(config.pauseDuration);
@@ -581,31 +580,45 @@
                     if (isVisible && !wasVisible) { // Became visible
                         if (!initialized) {
                             initialized = true;
-                            // Start the very first cycle immediately
-                            let firstIndex = Math.floor(Math.random() * config.texts.length);
-                            currentIndex = firstIndex;
-                            const firstText = config.texts[firstIndex];
-                            // Clear content before first type
-                            element.textContent = '';
+                            // Determine starting index
+                            if (runOnce) {
+                                currentIndex = 0; // Force first text for run-once
+                            } else {
+                                // Start with English name first for main heading, random otherwise
+                                currentIndex = (elementId === 'main-heading-text') ? 0 : Math.floor(Math.random() * config.texts.length);
+                            }
+                            const firstText = config.texts[currentIndex];
+
+                            element.textContent = ''; // Clear before typing
                             typeWriterInternal(firstText, () => {
-                                scheduleCycle(config.pauseDuration);
+                                // Only schedule next cycle if NOT run-once
+                                if (!runOnce) {
+                                    scheduleCycle(config.pauseDuration);
+                                } else {
+                                    // For run-once, keep the cursor blinking indefinitely
+                                    // The cursor is already added by typeWriterInternal
+                                }
                             });
-                        } else {
-                            // Resume cycling if it was paused and not currently busy
+                        } else { // Resuming visibility
                             if (!isBusy) {
-                                // Restart the cycle cleanly
-                                element.textContent = ''; // Clear content before resuming
-                                scheduleCycle(100); // Start next cycle quickly
+                                // If run-once, ensure the text is displayed correctly
+                                if (runOnce) {
+                                    element.textContent = ''; // Clear first
+                                    typeWriterInternal(config.texts[0], () => {}); // Retype and leave cursor
+                                } else {
+                                    // For rotating elements, restart the cycle
+                                    element.textContent = '';
+                                    scheduleCycle(100); // Start next cycle quickly
+                                }
                             }
                         }
                     } else if (!isVisible && wasVisible) { // Became hidden
                         clearTimeout(cycleTimeout);
                         isBusy = false;
-                        // Clear content when hidden
-                        element.textContent = '';
+                        element.textContent = ''; // Clear content when hidden
                     }
                 });
-            }, { threshold: 0.1 }); // Trigger when 10% visible
+            }, { threshold: 0.1 });
 
             intersectionObserver.observe(element);
         }
@@ -613,12 +626,9 @@
 
         // --- Initializations ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Setup rotating text for all configured elements
             for (const elementId in ROTATING_TEXT_CONFIG) {
                 setupRotatingText(elementId, ROTATING_TEXT_CONFIG[elementId]);
             }
-
-            // Initialize other features
             setupStaticImageClick();
             initParticles();
             setupMobileMenu();
@@ -627,8 +637,8 @@
             setupScrollAnimations();
         });
 
-        // --- Other Setup Functions (Consolidated & Refactored) ---
-
+        // --- Other Setup Functions ---
+        // (setupMobileMenu, setupScrollProgressBar, setupStaticImageClick, initParticles, setupCardHoverEffects, setupScrollAnimations remain the same as the previous version)
         function setupMobileMenu() {
             const menuButton = document.getElementById('menuButton');
             const mobileMenu = document.getElementById('mobileMenu');
@@ -757,35 +767,27 @@
 
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
-                    // Check if the element is one of the rotating text spans
                     const isRotatingText = Object.keys(ROTATING_TEXT_CONFIG).includes(entry.target.id);
 
                     if (entry.isIntersecting) {
-                        // Only apply fade/transform animation if NOT a rotating text element
                         if (!isRotatingText) {
                             entry.target.style.opacity = '1';
                             entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)';
-                            obs.unobserve(entry.target); // Unobserve after animation
+                            obs.unobserve(entry.target);
                         }
                     }
-                    // No 'else' needed here, visibility for rotating text is handled by its own observer
                 });
             }, observerOptions);
 
-            // Observe Hero Section (simple fade/translate) - It contains rotating text, so observe children if needed, or just let rotating text handle itself
              const heroSection = document.getElementById('heroSection');
              if (heroSection) {
-                 // Apply initial styles for the overall section fade-in
                  heroSection.style.opacity = '0';
                  heroSection.style.transform = 'translateY(20px)';
                  heroSection.dataset.initialTransform = 'translateY(0)';
                  heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
                  observer.observe(heroSection);
-                 // Note: The rotating text elements inside will handle their own visibility via their specific observers.
              }
 
-
-            // Observe Writings Section (simple fade/translate)
             const writingsSection = document.getElementById('writingsSection');
              if (writingsSection) {
                 writingsSection.style.opacity = '0';
@@ -795,7 +797,6 @@
                 observer.observe(writingsSection);
             }
 
-            // Observe Cards (more complex transform)
             document.querySelectorAll('.card').forEach(card => {
                 const delay = parseInt(card.getAttribute('data-delay')) || 0;
                 card.style.opacity = '0';
