@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title Updated -->
     <title>agraj - Portfolio</title>
     <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font Update: Added Poppins for other headings -->
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;700&family=Inter:wght@400;500;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <!-- Font Update: Replaced Nunito with Baloo Bhai 2 -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,10 +30,8 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        // Font Update: 'serif' key now specifically for Baloo Bhai 2 (used on main H1)
-                        serif: ['Baloo Bhai 2', 'cursive'],
-                        // Font Update: Added 'heading' key for Poppins (used on H2, H3 etc.)
-                        heading: ['Poppins', 'sans-serif'],
+                        // Font Update: Replaced Nunito with Baloo Bhai 2
+                        serif: ['Baloo Bhai 2', 'cursive'], // Using serif key for headings, but with Baloo Bhai 2
                     },
                 }
             }
@@ -87,18 +86,12 @@
         }
 
         /* Typography */
-        /* Font Update: General h1-h6 rule removed */
-        /* h1, h2, h3, h4, h5, h6 { ... } */
-
-        /* Font Update: Specific rule for h2-h6 using Poppins */
-        h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
+        h1, h2, h3, h4, h5, h6 {
+            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
+            font-family: 'Baloo Bhai 2', cursive;
             color: #ffffff;
-            font-weight: 700; /* Poppins needs explicit weight */
+            font-weight: 700;
         }
-        /* Note: Main H1 ("agraj") gets Baloo Bhai 2 via the 'font-serif' Tailwind class */
-        /* Note: Quote::before gets Baloo Bhai 2 via the 'font-serif' Tailwind class */
-
 
         .gradient-text {
             background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF);
@@ -152,18 +145,50 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
-        ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(9, 6, 19, 0.8);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(146, 114, 206, 0.5);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(146, 114, 206, 0.7);
+        }
 
         /* Hover Link Effect */
-        .hover-link { position: relative; display: inline-block; }
-        .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; }
-        .hover-link:hover::after { width: 100%; }
+        .hover-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hover-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #9272CE;
+            transition: width 0.3s ease;
+        }
+
+        .hover-link:hover::after {
+            width: 100%;
+        }
 
         /* Quote */
-        .quote { position: relative; border-left: 3px solid #9272CE; }
+        .quote {
+            position: relative;
+            border-left: 3px solid #9272CE;
+        }
+
         .quote::before {
             content: '"';
             position: absolute;
@@ -171,13 +196,25 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            /* Font Update: Use Baloo Bhai 2 (matches main H1) */
+            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
             font-family: 'Baloo Bhai 2', cursive;
         }
 
         /* Reading progress bar */
-        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
-        .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 3px;
+            background: linear-gradient(90deg, #9272CE, #AE8BD5);
+            width: 0%;
+        }
 
         /* Interactive Image Style Update */
         .interactive-image-container {
@@ -188,15 +225,15 @@
         }
 
         .interactive-image {
-             /* Size Maintained */
-             width: 8rem;
+             /* Size Increased */
+             width: 8rem; /* e.g., 128px */
              height: 8rem;
              cursor: pointer;
              transform-style: preserve-3d;
-             /* Initial state - no rotation needed here as JS handles it */
-             /* transform: rotateX(0deg) rotateY(0deg); */
-             /* Animation Removed from CSS - handled by JS */
+             /* Initial state for transform */
+             transform: rotateX(0deg) rotateY(0deg); /* Updated initial state */
         }
+
 
         /* Additional utility classes */
         .text-accent { color: #9272CE; }
@@ -220,19 +257,19 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                {/* Font Update: Apply 'font-serif' class for Baloo Bhai 2 */}
+                <!-- Name Updated -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     agraj
                 </a>
 
-                {/* Mobile Menu Button */}
+                <!-- Mobile Menu Button -->
                 <button id="menuButton" class="md:hidden text-text-primary focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
 
-                {/* Desktop Navigation */}
+                <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8 text-text-primary">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">About Me</a>
                     <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">Contact Me</a>
@@ -240,7 +277,7 @@
                 </nav>
             </div>
 
-            {/* Mobile Menu */}
+            <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden mt-4 py-4 border-t border-accent/10 animate-in">
                 <nav class="flex flex-col space-y-4">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors py-2 px-4 hover:bg-accent/10 rounded">About Me</a>
@@ -252,35 +289,31 @@
     </header>
 
     <main class="container mx-auto px-6 pt-32 pb-16">
-        {/* Hero Section */}
+        <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            {/* Font Update: Apply 'font-serif' class for Baloo Bhai 2 */}
-            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
+            <!-- Name Updated -->
+            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
-            {/* Font Update: Quote::before uses Baloo Bhai 2 via CSS */}
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
                 "If determinism holds, there's a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
             </blockquote>
         </section>
 
-        {/* Interactive Image Container */}
+        <!-- Interactive Image Container -->
         <div id="interactiveImageContainer" class="hidden interactive-image-container">
-             {/* Image Source Updated */}
-            <img src="FrierenRingg.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
+            <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
         </div>
 
-        {/* Recent Writings Section */}
+        <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
-             {/* Font Update: H2 uses Poppins via CSS */}
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12 font-serif">Recent Writings</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Card 1 */}
+                <!-- Card 1 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
-                     {/* Font Update: H3 uses Poppins via CSS */}
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
+                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
                     </h3>
                     <div class="mb-5">
@@ -288,14 +321,15 @@
                     </div>
                     <a href="writings.html#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
                         Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </a>
                 </div>
 
-                {/* Card 2 */}
+                <!-- Card 2 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
-                     {/* Font Update: H3 uses Poppins via CSS */}
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
+                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
                     </h3>
                     <div class="mb-5">
@@ -303,14 +337,15 @@
                     </div>
                     <a href="writings.html#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
                         Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </a>
                 </div>
 
-                {/* Card 3 */}
+                <!-- Card 3 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
-                     {/* Font Update: H3 uses Poppins via CSS */}
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
+                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
                     </h3>
                     <div class="mb-5">
@@ -318,7 +353,9 @@
                     </div>
                     <a href="writings.html#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">
                         Read More
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -332,9 +369,10 @@
         </section>
     </main>
 
-    {/* Footer */}
+    <!-- Footer -->
     <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
+            <!-- Name Updated -->
             <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved.</p>
         </div>
     </footer>
@@ -343,13 +381,20 @@
         // Mobile Menu Toggle
         const menuButton = document.getElementById('menuButton');
         const mobileMenu = document.getElementById('mobileMenu');
-        menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
 
         // Set Current Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
         // Intersection Observer for Animations
-        const observerOptions = { threshold: 0.2, rootMargin: '0px 0px -50px 0px' };
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -360,44 +405,67 @@
             });
         }, observerOptions);
 
-        // Observe sections and cards
+        // Add elements to observe
         const heroSection = document.getElementById('heroSection');
         const writingsSection = document.getElementById('writingsSection');
+
         if (heroSection) {
-            heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)';
+            heroSection.style.opacity = '0';
+            heroSection.style.transform = 'translateY(20px)';
             heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
             observer.observe(heroSection);
         }
+
         if (writingsSection) {
-            writingsSection.style.opacity = '0'; writingsSection.style.transform = 'translateY(20px)';
+            writingsSection.style.opacity = '0';
+            writingsSection.style.transform = 'translateY(20px)';
             writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
             observer.observe(writingsSection);
         }
-        document.querySelectorAll('.card').forEach(card => {
+
+        // Animate Cards with delay
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
-            card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
+            card.style.opacity = '0';
+            card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
             observer.observe(card);
         });
 
         // Typewriter effect
-        function typeWriter(element, text, speed = 80) { // Slightly faster default
-            let i = 0; element.innerHTML = '';
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
             function type() {
                 if (i < text.length) {
-                    element.innerHTML += text.charAt(i); i++; setTimeout(type, speed);
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
                 } else {
-                    const cursor = document.createElement('span'); cursor.className = 'typed-cursor'; element.appendChild(cursor);
+                    const cursor = document.createElement('span');
+                    cursor.className = 'typed-cursor';
+                    element.appendChild(cursor);
                 }
             }
             setTimeout(type, 500);
         }
+
         const typewriterElement = document.getElementById('typewriter');
         const taglineText = "Cause no one listens, so I write instead 😎";
+
         const typewriterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) { typeWriter(typewriterElement, taglineText); typewriterObserver.unobserve(entry.target); } });
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    typeWriter(typewriterElement, taglineText, 80);
+                    typewriterObserver.unobserve(entry.target);
+                }
+            });
         }, { threshold: 0.5 });
-        if (heroSection) typewriterObserver.observe(heroSection);
+
+        if (heroSection) {
+            typewriterObserver.observe(heroSection);
+        }
 
         // Progress bar
         window.onscroll = function() {
@@ -407,7 +475,7 @@
             document.getElementById("progressBar").style.width = scrolled + "%";
         };
 
-        // Particle background (Enhanced)
+        // Particle background (No changes needed here)
         function initParticles() {
             try {
                 const container = document.getElementById('particles');
@@ -421,36 +489,21 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                // Background Enhancement: Increased particle count
-                const particleCount = 1000;
+                const particleCount = 500;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                // Background Enhancement: Increased spread
-                const spread = 25;
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
-                    positions[i] = (Math.random() - 0.5) * spread;
-                    positions[i+1] = (Math.random() - 0.5) * spread;
-                    positions[i+2] = (Math.random() - 0.5) * spread - 10; // Keep depth
-
-                    // Background Enhancement: Brighter/more vibrant colors
-                    colors[i] = Math.random() * 0.4 + 0.6;   // R: 0.6 - 1.0
-                    colors[i+1] = Math.random() * 0.3 + 0.3; // G: 0.3 - 0.6 (Less green)
-                    colors[i+2] = Math.random() * 0.4 + 0.6; // B: 0.6 - 1.0
+                    positions[i] = (Math.random() - 0.5) * 20;
+                    positions[i+1] = (Math.random() - 0.5) * 20;
+                    positions[i+2] = (Math.random() - 0.5) * 20 - 10;
+                    colors[i] = Math.random() * 0.5 + 0.5;
+                    colors[i+1] = Math.random() * 0.3 + 0.2;
+                    colors[i+2] = Math.random() * 0.5 + 0.5;
                 }
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-                const particlesMaterial = new THREE.PointsMaterial({
-                    // Background Enhancement: Slightly larger size
-                    size: 0.04,
-                    vertexColors: true,
-                    transparent: true,
-                    // Background Enhancement: Slightly higher opacity
-                    opacity: 0.8,
-                    // Optional: Additive blending can look nice for bright particles
-                    // blending: THREE.AdditiveBlending
-                });
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
                 camera.position.z = 5;
@@ -463,10 +516,8 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
-                    // Background Enhancement: Slightly faster base rotation
-                    const time = Date.now() * 0.0001; // Use time for smoother variation if needed
-                    particleSystem.rotation.x += 0.0008 + mouseY * 0.0005;
-                    particleSystem.rotation.y += 0.0008 + mouseX * 0.0005;
+                    particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
+                    particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
                     renderer.render(scene, camera);
                 }
                 animate();
@@ -490,7 +541,7 @@
             imageContainer.classList.remove('hidden');
             imageContainer.style.opacity = '0.7';
 
-            // --- OnClick Behavior (No changes needed here) ---
+            // --- OnClick Behavior ---
             const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
                                'https://www.youtube.com/watch?v=-jGBp5HBLFs',
                                'https://www.youtube.com/shorts/2Dv2hO3rYVg',
@@ -504,11 +555,11 @@
                 window.open(videoUrls[randomIndex], '_blank');
             });
 
-            // --- Animation Logic (Abrupt Spin) ---
+            // --- Animation Logic ---
             let animationInterval;
-            const displayDuration = 4000; // How long it stays in one place/rotation (was spinDuration)
-            const pauseDuration = 500;    // Pause before next cycle
-            const totalCycleTime = displayDuration + pauseDuration;
+            const spinDuration = 4000; // Spin Time Increased to 4 seconds
+            const pauseDuration = 500;
+            const totalCycleTime = spinDuration + pauseDuration;
 
             const randomPosition = () => {
                 const mainRect = document.querySelector('main').getBoundingClientRect();
@@ -526,23 +577,28 @@
             const performAnimationCycle = () => {
                 // 1. Jump to new position
                 const newPos = randomPosition();
-                imageContainer.style.transition = 'none'; // No transition for jump
-                imageElement.style.transition = 'none';   // No transition for rotation change
+                imageContainer.style.transition = 'none';
+                imageElement.style.transition = 'none';
+                // Reset rotation before jump
+                imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
                 imageContainer.style.left = `${newPos.x}px`;
                 imageContainer.style.top = `${newPos.y}px`;
 
-                // 2. Apply abrupt, random rotation INSTANTLY
-                const randomRotX = Math.random() * 1080 - 540; // Random rotation +/- 540 degrees
-                const randomRotY = Math.random() * 1080 - 540;
-                imageElement.style.transform = `rotateX(${randomRotX}deg) rotateY(${randomRotY}deg)`;
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                         // 2. Animate spin on XY plane
+                         imageElement.style.transition = `transform ${spinDuration}ms linear`;
+                         // Combined X and Y rotation for "XY plane" spin
+                         imageElement.style.transform = 'rotateX(360deg) rotateY(360deg)';
+                    });
+                });
 
-                // 3. Reset rotation *after* the displayDuration (ready for next jump)
-                // No timeout needed here if we apply the new random rotation instantly at the start of the *next* cycle.
-                // Let's simplify: the rotation just holds until the next position jump, where a *new* random rotation is applied.
+                 // 3. Reset transform after spin
+                 setTimeout(() => {
+                     imageElement.style.transition = 'none';
+                     imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
+                 }, spinDuration);
             };
-
-            // Reset initial rotation before starting
-            imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
 
             performAnimationCycle(); // Start first cycle
             animationInterval = setInterval(performAnimationCycle, totalCycleTime); // Start interval
@@ -552,8 +608,7 @@
                 if (document.hidden) {
                     clearInterval(animationInterval);
                 } else {
-                    // Apply a new state immediately when visible again
-                    performAnimationCycle();
+                    performAnimationCycle(); // Restart immediately
                     animationInterval = setInterval(performAnimationCycle, totalCycleTime);
                 }
             });
