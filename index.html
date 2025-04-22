@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title Updated -->
     <title>agraj - Portfolio</title>
     <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font Update: Added Inter (for body/most text) and Baloo Bhai 2 (specifically for main heading) -->
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -30,7 +28,6 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        // Font Update: Baloo Bhai 2 specifically for the 'serif' utility class
                         serif: ['Baloo Bhai 2', 'cursive'],
                     },
                 }
@@ -86,7 +83,6 @@
         }
 
         /* Typography */
-        /* Font Update: Removed general h1-h6 rule for Baloo Bhai 2 */
         h1, h2, h3, h4, h5, h6 {
             color: #ffffff;
             font-weight: 700; /* Default bold for headings */
@@ -111,10 +107,12 @@
         .typed-cursor {
             display: inline-block;
             width: 2px;
-            height: 1.2em;
+            /* Adjusted height slightly to better match Inter font */
+            height: 1.1em;
             background-color: #9272CE;
             margin-left: 4px;
             animation: pulse 1s infinite;
+            vertical-align: text-bottom; /* Align cursor better */
         }
 
         /* Card Hover Effects */
@@ -188,7 +186,7 @@
             width: 100%;
         }
 
-        /* Quote */
+        /* Quote Block */
         .quote {
             position: relative;
             border-left: 3px solid #9272CE;
@@ -201,8 +199,7 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            /* Font Update: Use default sans-serif for quote mark */
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif; /* Use default sans-serif for quote mark */
             font-weight: 700; /* Make quote mark bold */
         }
 
@@ -222,22 +219,20 @@
             width: 0%;
         }
 
-        /* Interactive Image Style Update - Static */
+        /* Static Image Style */
         .static-image-container {
-            /* Removed position: absolute */
-            display: block; /* Make it a block element */
-            margin: 2.5rem auto 0 auto; /* Add margin top and center horizontally */
-            width: fit-content; /* Adjust width to content */
-            opacity: 0.8; /* Slightly increased opacity */
+            display: block;
+            margin: 2.5rem auto 0 auto; /* mt-10 mx-auto */
+            width: fit-content;
+            opacity: 0.8;
             transition: opacity 0.3s ease;
-            z-index: 5; /* Lower z-index slightly, no longer needs to overlay everything */
+            z-index: 5;
         }
 
         .static-image {
              width: 8rem; /* 128px */
              height: 8rem;
              cursor: pointer;
-             /* Removed transform styles */
              transition: transform 0.3s ease; /* Add transition for hover effect */
         }
         .static-image:hover {
@@ -303,9 +298,11 @@
         <section class="text-center mb-20 opacity-0" id="heroSection">
             <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
-            <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
-                Cause no one listens, so I write instead 😎
+            <!-- Tagline/Quote Element -->
+            <p class="text-xl md:text-2xl text-text-secondary mb-12 italic min-h-[3em]" id="typewriter">
+                {/* Content will be dynamically inserted here */}
             </p>
+            <!-- Quote Block (Unchanged) -->
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
                 "If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒"
             </blockquote>
@@ -376,7 +373,7 @@
                 </a>
             </div>
 
-            <!-- Static Image Container - Moved here -->
+            <!-- Static Image Container -->
             <div id="staticImageContainer" class="static-image-container">
                 <img src="FrierenRing.png" alt="Ring Image" id="staticImage" class="static-image">
             </div>
@@ -387,7 +384,6 @@
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
-            <!-- Name Updated -->
             <p class="text-text-tertiary">© <span id="currentYear"></span> agraj. All rights reserved.</p>
         </div>
     </footer>
@@ -414,13 +410,15 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    // Apply transform only if it's a card (for the initial reveal)
                     if (entry.target.classList.contains('card')) {
                          entry.target.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
                     } else {
                          entry.target.style.transform = 'translateY(0)';
                     }
-                    observer.unobserve(entry.target);
+                    // Don't unobserve heroSection, keep observing for typewriter logic
+                    if (!entry.target.id.includes('heroSection')) {
+                        observer.unobserve(entry.target);
+                    }
                 }
             });
         }, observerOptions);
@@ -448,45 +446,141 @@
         cards.forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
             card.style.opacity = '0';
-            // Initial state for card reveal animation
             card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
             observer.observe(card);
         });
 
-        // Typewriter effect
-        function typeWriter(element, text, speed = 100) {
+        // --- Rotating Quotes Logic ---
+        const typewriterElement = document.getElementById('typewriter');
+        const quotes = [
+            "Cause no one listens, so I write instead 😎",
+            "Don't forget the ring at the bottom",
+            "There is a chance for a rick roll",
+            "who knows how many videos you can find🤔",
+            "Who knows how much has left to read(^///^)"
+        ];
+        let currentQuoteIndex = -1; // Start at -1 to ensure the first pick is always valid
+        let isTypingOrDeleting = false;
+        let quoteCycleTimeout;
+
+        // Typewriter function (modified to accept callback)
+        function typeWriter(element, text, speed = 80, callback = null) {
             let i = 0;
-            element.innerHTML = '';
+            element.innerHTML = ''; // Clear previous content
+            isTypingOrDeleting = true;
+
             function type() {
                 if (i < text.length) {
                     element.innerHTML += text.charAt(i);
                     i++;
                     setTimeout(type, speed);
                 } else {
+                    // Add cursor only when typing is done
                     const cursor = document.createElement('span');
                     cursor.className = 'typed-cursor';
                     element.appendChild(cursor);
+                    isTypingOrDeleting = false;
+                    if (callback) callback(); // Execute callback when done
                 }
             }
-            setTimeout(type, 500);
+            type(); // Start typing
         }
 
-        const typewriterElement = document.getElementById('typewriter');
-        const taglineText = "Cause no one listens, so I write instead 😎";
+        // Delete writer function
+        function deleteWriter(element, speed = 50, callback = null) {
+            let text = element.textContent;
+            // Remove existing cursor if present before deleting
+            const existingCursor = element.querySelector('.typed-cursor');
+            if (existingCursor) element.removeChild(existingCursor);
 
+            let i = text.length;
+            isTypingOrDeleting = true;
+
+            function del() {
+                if (i > 0) {
+                    element.textContent = text.substring(0, i - 1);
+                    i--;
+                    // Add cursor during deletion
+                    if (!element.querySelector('.typed-cursor')) {
+                        const cursor = document.createElement('span');
+                        cursor.className = 'typed-cursor';
+                        element.appendChild(cursor);
+                    }
+                    setTimeout(del, speed);
+                } else {
+                    // Remove cursor finally when deletion is done
+                     const finalCursor = element.querySelector('.typed-cursor');
+                     if (finalCursor) element.removeChild(finalCursor);
+                     element.innerHTML = ''; // Ensure it's fully empty
+                    isTypingOrDeleting = false;
+                    if (callback) callback(); // Execute callback when done
+                }
+            }
+            del(); // Start deleting
+        }
+
+        // Function to cycle through quotes
+        function cycleQuotes() {
+            clearTimeout(quoteCycleTimeout); // Clear any existing timeout
+
+            if (isTypingOrDeleting) {
+                // If already busy, try again shortly
+                quoteCycleTimeout = setTimeout(cycleQuotes, 500);
+                return;
+            }
+
+            // Delete the current quote first
+            deleteWriter(typewriterElement, 50, () => {
+                // After deletion, pick a new random quote (different from the last one)
+                let nextQuoteIndex;
+                do {
+                    nextQuoteIndex = Math.floor(Math.random() * quotes.length);
+                } while (nextQuoteIndex === currentQuoteIndex && quotes.length > 1); // Ensure different if possible
+
+                currentQuoteIndex = nextQuoteIndex;
+                const nextQuote = quotes[currentQuoteIndex];
+
+                // Type the new quote
+                typeWriter(typewriterElement, nextQuote, 80, () => {
+                    // After typing, wait before starting the next cycle
+                    quoteCycleTimeout = setTimeout(cycleQuotes, 3000); // Wait 3 seconds before deleting again
+                });
+            });
+        }
+
+        // Intersection Observer for the Typewriter/Quotes
+        let typewriterInitialized = false;
         const typewriterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    typeWriter(typewriterElement, taglineText, 80);
-                    typewriterObserver.unobserve(entry.target);
+                if (entry.isIntersecting && !typewriterInitialized) {
+                    typewriterInitialized = true; // Run only once on first intersection
+
+                    // Start the cycle immediately by picking the first quote
+                    let firstQuoteIndex = Math.floor(Math.random() * quotes.length);
+                    currentQuoteIndex = firstQuoteIndex;
+                    const firstQuote = quotes[firstQuoteIndex];
+
+                    // Type the first quote
+                    typeWriter(typewriterElement, firstQuote, 80, () => {
+                        // After the first quote is typed, start the cycling process
+                        quoteCycleTimeout = setTimeout(cycleQuotes, 3000); // Wait 3 seconds before deleting
+                    });
+
+                    // No need to unobserve, let it keep track if needed, but logic runs once
+                } else if (!entry.isIntersecting) {
+                     // Optional: Pause cycling if element scrolls out of view
+                     clearTimeout(quoteCycleTimeout);
+                     // Maybe reset typewriterInitialized if you want it to restart on re-entry
+                     // typewriterInitialized = false;
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.5 }); // Trigger when 50% visible
 
         if (heroSection) {
-            typewriterObserver.observe(heroSection);
+            typewriterObserver.observe(heroSection); // Observe the whole hero section
         }
+
 
         // Progress bar
         window.onscroll = function() {
@@ -510,23 +604,21 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                // Particle Effect Update: Increased count
-                const particleCount = 750;
+                const particleCount = 750; // Increased count
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
                     positions[i] = (Math.random() - 0.5) * 20;
                     positions[i+1] = (Math.random() - 0.5) * 20;
-                    positions[i+2] = (Math.random() - 0.5) * 20 - 10; // Keep depth
-                    colors[i] = Math.random() * 0.5 + 0.5; // Keep color range
+                    positions[i+2] = (Math.random() - 0.5) * 20 - 10;
+                    colors[i] = Math.random() * 0.5 + 0.5;
                     colors[i+1] = Math.random() * 0.3 + 0.2;
                     colors[i+2] = Math.random() * 0.5 + 0.5;
                 }
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                // Particle Effect Update: Slightly increased size and opacity
-                const particlesMaterial = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.75 });
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.75 }); // Increased size/opacity
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
                 camera.position.z = 5;
@@ -539,7 +631,6 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
-                    // Keep subtle mouse interaction
                     particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
                     particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
                     renderer.render(scene, camera);
@@ -580,25 +671,23 @@
         document.addEventListener('DOMContentLoaded', setupStaticImageClick);
 
 
-        // Enhanced hover effects for cards (Keep this)
+        // Enhanced hover effects for cards
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left; const y = e.clientY - rect.top;
                 const centerX = rect.width / 2; const centerY = rect.height / 2;
                 const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                // Apply 3D tilt on hover
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
             card.addEventListener('mouseleave', () => {
-                // Reset to base state (which includes the reveal animation end state)
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
             });
         });
 
-        // Fix for "Read More" buttons inside cards (Keep this)
+        // Fix for "Read More" buttons inside cards
         document.querySelectorAll('.card a').forEach(link => {
-            link.addEventListener('click', (e) => e.stopPropagation()); // Prevent card tilt when clicking link
+            link.addEventListener('click', (e) => e.stopPropagation());
         });
     </script>
 </body>
