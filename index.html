@@ -202,6 +202,7 @@
 
         // --- tsParticles Initialization (UPDATED CONFIG) ---
 // --- tsParticles Initialization (OPTION 1: Mouse Trail) ---
+// --- tsParticles Initialization (NEW: Gravity/Attract Effect) ---
 function initTsParticles() {
     if (typeof tsParticles === 'undefined') {
         console.error("tsParticles library not loaded.");
@@ -214,7 +215,7 @@ function initTsParticles() {
         },
         particles: {
             number: {
-                value: 50, // Keep base particle count lower
+                value: 120, // Increased particle count
                 density: {
                     enable: true,
                     value_area: 800
@@ -227,40 +228,45 @@ function initTsParticles() {
                 type: "circle"
             },
             opacity: {
-                value: 0.5,
+                value: 0.6, // Slightly more visible
                 random: true,
                 anim: {
                     enable: true,
-                    speed: 0.8,
+                    speed: 1,
                     opacity_min: 0.1,
                     sync: false
                 }
             },
             size: {
-                value: 3, // Slightly larger base size
+                value: 2.5, // Keep size reasonable
                 random: true,
                 anim: {
-                    enable: false // Disable base size animation
+                    enable: false // Disable size animation for clarity
                 }
             },
-            // No lines needed
+            // REMOVED line_linked
             move: {
-                enable: true, // Keep base particles moving slowly
-                speed: 0.5, // Slow base speed
+                enable: true,
+                speed: 1.0, // Keep a slow base drift speed
                 direction: "none",
                 random: true,
                 straight: false,
                 out_mode: "out",
                 bounce: false,
-                attract: { enable: false }
+                attract: { // Make particles slightly attract each other
+                    enable: true,
+                    rotateX: 600,
+                    rotateY: 1200,
+                    distance: 100 // Subtle attraction distance between particles
+                }
             }
         },
         interactivity: {
-            detect_on: "canvas",
+            detect_on: "window", // Detect mouse anywhere on window for better effect
             events: {
                 onhover: {
                     enable: true,
-                    mode: "trail" // <-- Set hover mode to trail
+                    mode: "attract" // <-- Attract mode on hover
                 },
                 onclick: {
                     enable: true,
@@ -269,15 +275,18 @@ function initTsParticles() {
                 resize: true
             },
             modes: {
-                trail: { // <-- Configure the trail effect
-                    delay: 0.05, // Delay between particle emissions in trail
-                    pauseOnStop: true, // Stop emitting when mouse stops
-                    quantity: 3 // Number of particles per emission point
+                attract: { // <-- Configure attract mode
+                    distance: 200, // Interaction distance from cursor
+                    duration: 0.4,
+                    easing: "ease-out-quad", // Smooth easing
+                    factor: 2, // How strongly they are pulled (higher = stronger)
+                    maxSpeed: 5, // Limit attraction speed
+                    speed: 1.5 // Base attraction speed
                 },
                 push: {
                     quantity: 4
                 },
-                // Other modes not actively used by events
+                // Other modes not actively used
                 repulse: { distance: 150, duration: 0.4, speed: 1 },
                 bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
                 remove: { particles_nb: 2 }
@@ -291,7 +300,6 @@ function initTsParticles() {
         console.error("Error loading tsParticles:", error);
     });
 }
-
 
         // --- Other Setup Functions ---
         function setupMobileMenu() { /* ... remains the same ... */
