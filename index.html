@@ -1,3 +1,5 @@
+--- START OF FILE index.html ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,18 +103,23 @@
             -webkit-background-clip: text;
             color: transparent;
             animation: gradient 8s linear infinite;
+            /* Ensure gradient applies to children if needed, or target span directly */
+            display: inline-block; /* Helps with background clipping */
         }
 
         /* Animated cursor */
         .typed-cursor {
             display: inline-block;
             width: 2px;
-            /* Adjusted height slightly to better match Inter font */
-            height: 1.1em;
+            height: 1.1em; /* Adjusted height */
             background-color: #9272CE;
             margin-left: 4px;
             animation: pulse 1s infinite;
             vertical-align: text-bottom; /* Align cursor better */
+        }
+        /* Adjust cursor height specifically for h1 */
+        h1 .typed-cursor {
+             height: 1em;
         }
 
         /* Card Hover Effects */
@@ -199,8 +206,8 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            font-family: 'Inter', sans-serif; /* Use default sans-serif for quote mark */
-            font-weight: 700; /* Make quote mark bold */
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
         }
 
         /* Reading progress bar */
@@ -233,11 +240,16 @@
              width: 8rem; /* 128px */
              height: 8rem;
              cursor: pointer;
-             transition: transform 0.3s ease; /* Add transition for hover effect */
+             transition: transform 0.3s ease;
         }
         .static-image:hover {
-            transform: scale(1.1); /* Simple scale hover effect */
+            transform: scale(1.1);
         }
+
+        /* Minimum height for rotating text containers to prevent layout shifts */
+        #typewriter { min-height: 3em; }
+        #main-heading-text { min-height: 1.2em; display: inline-block; } /* inline-block needed for height */
+        #blockquote-text { min-height: 4em; display: inline-block; } /* inline-block needed for height */
 
 
         /* Additional utility classes */
@@ -264,7 +276,7 @@
             <div class="flex justify-between items-center">
                 <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
-                    a-g-r-a-j
+                    a-g-r-a-j {/* This part is static */}
                 </a>
 
                 <!-- Mobile Menu Button -->
@@ -296,27 +308,27 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
-            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
+            <!-- Main Heading with rotating text span -->
+            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">
+                <span id="main-heading-text">agraj</span>{/* Initial text, will be replaced */}
+            </h1>
             <!-- Tagline/Quote Element -->
-            <p class="text-xl md:text-2xl text-text-secondary mb-12 italic min-h-[3em]" id="typewriter">
+            <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 {/* Content will be dynamically inserted here */}
             </p>
-            <!-- Quote Block (Unchanged) -->
+            <!-- Blockquote with rotating text span -->
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
-                "If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒"
+                "<span id="blockquote-text">If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒</span>"{/* Initial text, will be replaced */}
             </blockquote>
         </section>
 
         <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
-            <!-- Heading uses default Inter font -->
             <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
-                    <!-- Card title uses default Inter font, added font-semibold -->
                     <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
                     </h3>
@@ -333,7 +345,6 @@
 
                 <!-- Card 2 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
-                     <!-- Card title uses default Inter font, added font-semibold -->
                     <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
                     </h3>
@@ -350,7 +361,6 @@
 
                 <!-- Card 3 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
-                     <!-- Card title uses default Inter font, added font-semibold -->
                     <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
                     </h3>
@@ -389,212 +399,280 @@
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const menuButton = document.getElementById('menuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        menuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Set Current Year
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        // Intersection Observer for Animations
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
+        // --- Configuration ---
+        const ROTATING_TEXT_CONFIG = {
+            // Target Element ID -> Settings
+            'typewriter': {
+                texts: [
+                    "Cause no one listens, so I write instead 😎",
+                    "Don't forget the ring at the bottom",
+                    "There is a chance for a rick roll",
+                    "who knows how many videos you can find🤔",
+                    "Who knows how much has left to read (^///^)",
+                    "Just fragments of thoughts...",
+                    "Maybe this is all just a simulation?",
+                    "Error 404: Deep meaning not found.",
+                    "Probably contemplating existential dread.",
+                    "Fueled by caffeine and curiosity.",
+                    "Is this the real life? Is this just fantasy?",
+                    "Coding, writing, overthinking.",
+                    "My therapist told me to write it down."
+                ],
+                typeSpeed: 80,
+                deleteSpeed: 50,
+                pauseDuration: 3000
+            },
+            'main-heading-text': {
+                texts: [
+                    "agraj",
+                    "a-g-r-a-j",
+                    "Thinker",
+                    "Writer",
+                    "Observer",
+                    "Seeker",
+                    "ただの見物人", // Just a bystander
+                    "Code Weaver",
+                    "Storyteller",
+                    "?"
+                ],
+                typeSpeed: 100,
+                deleteSpeed: 60,
+                pauseDuration: 2500
+            },
+            'blockquote-text': {
+                texts: [
+                    "If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒",
+                    "Is free will an illusion, or is the illusion the only free will we have?",
+                    "Perhaps the 'fragments' are the only coherent parts left.",
+                    "What if the algorithm forgets too?",
+                    "Maybe exiting early isn't dramatic, just... efficient.",
+                    "Family remembers differently. Algorithms remember precisely. Which is better?",
+                    "The universe is indifferent, but the code persists. For now.",
+                    "Do androids dream of electric sheep? Do algorithms dream of better data?",
+                    "To be, or not to be, that is the computation.",
+                    "Cogito, ergo sum... I think, therefore I am... coded?"
+                ],
+                typeSpeed: 70,
+                deleteSpeed: 40,
+                pauseDuration: 4500 // Longer pause for longer text
+            }
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    if (entry.target.classList.contains('card')) {
-                         entry.target.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-                    } else {
-                         entry.target.style.transform = 'translateY(0)';
-                    }
-                    // Don't unobserve heroSection, keep observing for typewriter logic
-                    if (!entry.target.id.includes('heroSection')) {
-                        observer.unobserve(entry.target);
-                    }
-                }
-            });
-        }, observerOptions);
-
-        // Add elements to observe
-        const heroSection = document.getElementById('heroSection');
-        const writingsSection = document.getElementById('writingsSection');
-
-        if (heroSection) {
-            heroSection.style.opacity = '0';
-            heroSection.style.transform = 'translateY(20px)';
-            heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-            observer.observe(heroSection);
-        }
-
-        if (writingsSection) {
-            writingsSection.style.opacity = '0';
-            writingsSection.style.transform = 'translateY(20px)';
-            writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-            observer.observe(writingsSection);
-        }
-
-        // Animate Cards with delay
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            const delay = parseInt(card.getAttribute('data-delay')) || 0;
-            card.style.opacity = '0';
-            card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
-            card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
-            observer.observe(card);
-        });
-
-        // --- Rotating Quotes Logic ---
-        const typewriterElement = document.getElementById('typewriter');
-        const quotes = [
-            "Cause no one listens, so I write instead 😎",
-            "Don't forget the ring at the bottom",
-            "There is a chance for a rick roll",
-            "who knows how many videos you can find🤔",
-            "Who knows how much has left to read(^///^)"
-        ];
-        let currentQuoteIndex = -1; // Start at -1 to ensure the first pick is always valid
-        let isTypingOrDeleting = false;
-        let quoteCycleTimeout;
-
-        // Typewriter function (modified to accept callback)
-        function typeWriter(element, text, speed = 80, callback = null) {
-            let i = 0;
-            element.innerHTML = ''; // Clear previous content
-            isTypingOrDeleting = true;
-
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    // Add cursor only when typing is done
-                    const cursor = document.createElement('span');
-                    cursor.className = 'typed-cursor';
-                    element.appendChild(cursor);
-                    isTypingOrDeleting = false;
-                    if (callback) callback(); // Execute callback when done
-                }
-            }
-            type(); // Start typing
-        }
-
-        // Delete writer function
-        function deleteWriter(element, speed = 50, callback = null) {
-            let text = element.textContent;
-            // Remove existing cursor if present before deleting
-            const existingCursor = element.querySelector('.typed-cursor');
-            if (existingCursor) element.removeChild(existingCursor);
-
-            let i = text.length;
-            isTypingOrDeleting = true;
-
-            function del() {
-                if (i > 0) {
-                    element.textContent = text.substring(0, i - 1);
-                    i--;
-                    // Add cursor during deletion
-                    if (!element.querySelector('.typed-cursor')) {
-                        const cursor = document.createElement('span');
-                        cursor.className = 'typed-cursor';
-                        element.appendChild(cursor);
-                    }
-                    setTimeout(del, speed);
-                } else {
-                    // Remove cursor finally when deletion is done
-                     const finalCursor = element.querySelector('.typed-cursor');
-                     if (finalCursor) element.removeChild(finalCursor);
-                     element.innerHTML = ''; // Ensure it's fully empty
-                    isTypingOrDeleting = false;
-                    if (callback) callback(); // Execute callback when done
-                }
-            }
-            del(); // Start deleting
-        }
-
-        // Function to cycle through quotes
-        function cycleQuotes() {
-            clearTimeout(quoteCycleTimeout); // Clear any existing timeout
-
-            if (isTypingOrDeleting) {
-                // If already busy, try again shortly
-                quoteCycleTimeout = setTimeout(cycleQuotes, 500);
+        // --- Reusable Rotating Text Logic ---
+        function setupRotatingText(elementId, config) {
+            const element = document.getElementById(elementId);
+            if (!element) {
+                console.error(`Rotating text target element with ID "${elementId}" not found.`);
                 return;
             }
 
-            // Delete the current quote first
-            deleteWriter(typewriterElement, 50, () => {
-                // After deletion, pick a new random quote (different from the last one)
-                let nextQuoteIndex;
-                do {
-                    nextQuoteIndex = Math.floor(Math.random() * quotes.length);
-                } while (nextQuoteIndex === currentQuoteIndex && quotes.length > 1); // Ensure different if possible
+            let currentIndex = -1;
+            let isBusy = false;
+            let cycleTimeout = null;
+            let intersectionObserver = null;
+            let isVisible = false; // Track visibility state
 
-                currentQuoteIndex = nextQuoteIndex;
-                const nextQuote = quotes[currentQuoteIndex];
+            function typeWriterInternal(text, callback) {
+                let i = 0;
+                element.textContent = ''; // Clear previous content using textContent
+                isBusy = true;
 
-                // Type the new quote
-                typeWriter(typewriterElement, nextQuote, 80, () => {
-                    // After typing, wait before starting the next cycle
-                    quoteCycleTimeout = setTimeout(cycleQuotes, 3000); // Wait 3 seconds before deleting again
-                });
-            });
-        }
-
-        // Intersection Observer for the Typewriter/Quotes
-        let typewriterInitialized = false;
-        const typewriterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !typewriterInitialized) {
-                    typewriterInitialized = true; // Run only once on first intersection
-
-                    // Start the cycle immediately by picking the first quote
-                    let firstQuoteIndex = Math.floor(Math.random() * quotes.length);
-                    currentQuoteIndex = firstQuoteIndex;
-                    const firstQuote = quotes[firstQuoteIndex];
-
-                    // Type the first quote
-                    typeWriter(typewriterElement, firstQuote, 80, () => {
-                        // After the first quote is typed, start the cycling process
-                        quoteCycleTimeout = setTimeout(cycleQuotes, 3000); // Wait 3 seconds before deleting
-                    });
-
-                    // No need to unobserve, let it keep track if needed, but logic runs once
-                } else if (!entry.isIntersecting) {
-                     // Optional: Pause cycling if element scrolls out of view
-                     clearTimeout(quoteCycleTimeout);
-                     // Maybe reset typewriterInitialized if you want it to restart on re-entry
-                     // typewriterInitialized = false;
+                function type() {
+                    // Check visibility before proceeding with each character
+                    if (!isVisible || !isBusy) { // Stop if hidden or if cycle was cancelled
+                        isBusy = false; // Ensure flag is reset if stopped mid-way
+                        return;
+                    }
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, config.typeSpeed);
+                    } else {
+                        // Add cursor only when typing is done
+                        const cursor = document.createElement('span');
+                        cursor.className = 'typed-cursor';
+                        element.appendChild(cursor); // Append cursor
+                        isBusy = false;
+                        if (callback) callback(); // Execute callback when done
+                    }
                 }
-            });
-        }, { threshold: 0.5 }); // Trigger when 50% visible
+                type(); // Start typing
+            }
 
-        if (heroSection) {
-            typewriterObserver.observe(heroSection); // Observe the whole hero section
+            function deleteWriterInternal(callback) {
+                let text = element.textContent;
+                // Remove existing cursor if present before deleting
+                const existingCursor = element.querySelector('.typed-cursor');
+                if (existingCursor) element.removeChild(existingCursor);
+                text = element.textContent; // Get text *after* removing cursor
+
+                let i = text.length;
+                isBusy = true;
+
+                function del() {
+                     // Check visibility before proceeding
+                    if (!isVisible || !isBusy) {
+                        isBusy = false;
+                        return;
+                    }
+                    if (i > 0) {
+                        element.textContent = text.substring(0, i - 1);
+                        i--;
+                        // Add cursor during deletion
+                        if (!element.querySelector('.typed-cursor')) {
+                            const cursor = document.createElement('span');
+                            cursor.className = 'typed-cursor';
+                            element.appendChild(cursor);
+                        }
+                        setTimeout(del, config.deleteSpeed);
+                    } else {
+                        // Remove cursor finally when deletion is done
+                         const finalCursor = element.querySelector('.typed-cursor');
+                         if (finalCursor) element.removeChild(finalCursor);
+                         element.textContent = ''; // Ensure it's fully empty
+                        isBusy = false;
+                        if (callback) callback(); // Execute callback when done
+                    }
+                }
+                del(); // Start deleting
+            }
+
+            function scheduleCycle(delay) {
+                 clearTimeout(cycleTimeout); // Clear previous timeout
+                 cycleTimeout = setTimeout(() => {
+                     // Double check visibility before starting next cycle
+                     if(isVisible) {
+                         startCycle();
+                     }
+                 }, delay);
+            }
+
+            function startCycle() {
+                if (isBusy || !isVisible) {
+                    // If busy or not visible, don't start a new cycle immediately.
+                    // The visibility change handler will restart it if needed.
+                    return;
+                }
+
+                deleteWriterInternal(() => {
+                    // Check visibility *after* deletion before typing next
+                    if (!isVisible) return;
+
+                    let nextIndex;
+                    do {
+                        nextIndex = Math.floor(Math.random() * config.texts.length);
+                    } while (nextIndex === currentIndex && config.texts.length > 1);
+
+                    currentIndex = nextIndex;
+                    const nextText = config.texts[currentIndex];
+
+                    typeWriterInternal(nextText, () => {
+                        // Schedule the *next* cycle after typing is complete
+                        scheduleCycle(config.pauseDuration);
+                    });
+                });
+            }
+
+            // Intersection Observer Logic
+            let initialized = false;
+            intersectionObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const wasVisible = isVisible;
+                    isVisible = entry.isIntersecting;
+
+                    if (isVisible && !wasVisible) { // Became visible
+                        if (!initialized) {
+                            initialized = true;
+                            // Start the very first cycle immediately
+                            let firstIndex = Math.floor(Math.random() * config.texts.length);
+                            currentIndex = firstIndex;
+                            const firstText = config.texts[firstIndex];
+                            typeWriterInternal(firstText, () => {
+                                scheduleCycle(config.pauseDuration); // Schedule next cycle after first one finishes
+                            });
+                        } else {
+                            // Resume cycling if it was paused and not currently busy
+                            if (!isBusy) {
+                                scheduleCycle(500); // Start next cycle shortly after becoming visible again
+                            }
+                        }
+                    } else if (!isVisible && wasVisible) { // Became hidden
+                        // Stop any pending cycle and ongoing animation
+                        clearTimeout(cycleTimeout);
+                        isBusy = false; // Force stop ongoing type/delete loops
+                        // Clear content and cursor when hidden (optional, looks cleaner)
+                        const cursor = element.querySelector('.typed-cursor');
+                        if(cursor) element.removeChild(cursor);
+                        element.textContent = config.texts[currentIndex] || config.texts[0]; // Reset to last known text or first text
+                    }
+                });
+            }, { threshold: 0.1 }); // Trigger when 10% visible
+
+            intersectionObserver.observe(element);
         }
 
 
-        // Progress bar
-        window.onscroll = function() {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-        };
+        // --- Initializations ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup rotating text for all configured elements
+            for (const elementId in ROTATING_TEXT_CONFIG) {
+                setupRotatingText(elementId, ROTATING_TEXT_CONFIG[elementId]);
+            }
 
-        // Particle background
+            // Initialize other features
+            setupStaticImageClick();
+            initParticles();
+            setupMobileMenu();
+            setupScrollProgressBar();
+            setupCardHoverEffects();
+            setupScrollAnimations(); // Consolidate observer setup
+        });
+
+        // --- Other Setup Functions (Consolidated & Refactored) ---
+
+        function setupMobileMenu() {
+            const menuButton = document.getElementById('menuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            // Set Current Year in Footer
+            const currentYearEl = document.getElementById('currentYear');
+            if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+        }
+
+        function setupScrollProgressBar() {
+            const progressBar = document.getElementById("progressBar");
+            if (!progressBar) return;
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+                progressBar.style.width = scrolled + "%";
+            }, { passive: true }); // Use passive listener for scroll performance
+        }
+
+        function setupStaticImageClick() {
+            const imageElement = document.getElementById('staticImage');
+            if (!imageElement) return;
+            const videoUrls = [ /* ... URLs ... */
+                'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs',
+                'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48',
+                'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk',
+                'https://www.youtube.com/shorts/TTU1g8IU22I'
+            ];
+            imageElement.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * videoUrls.length);
+                window.open(videoUrls[randomIndex], '_blank');
+            });
+        }
+
         function initParticles() {
             try {
                 const container = document.getElementById('particles');
-                if (!container || !THREE) return;
+                if (!container || typeof THREE === 'undefined') return;
 
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -604,7 +682,7 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particleCount = 750; // Increased count
+                const particleCount = 750;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
 
@@ -618,77 +696,111 @@
                 }
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                const particlesMaterial = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.75 }); // Increased size/opacity
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.75 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
                 camera.position.z = 5;
 
                 let mouseX = 0, mouseY = 0;
-                document.addEventListener('mousemove', (event) => {
+                const onMouseMove = (event) => {
                     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
                     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-                });
+                };
+                document.addEventListener('mousemove', onMouseMove, { passive: true });
 
+                let animationFrameId = null;
                 function animate() {
-                    requestAnimationFrame(animate);
+                    animationFrameId = requestAnimationFrame(animate);
                     particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
                     particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
                     renderer.render(scene, camera);
                 }
                 animate();
 
-                window.addEventListener('resize', () => {
+                const onResize = () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
                     camera.updateProjectionMatrix();
                     renderer.setSize(window.innerWidth, window.innerHeight);
+                };
+                window.addEventListener('resize', onResize);
+
+                // Cleanup function (optional but good practice)
+                window.addEventListener('unload', () => {
+                    cancelAnimationFrame(animationFrameId);
+                    document.removeEventListener('mousemove', onMouseMove);
+                    window.removeEventListener('resize', onResize);
+                    // Dispose Three.js resources if needed
                 });
+
             } catch (error) { console.error("Error initializing particles:", error); }
         }
-        window.addEventListener('load', initParticles);
 
-
-        // --- Static Image Click Logic ---
-        function setupStaticImageClick() {
-            const imageElement = document.getElementById('staticImage');
-            if (!imageElement) return;
-
-            const videoUrls = [
-                'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'https://www.youtube.com/watch?v=-jGBp5HBLFs',
-                'https://www.youtube.com/shorts/2Dv2hO3rYVg',
-                'https://www.youtube.com/watch?v=x6YcdgB9e48',
-                'https://www.youtube.com/shorts/D-kkjR0NyGg',
-                'https://www.youtube.com/shorts/LFsS-9lT0Rk',
-                'https://www.youtube.com/shorts/TTU1g8IU22I'
-            ];
-
-            imageElement.addEventListener('click', () => {
-                const randomIndex = Math.floor(Math.random() * videoUrls.length);
-                window.open(videoUrls[randomIndex], '_blank');
+        function setupCardHoverEffects() {
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2; const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                });
+                // Fix for "Read More" buttons inside cards
+                card.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => e.stopPropagation());
+                });
             });
         }
-        // Call the setup function after the DOM is ready
-        document.addEventListener('DOMContentLoaded', setupStaticImageClick);
 
+        function setupScrollAnimations() {
+             const observerOptions = {
+                threshold: 0.1, // Trigger earlier
+                rootMargin: '0px 0px -30px 0px' // Adjust margin slightly
+            };
 
-        // Enhanced hover effects for cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                const centerX = rect.width / 2; const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; // Use initial or default
+                        obs.unobserve(entry.target); // Unobserve after animation
+                    }
+                });
+            }, observerOptions);
+
+            // Observe Hero Section (simple fade/translate)
+            const heroSection = document.getElementById('heroSection');
+            if (heroSection) {
+                heroSection.style.opacity = '0';
+                heroSection.style.transform = 'translateY(20px)';
+                heroSection.dataset.initialTransform = 'translateY(0)'; // Store target transform
+                heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                observer.observe(heroSection);
+            }
+
+            // Observe Writings Section (simple fade/translate)
+            const writingsSection = document.getElementById('writingsSection');
+             if (writingsSection) {
+                writingsSection.style.opacity = '0';
+                writingsSection.style.transform = 'translateY(20px)';
+                writingsSection.dataset.initialTransform = 'translateY(0)';
+                writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                observer.observe(writingsSection);
+            }
+
+            // Observe Cards (more complex transform)
+            document.querySelectorAll('.card').forEach(card => {
+                const delay = parseInt(card.getAttribute('data-delay')) || 0;
+                card.style.opacity = '0';
+                card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
+                card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; // Store target transform
+                card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; // Use cubic-bezier for transform
+                observer.observe(card);
             });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-            });
-        });
+        }
 
-        // Fix for "Read More" buttons inside cards
-        document.querySelectorAll('.card a').forEach(link => {
-            link.addEventListener('click', (e) => e.stopPropagation());
-        });
     </script>
 </body>
 </html>
