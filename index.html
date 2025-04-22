@@ -80,6 +80,12 @@
                 filter: drop-shadow(0 0 12px rgba(146, 114, 206, 0.7)); /* Slightly brighter peak glow */
             }
         }
+        /* Button Animation: Glow Pulse */
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5), 0 4px 15px rgba(146, 114, 206, 0.25); } /* Combine base shadow */
+            50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8), 0 10px 30px rgba(174, 139, 213, 0.4); } /* Combine hover shadow */
+        }
+
 
         /* Typography */
         /* Font Setup: Specific rule for h2-h6 using Poppins */
@@ -100,7 +106,7 @@
         .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: #9272CE; margin-left: 4px; animation: pulse 1s infinite; }
 
         /* Card Hover Effects */
-        .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); position: relative; /* Needed for ::before */ overflow: hidden; /* Contain pseudo-elements */ }
+        .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); position: relative; overflow: hidden; }
         .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
         .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3); border-color: rgba(146, 114, 206, 0.4); }
         .card:hover::before { transform: translateX(100%); }
@@ -128,28 +134,64 @@
         .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
         .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
 
-        /* Interactive Image Style Update (Easter Egg) */
+        /* Interactive Image Style Update (Easter Egg - Static Position) */
         .interactive-image-container {
-            position: absolute; z-index: 10;
-            /* Opacity handled by animation */
-            /* transition: opacity 0.3s ease; */
+            /* Removed position: absolute */
+            z-index: 10; /* Keep above background, below header potentially */
+            /* Centering and margin added via Tailwind classes */
         }
         .interactive-image {
-             /* Size Increased Slightly */
-             width: 9rem; /* e.g., 144px */
+             width: 9rem; /* Size Maintained */
              height: 9rem;
              cursor: pointer;
              transform-style: preserve-3d;
              /* Apply CSS animations for subtle effect */
              animation: slow-spin 25s linear infinite, subtle-pulse 6s ease-in-out infinite;
-             /* Initial filter set by animation */
         }
+
+        /* Button Animation Styles (from haha.html) */
+        .cta-button {
+            /* Keep existing layout/text styles: py-3 px-8 rounded-lg inline-block text-lg font-semibold text-text-primary */
+            background-color: theme('colors.accent'); /* Base color */
+            transition: background-color 0.5s ease-out, transform 0.3s ease-out, box-shadow 0.4s ease-out;
+            box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            /* Remove potentially conflicting Tailwind hover bg */
+            /* hover:bg-accent-hover */
+        }
+        .cta-button::after { /* Shimmer effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .cta-button:hover {
+            background-color: theme('colors.accent-hover'); /* Hover color */
+            transform: scale(1.08) translateY(-3px);
+            /* box-shadow is handled by glow-pulse animation */
+            animation: glow-pulse 2s ease-in-out infinite;
+            /* Remove potentially conflicting Tailwind hover shadow */
+            /* hover:shadow-lg hover:shadow-accent/20 */
+        }
+        .cta-button:hover::after {
+            transform: translateX(0); /* Activate shimmer */
+        }
+
 
         /* Additional utility classes */
         .text-accent { color: #9272CE; }
         .hover\:text-accent-hover:hover { color: #AE8BD5; }
-        .bg-accent { background-color: #9272CE; }
-        .hover\:bg-accent-hover:hover { background-color: #AE8BD5; }
+        /* bg-accent and hover:bg-accent-hover are now handled by .cta-button */
         .text-text-primary { color: #ffffff; }
     </style>
 </head>
@@ -167,6 +209,7 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
+                {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     agraj
                 </a>
@@ -192,19 +235,16 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
+            {/* Font Setup: Apply 'font-serif' class for Baloo Bhai 2 */}
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
+            {/* Quote Updated */}
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
-                "If determinism holds, there's a chance I exit early—something dramatic, maybe even poetic. So I leave fragments of myself here—so at least the algorithm remembers me better than my family will"
+                "If determinism holds, there's a chance I exit early—something dramatic maybe. So I leave fragments of myself here—at least the algorithm might remember me better than my family will😒"
             </blockquote>
         </section>
-
-        <!-- Interactive Image Container (Easter Egg) -->
-        <div id="interactiveImageContainer" class="hidden interactive-image-container">
-            <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
-        </div>
 
         <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
@@ -235,11 +275,19 @@
                     <a href="writings.html#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
             </div>
+
+            <!-- Button and Static Image Container -->
             <div class="text-center mt-16">
-                <a href="writings.html" class="bg-accent hover:bg-accent-hover text-text-primary font-medium py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 inline-block relative overflow-hidden group">
+                {/* Button Animation Applied */}
+                <a href="writings.html" class="cta-button text-text-primary font-semibold py-3 px-8 rounded-lg inline-block text-lg relative group">
                     <span class="relative z-10">View All Writings</span>
-                    <span class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
+                    {/* Removed old shimmer span: <span class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span> */}
                 </a>
+
+                {/* Interactive Image Container (Static Position) */}
+                <div id="interactiveImageContainer" class="interactive-image-container mt-8 block mx-auto">
+                    <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
+                </div>
             </div>
         </section>
     </main>
@@ -377,69 +425,27 @@
         window.addEventListener('load', initParticles);
 
 
-        // --- Interactive Image Logic (Easter Egg - Position Jumps Only) ---
-        function setupInteractiveImage() {
+        // --- Interactive Image Click Listener (Static Position) ---
+        // Ensure this runs after the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
             const imageContainer = document.getElementById('interactiveImageContainer');
-            const imageElement = document.getElementById('interactiveImage');
-            if (!imageContainer || !imageElement) return;
-
-            imageContainer.classList.remove('hidden');
-            // Opacity and rotation are now handled by CSS animation
-
-            // --- OnClick Behavior ---
-            const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                               'https://www.youtube.com/watch?v=-jGBp5HBLFs',
-                               'https://www.youtube.com/shorts/2Dv2hO3rYVg',
-                               'https://www.youtube.com/watch?v=x6YcdgB9e48',
-                               'https://www.youtube.com/shorts/D-kkjR0NyGg',
-                               'https://www.youtube.com/shorts/LFsS-9lT0Rk', 
-                               'https://www.youtube.com/shorts/TTU1g8IU22I'
-                              ];
-            imageContainer.addEventListener('click', () => {
-                const randomIndex = Math.floor(Math.random() * videoUrls.length);
-                window.open(videoUrls[randomIndex], '_blank');
-            });
-
-            // --- Animation Logic (Position Jumps Only) ---
-            let positionInterval;
-            const jumpIntervalTime = 5000; // Time between jumps (5 seconds)
-
-            const randomPosition = () => {
-                const mainRect = document.querySelector('main').getBoundingClientRect();
-                const containerWidth = imageContainer.offsetWidth;
-                const containerHeight = imageContainer.offsetHeight;
-                const minX = mainRect.left + window.scrollX + 30;
-                const maxX = mainRect.right + window.scrollX - containerWidth - 30;
-                const minY = mainRect.top + window.scrollY + 120;
-                const maxY = Math.min(window.innerHeight + window.scrollY - containerHeight - 30, mainRect.bottom + window.scrollY - containerHeight - 30);
-                const validMaxX = Math.max(minX, maxX);
-                const validMaxY = Math.max(minY, maxY);
-                const randomX = Math.random() * (validMaxX - minX) + minX;
-                const randomY = Math.random() * (validMaxY - minY) + minY;
-                return { x: randomX, y: randomY };
-            };
-
-            const jumpToRandomPosition = () => {
-                const newPos = randomPosition();
-                imageContainer.style.transition = 'none'; // No transition for jump
-                imageContainer.style.left = `${newPos.x}px`;
-                imageContainer.style.top = `${newPos.y}px`;
-            };
-
-            jumpToRandomPosition(); // Initial position set
-            positionInterval = setInterval(jumpToRandomPosition, jumpIntervalTime); // Start interval
-
-            // Pause position jumps when tab is hidden
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden) {
-                    clearInterval(positionInterval);
-                } else {
-                    jumpToRandomPosition(); // Jump immediately when visible again
-                    positionInterval = setInterval(jumpToRandomPosition, jumpIntervalTime);
-                }
-            });
-        }
-        setTimeout(setupInteractiveImage, 1500); // Delay setup
+            if (imageContainer) {
+                const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                                   'https://www.youtube.com/watch?v=-jGBp5HBLFs',
+                                   'https://www.youtube.com/shorts/2Dv2hO3rYVg',
+                                   'https://www.youtube.com/watch?v=x6YcdgB9e48',
+                                   'https://www.youtube.com/shorts/D-kkjR0NyGg',
+                                   'https://www.youtube.com/shorts/LFsS-9lT0Rk',
+                                   'https://www.youtube.com/shorts/TTU1g8IU22I'
+                                  ]; // Keep your actual URLs here
+                imageContainer.addEventListener('click', () => {
+                    const randomIndex = Math.floor(Math.random() * videoUrls.length);
+                    window.open(videoUrls[randomIndex], '_blank');
+                });
+            } else {
+                console.error("Interactive image container not found for click listener.");
+            }
+        });
 
 
         // Enhanced hover effects for cards
@@ -449,9 +455,11 @@
                 const x = e.clientX - rect.left; const y = e.clientY - rect.top;
                 const centerX = rect.width / 2; const centerY = rect.height / 2;
                 const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
+                // Apply perspective transform on hover
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
             card.addEventListener('mouseleave', () => {
+                // Return to non-hover state
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
             });
         });
