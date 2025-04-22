@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font Setup: Baloo Bhai 2 (for main H1), Poppins (for other headings), Inter (body) -->
+    <!-- Font Setup: Baloo Bhai 2 (serif), Poppins (heading), Inter (sans) -->
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -20,19 +20,26 @@
                     colors: {
                         'dark': '#0f0a19',
                         'darker': '#090613',
-                        'accent': '#9272CE',
-                        'accent-hover': '#AE8BD5',
-                        'light-accent': '#CBB8E8',
-                        'text-primary': '#ffffff',
-                        'text-secondary': '#D1D1D1',
-                        'text-tertiary': '#A8A8A8',
+                        'accent': '#9272CE',        // Corresponds to brand-purple
+                        'accent-hover': '#AE8BD5',  // Corresponds to brand-hover
+                        'light-accent': '#CBB8E8', // Corresponds to brand-light-purple
+                        'text-primary': '#ffffff',  // Corresponds to brand-light
+                        'text-secondary': '#D1D1D1',// Corresponds to brand-gray
+                        'text-tertiary': '#A8A8A8', // Corresponds to brand-text
+                        // Added from haha.html for potential use if needed
+                        'dark-purple-bg': '#1a0a2e',
+                        'darker-bg': '#050505', // Already have 'darker'
+                        'body-overlay': 'rgba(8, 5, 12, 0.88)'
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        // Font Setup: 'serif' key for Baloo Bhai 2 (used on main H1/header)
-                        serif: ['Baloo Bhai 2', 'cursive'],
-                        // Font Setup: 'heading' key for Poppins (used on H2, H3 etc.)
-                        heading: ['Poppins', 'sans-serif'],
+                        serif: ['Baloo Bhai 2', 'cursive'], // For main H1/header
+                        heading: ['Poppins', 'sans-serif'], // For H2, H3 etc.
+                        // Added from haha.html for reference, but not actively used by default
+                        lato: ['Lato', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif'],
+                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
                     },
                 }
             }
@@ -40,116 +47,135 @@
     </script>
     <style>
         /* Base Styles */
+        html { scroll-behavior: smooth; }
         body {
-            background-color: #0f0a19;
-            color: #D1D1D1;
-            font-family: 'Inter', sans-serif;
+            font-family: theme('fontFamily.sans');
+            background-color: theme('colors.darker'); /* Using existing name */
+            color: theme('colors.text-secondary'); /* Using existing name */
             overflow-x: hidden;
             line-height: 1.6;
+            font-size: 17px; /* From haha.html */
+            position: relative;
+            z-index: 0;
         }
+        /* Using particle background, not static image */
+        .bg-particle-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; overflow: hidden; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.08), rgba(15, 10, 25, 0.98) 75%); z-index: -5; }
 
-        /* Background with particle effect */
-        .bg-particle-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -10; overflow: hidden;
-        }
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.08), rgba(15, 10, 25, 0.98) 75%);
-            z-index: -5;
-        }
-
-        /* Animations */
+        /* --- Keyframes --- */
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        @keyframes slow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes subtle-pulse { 0%, 100% { opacity: 0.65; filter: drop-shadow(0 0 6px rgba(146, 114, 206, 0.4)); } 50% { opacity: 0.85; filter: drop-shadow(0 0 12px rgba(146, 114, 206, 0.7)); } }
+        /* Keyframes from haha.html for button */
+        @keyframes glow-pulse { 0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5), 0 4px 15px rgba(146, 114, 206, 0.25); } 50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8), 0 10px 30px rgba(174, 139, 213, 0.4); } }
+        @keyframes bounce-subtle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } } /* Used by bounce-in class */
 
-        /* Easter Egg Animation: Slow continuous spin */
-        @keyframes slow-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        /* Easter Egg Animation: Subtle pulse for glow/opacity */
-        @keyframes subtle-pulse {
-            0%, 100% {
-                opacity: 0.65;
-                filter: drop-shadow(0 0 6px rgba(146, 114, 206, 0.4));
-            }
-            50% {
-                opacity: 0.85;
-                filter: drop-shadow(0 0 12px rgba(146, 114, 206, 0.7));
-            }
-        }
-        /* Button Animation: Glow Pulse */
-        @keyframes glow-pulse {
-            0%, 100% { box-shadow: 0 0 5px rgba(146, 114, 206, 0.5), 0 4px 15px rgba(146, 114, 206, 0.25); }
-            50% { box-shadow: 0 0 20px rgba(146, 114, 206, 0.8), 0 10px 30px rgba(174, 139, 213, 0.4); }
-        }
+        /* --- Typography --- */
+        h2, h3, h4, h5, h6 { font-family: theme('fontFamily.heading'); color: theme('colors.text-primary'); font-weight: 700; }
+        /* Main H1 uses font-serif class */
+        .gradient-text { background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF); background-size: 300% auto; background-clip: text; -webkit-background-clip: text; color: transparent; animation: gradient 8s linear infinite; text-shadow: none; }
+        .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: theme('colors.accent'); margin-left: 4px; animation: pulse 1s infinite; }
 
-
-        /* Typography */
-        h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-            color: #ffffff;
-            font-weight: 700;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF);
-            background-size: 300% auto; background-clip: text; -webkit-background-clip: text;
-            color: transparent; animation: gradient 8s linear infinite;
-            /* Ensure no conflicting text shadows are applied by default */
-            text-shadow: none;
-        }
-
-        .typed-cursor { display: inline-block; width: 2px; height: 1.2em; background-color: #9272CE; margin-left: 4px; animation: pulse 1s infinite; }
-
-        /* Card Hover Effects */
-        .card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(15, 10, 25, 0.7); border: 1px solid rgba(146, 114, 206, 0.15); position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent); transform: translateX(-100%); transition: transform 0.8s ease; pointer-events: none; }
-        .card:hover { box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3); border-color: rgba(146, 114, 206, 0.4); }
-        .card:hover::before { transform: translateX(100%); }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
-        ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
-
-        /* Hover Link Effect */
+        /* --- Header & Nav (Using index.html structure) --- */
         .hover-link { position: relative; display: inline-block; }
-        .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: #9272CE; transition: width 0.3s ease; }
+        .hover-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background-color: theme('colors.accent'); transition: width 0.3s ease; }
         .hover-link:hover::after { width: 100%; }
+        /* Mobile menu styles from index.html */
+        .animate-in { /* Basic fade-in for mobile menu */ animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Quote */
-        .quote { position: relative; border-left: 3px solid #9272CE; }
-        .quote::before {
-            content: '"'; position: absolute; top: -20px; left: 10px; font-size: 5rem;
+        /* --- Quote Style (Adopted from haha.html) --- */
+        .quote-style {
+            font-family: theme('fontFamily.outfit'); /* Using Outfit font */
+            font-style: italic;
+            border-left: 4px solid theme('colors.accent');
+            padding: 1.5rem;
+            color: theme('colors.text-tertiary'); /* Lower contrast text */
+            background-color: rgba(10, 10, 10, 0.65);
+            backdrop-filter: blur(4px);
+            transition: background-color 0.5s ease, border-color 0.3s ease, transform 0.4s ease-out, box-shadow 0.4s ease;
+            cursor: default; /* Changed from pointer as there's no click action */
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-style::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 6rem;
             color: rgba(146, 114, 206, 0.1);
-            font-family: 'Baloo Bhai 2', cursive;
+            font-family: 'Baloo Bhai 2', cursive; /* Match H1 font */
+            z-index: -1; /* Ensure it's behind text */
+        }
+        .quote-style::after { /* Hover shimmer */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(146, 114, 206, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+            pointer-events: none;
+        }
+        .quote-style:hover {
+            background-color: rgba(146, 114, 206, 0.15);
+            border-left-color: theme('colors.accent-hover');
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(146, 114, 206, 0.3);
+        }
+        .quote-style:hover::after {
+            transform: translateX(100%);
         }
 
-        /* Reading progress bar */
-        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 100; }
-        .progress-bar { height: 3px; background: linear-gradient(90deg, #9272CE, #AE8BD5); width: 0%; }
-
-        /* Interactive Image Style Update (Easter Egg - Static Position) */
-        .interactive-image-container {
-            z-index: 10;
+        /* --- Writing Cards (Adopted from haha.html) --- */
+        .writing-card {
+            transition: transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.4s ease-out, background-color 0.5s ease;
+            background-color: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(146, 114, 206, 0.2);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex; /* Added for flex layout */
+            flex-direction: column; /* Added for flex layout */
         }
-        .interactive-image {
-             width: 9rem;
-             height: 9rem;
-             cursor: pointer;
-             transform-style: preserve-3d;
-             animation: slow-spin 25s linear infinite, subtle-pulse 6s ease-in-out infinite;
-             display: inline-block; /* Allow margin auto to work */
+        .writing-card::after { /* Hover shimmer */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(146, 114, 206, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            pointer-events: none;
         }
+        .writing-card:hover {
+            transform: translateY(-8px) scale(1.04);
+            background-color: rgba(45, 35, 60, 0.9);
+            box-shadow: 0 0 22px 5px rgba(146, 114, 206, 0.35), 0 10px 25px rgba(0, 0, 0, 0.25);
+            border-color: rgba(174, 139, 213, 0.6);
+        }
+        .writing-card:hover::after {
+            transform: translateX(0);
+        }
+        /* Ensure text content within card is styled correctly */
+        .writing-card h3 span { transition: color 0.3s ease; }
+        .writing-card:hover h3 span { color: theme('colors.accent'); }
+        .writing-card p { color: theme('colors.text-secondary'); font-size: 1rem; line-height: 1.6; }
+        .writing-card a { margin-top: auto; /* Push link to bottom */ padding-top: 0.5rem; /* Add space above link */ }
 
-        /* Button Animation Styles (Corrected) */
+        /* --- Button (Adopted from haha.html) --- */
         .cta-button {
-            /* Base styles from Tailwind applied in HTML: font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary */
-            background-color: theme('colors.accent'); /* Base color */
+            /* Base styles applied in HTML: font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary */
+            background-color: theme('colors.accent');
             transition: background-color 0.5s ease-out, transform 0.3s ease-out, box-shadow 0.4s ease-out;
             box-shadow: 0 4px 15px rgba(146, 114, 206, 0.25);
             cursor: pointer;
@@ -163,29 +189,36 @@
             left: 0;
             width: 200%;
             height: 100%;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
-            pointer-events: none; /* Allow clicks on the button text */
+            pointer-events: none;
         }
         .cta-button:hover {
-            background-color: theme('colors.accent-hover'); /* Hover color */
+            background-color: theme('colors.accent-hover');
             transform: scale(1.08) translateY(-3px);
-            /* Apply glow pulse animation on hover */
-            animation: glow-pulse 2s ease-in-out infinite;
+            animation: glow-pulse 2s ease-in-out infinite; /* Apply glow animation */
         }
         .cta-button:hover::after {
             transform: translateX(0); /* Activate shimmer */
         }
+        .bounce-in { /* Class to apply bounce animation */
+            animation: bounce-subtle 4s ease-in-out infinite;
+        }
 
+        /* --- Easter Egg Image (Static Position) --- */
+        .interactive-image-container { z-index: 10; }
+        .interactive-image { width: 9rem; height: 9rem; cursor: pointer; transform-style: preserve-3d; animation: slow-spin 25s linear infinite, subtle-pulse 6s ease-in-out infinite; display: inline-block; }
 
-        /* Additional utility classes */
-        .text-accent { color: #9272CE; }
-        .hover\:text-accent-hover:hover { color: #AE8BD5; }
-        .text-text-primary { color: #ffffff; }
+        /* --- Utilities --- */
+        @layer utilities { .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; } }
+
+        /* --- Enhanced Scroll Bar --- */
+        ::-webkit-scrollbar { width: 8px; } /* Slightly wider */
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.8); }
+
     </style>
 </head>
 <body>
@@ -231,7 +264,8 @@
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
-            <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
+            {/* Using quote-style class from haha.html */}
+            <blockquote class="quote-style max-w-3xl mx-auto text-lg md:text-xl p-6 rounded-lg shadow-xl">
                 "If determinism holds, there's a chance I exit early—something dramatic maybe. So I leave fragments of myself here—at least the algorithm might remember me better than my family will😒"
             </blockquote>
         </section>
@@ -240,41 +274,41 @@
         <section class="mb-16 opacity-0" id="writingsSection">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="card rounded-lg p-7 shadow-lg" data-delay="0">
+                {/* Card 1 - Using writing-card class */}
+                <div class="writing-card p-7" data-delay="0">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
+                        <span class="transition-all duration-300 inline-block">So, you want to travel back</span>
                     </h3>
-                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p></div>
+                    <div class="mb-5 flex-grow"><p class="line-clamp-3">"So, you want to travel back, for you could not contain, could not refrain, that boundless hunger deep within, For all the changes you could pinch..."</p></div>
                     <a href="writings.html#post-2137542659647715265" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
-                <!-- Card 2 -->
-                <div class="card rounded-lg p-7 shadow-lg" data-delay="150">
+                {/* Card 2 - Using writing-card class */}
+                <div class="writing-card p-7" data-delay="150">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
+                        <span class="transition-all duration-300 inline-block">The Cost of Belonging</span>
                     </h3>
-                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p></div>
+                    <div class="mb-5 flex-grow"><p class="line-clamp-3">Was I born different? What did I do different that made me the way I am? These are some of the questions that rebels like myself ask themselves at some point in life...</p></div>
                     <a href="writings.html#post-3486396209614590705" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
-                <!-- Card 3 -->
-                <div class="card rounded-lg p-7 shadow-lg" data-delay="300">
+                {/* Card 3 - Using writing-card class */}
+                <div class="writing-card p-7" data-delay="300">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 group">
-                        <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
+                        <span class="transition-all duration-300 inline-block">[POST] A New Chapter</span>
                     </h3>
-                    <div class="mb-5"><p class="text-text-secondary line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p></div>
+                    <div class="mb-5 flex-grow"><p class="line-clamp-3">It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened...</p></div>
                     <a href="writings.html#post-8246180062320707624" class="text-accent hover:text-accent-hover font-medium inline-flex items-center hover-link">Read More<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg></a>
                 </div>
             </div>
 
             <!-- Button and Static Image Container -->
             <div class="text-center mt-16">
-                {/* Button with Corrected Styles */}
-                <a href="writings.html" class="cta-button font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary">
+                {/* Button with styles from haha.html */}
+                <a href="writings.html" class="cta-button bounce-in font-semibold py-3 px-8 rounded-lg inline-block text-lg text-text-primary">
                     <span class="relative z-10">View All Writings</span>
                 </a>
 
                 {/* Interactive Image Container (Static Position) */}
-                <div id="interactiveImageContainer" class="interactive-image-container mt-8 block mx-auto w-max"> {/* Added w-max for centering */}
+                <div id="interactiveImageContainer" class="interactive-image-container mt-8 block mx-auto w-max">
                     <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
                 </div>
             </div>
@@ -303,7 +337,12 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = entry.target.classList.contains('card') ? 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)' : 'translateY(0)';
+                    // Adjust transform based on whether it's a card or section
+                    if (entry.target.classList.contains('writing-card')) {
+                         entry.target.style.transform = 'translateY(0) scale(1)'; // Reset card transform
+                    } else {
+                         entry.target.style.transform = 'translateY(0)'; // Reset section transform
+                    }
                     observer.unobserve(entry.target);
                 }
             });
@@ -314,9 +353,12 @@
         const writingsSection = document.getElementById('writingsSection');
         if (heroSection) { heroSection.style.opacity = '0'; heroSection.style.transform = 'translateY(20px)'; heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(heroSection); }
         if (writingsSection) { writingsSection.style.opacity = '0'; writingsSection.style.transform = 'translateY(20px)'; writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out'; observer.observe(writingsSection); }
-        document.querySelectorAll('.card').forEach(card => {
+        // Apply initial state for writing-card animations
+        document.querySelectorAll('.writing-card').forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
-            card.style.opacity = '0'; card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
+            card.style.opacity = '0';
+            // Set initial state matching the hover effect's start point if needed, or just translateY
+            card.style.transform = 'translateY(20px) scale(0.95)'; // Example initial state
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
             observer.observe(card);
         });
@@ -350,105 +392,46 @@
             try {
                 const container = document.getElementById('particles');
                 if (!container || !THREE) return;
-
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
                 const renderer = new THREE.WebGLRenderer({ alpha: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setClearColor(0x000000, 0);
                 container.appendChild(renderer.domElement);
-
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particleCount = 1500;
-                const positions = new Float32Array(particleCount * 3);
-                const colors = new Float32Array(particleCount * 3);
-                const spread = 30;
-
+                const particleCount = 1500; const positions = new Float32Array(particleCount * 3);
+                const colors = new Float32Array(particleCount * 3); const spread = 30;
                 for (let i = 0; i < particleCount * 3; i += 3) {
-                    positions[i] = (Math.random() - 0.5) * spread;
-                    positions[i+1] = (Math.random() - 0.5) * spread;
-                    positions[i+2] = (Math.random() - 0.5) * spread - 12;
-
-                    const baseColor = new THREE.Color(Math.random() > 0.6 ? '#AE8BD5' : '#CBB8E8');
-                    baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3);
-                    colors[i] = baseColor.r;
-                    colors[i+1] = baseColor.g;
-                    colors[i+2] = baseColor.b;
+                    positions[i] = (Math.random() - 0.5) * spread; positions[i+1] = (Math.random() - 0.5) * spread; positions[i+2] = (Math.random() - 0.5) * spread - 12;
+                    const baseColor = new THREE.Color(Math.random() > 0.6 ? '#AE8BD5' : '#CBB8E8'); baseColor.lerp(new THREE.Color('#ffffff'), Math.random() * 0.3);
+                    colors[i] = baseColor.r; colors[i+1] = baseColor.g; colors[i+2] = baseColor.b;
                 }
-                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.045, vertexColors: true, transparent: true,
-                    opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false
-                });
-                const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
-                scene.add(particleSystem);
-                camera.position.z = 5;
-
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3)); particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.045, vertexColors: true, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false });
+                const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial); scene.add(particleSystem); camera.position.z = 5;
                 let mouseX = 0, mouseY = 0;
-                document.addEventListener('mousemove', (event) => {
-                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-                });
-
-                function animate() {
-                    requestAnimationFrame(animate);
-                    particleSystem.rotation.x += 0.0006 + mouseY * 0.0008;
-                    particleSystem.rotation.y += 0.0006 + mouseX * 0.0008;
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                });
+                document.addEventListener('mousemove', (event) => { mouseX = (event.clientX / window.innerWidth) * 2 - 1; mouseY = -(event.clientY / window.innerHeight) * 2 + 1; });
+                function animate() { requestAnimationFrame(animate); particleSystem.rotation.x += 0.0006 + mouseY * 0.0008; particleSystem.rotation.y += 0.0006 + mouseX * 0.0008; renderer.render(scene, camera); } animate();
+                window.addEventListener('resize', () => { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
             } catch (error) { console.error("Error initializing particles:", error); }
         }
         window.addEventListener('load', initParticles);
-
 
         // --- Interactive Image Click Listener (Static Position) ---
         document.addEventListener('DOMContentLoaded', () => {
             const imageContainer = document.getElementById('interactiveImageContainer');
             if (imageContainer) {
-                const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                                   'https://www.youtube.com/watch?v=-jGBp5HBLFs',
-                                   'https://www.youtube.com/shorts/2Dv2hO3rYVg',
-                                   'https://www.youtube.com/watch?v=x6YcdgB9e48',
-                                   'https://www.youtube.com/shorts/D-kkjR0NyGg',
-                                   'https://www.youtube.com/shorts/LFsS-9lT0Rk',
-                                   'https://www.youtube.com/shorts/TTU1g8IU22I'
-                                  ];
-                imageContainer.addEventListener('click', () => {
-                    const randomIndex = Math.floor(Math.random() * videoUrls.length);
-                    window.open(videoUrls[randomIndex], '_blank');
-                });
-            } else {
-                console.error("Interactive image container not found for click listener.");
-            }
+                const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs', 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48', 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk', 'https://www.youtube.com/shorts/TTU1g8IU22I'];
+                imageContainer.addEventListener('click', () => { const randomIndex = Math.floor(Math.random() * videoUrls.length); window.open(videoUrls[randomIndex], '_blank'); });
+            } else { console.error("Interactive image container not found for click listener."); }
         });
 
+        // --- Remove JS Card Hover Effect (Now handled by CSS) ---
+        /* document.querySelectorAll('.card').forEach(card => { ... }); */
 
-        // Enhanced hover effects for cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                const centerX = rect.width / 2; const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
-            });
-        });
-
-        // Fix for "Read More" buttons
-        document.querySelectorAll('.card a').forEach(link => {
-            link.addEventListener('click', (e) => e.stopPropagation());
+        // Fix for "Read More" buttons inside cards
+        document.querySelectorAll('.writing-card a').forEach(link => {
+            link.addEventListener('click', (e) => e.stopPropagation()); // Prevent card hover/click handlers from interfering
         });
     </script>
 </body>
