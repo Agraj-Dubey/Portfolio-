@@ -103,7 +103,6 @@
             -webkit-background-clip: text;
             color: transparent;
             animation: gradient 8s linear infinite;
-            /* Ensure gradient applies to children if needed, or target span directly */
             display: inline-block; /* Helps with background clipping */
         }
 
@@ -120,7 +119,16 @@
         /* Adjust cursor height specifically for h1 */
         h1 .typed-cursor {
              height: 1em;
+             /* Ensure cursor color is visible even with gradient text */
+             background-color: #CBB8E8; /* Match a lighter color from gradient */
+             mix-blend-mode: normal; /* Prevent blending issues */
+             opacity: 0.8;
         }
+        /* Adjust cursor color for blockquote */
+        blockquote .typed-cursor {
+             background-color: #A8A8A8; /* Match text-tertiary */
+        }
+
 
         /* Card Hover Effects */
         .card {
@@ -247,7 +255,7 @@
         }
 
         /* Minimum height for rotating text containers to prevent layout shifts */
-        #typewriter { min-height: 3em; }
+        #typewriter { min-height: 3em; display: inline-block; width: 100%; } /* Ensure it takes width */
         #main-heading-text { min-height: 1.2em; display: inline-block; } /* inline-block needed for height */
         #blockquote-text { min-height: 4em; display: inline-block; } /* inline-block needed for height */
 
@@ -276,7 +284,7 @@
             <div class="flex justify-between items-center">
                 <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
-                    a-g-r-a-j {/* This part is static */}
+                    a-g-r-a-j {/* Static part */}
                 </a>
 
                 <!-- Mobile Menu Button -->
@@ -308,17 +316,17 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            <!-- Main Heading with rotating text span -->
+            <!-- Main Heading with rotating text span - Initially empty -->
             <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">
-                <span id="main-heading-text">agraj</span>{/* Initial text, will be replaced */}
+                <span id="main-heading-text"></span>{/* Empty */}
             </h1>
-            <!-- Tagline/Quote Element -->
+            <!-- Tagline/Quote Element - Initially empty -->
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
-                {/* Content will be dynamically inserted here */}
+                {/* Empty */}
             </p>
-            <!-- Blockquote with rotating text span -->
+            <!-- Blockquote with rotating text span - Initially empty -->
             <blockquote class="quote max-w-3xl mx-auto text-lg md:text-xl bg-darker/70 backdrop-blur-sm p-6 rounded-lg shadow-xl text-text-tertiary border-l-4 border-accent">
-                "<span id="blockquote-text">If determinism holds, there's a chance I exit early—something dramatic. So I leave fragments of myself here—at least the algorithm remembers me better than my family will😒</span>"{/* Initial text, will be replaced */}
+                "<span id="blockquote-text"></span>"{/* Empty */}
             </blockquote>
         </section>
 
@@ -423,17 +431,9 @@
                 pauseDuration: 3000
             },
             'main-heading-text': {
-                texts: [
+                texts: [ // Simplified list
                     "agraj",
-                    "a-g-r-a-j",
-                    "Thinker",
-                    "Writer",
-                    "Observer",
-                    "Seeker",
-                    "ただの見物人", // Just a bystander
-                    "Code Weaver",
-                    "Storyteller",
-                    "?"
+                    "a-g-r-a-j"
                 ],
                 typeSpeed: 100,
                 deleteSpeed: 60,
@@ -472,15 +472,19 @@
             let intersectionObserver = null;
             let isVisible = false; // Track visibility state
 
+            // Ensure element is empty initially
+            element.textContent = '';
+
             function typeWriterInternal(text, callback) {
                 let i = 0;
-                element.textContent = ''; // Clear previous content using textContent
+                // element.textContent = ''; // Clear previous content - Removed, clearing happens before calling this now
                 isBusy = true;
 
                 function type() {
-                    // Check visibility before proceeding with each character
-                    if (!isVisible || !isBusy) { // Stop if hidden or if cycle was cancelled
-                        isBusy = false; // Ensure flag is reset if stopped mid-way
+                    if (!isVisible || !isBusy) {
+                        isBusy = false;
+                        // Clear potentially incomplete text if stopped
+                        if (!isVisible) element.textContent = '';
                         return;
                     }
                     if (i < text.length) {
@@ -488,37 +492,35 @@
                         i++;
                         setTimeout(type, config.typeSpeed);
                     } else {
-                        // Add cursor only when typing is done
                         const cursor = document.createElement('span');
                         cursor.className = 'typed-cursor';
-                        element.appendChild(cursor); // Append cursor
+                        element.appendChild(cursor);
                         isBusy = false;
-                        if (callback) callback(); // Execute callback when done
+                        if (callback) callback();
                     }
                 }
-                type(); // Start typing
+                type();
             }
 
             function deleteWriterInternal(callback) {
                 let text = element.textContent;
-                // Remove existing cursor if present before deleting
                 const existingCursor = element.querySelector('.typed-cursor');
                 if (existingCursor) element.removeChild(existingCursor);
-                text = element.textContent; // Get text *after* removing cursor
+                text = element.textContent;
 
                 let i = text.length;
                 isBusy = true;
 
                 function del() {
-                     // Check visibility before proceeding
                     if (!isVisible || !isBusy) {
                         isBusy = false;
+                         // Clear potentially incomplete text if stopped
+                        if (!isVisible) element.textContent = '';
                         return;
                     }
                     if (i > 0) {
                         element.textContent = text.substring(0, i - 1);
                         i--;
-                        // Add cursor during deletion
                         if (!element.querySelector('.typed-cursor')) {
                             const cursor = document.createElement('span');
                             cursor.className = 'typed-cursor';
@@ -526,21 +528,19 @@
                         }
                         setTimeout(del, config.deleteSpeed);
                     } else {
-                        // Remove cursor finally when deletion is done
                          const finalCursor = element.querySelector('.typed-cursor');
                          if (finalCursor) element.removeChild(finalCursor);
-                         element.textContent = ''; // Ensure it's fully empty
+                         element.textContent = ''; // Ensure fully empty
                         isBusy = false;
-                        if (callback) callback(); // Execute callback when done
+                        if (callback) callback();
                     }
                 }
-                del(); // Start deleting
+                del();
             }
 
             function scheduleCycle(delay) {
-                 clearTimeout(cycleTimeout); // Clear previous timeout
+                 clearTimeout(cycleTimeout);
                  cycleTimeout = setTimeout(() => {
-                     // Double check visibility before starting next cycle
                      if(isVisible) {
                          startCycle();
                      }
@@ -549,14 +549,11 @@
 
             function startCycle() {
                 if (isBusy || !isVisible) {
-                    // If busy or not visible, don't start a new cycle immediately.
-                    // The visibility change handler will restart it if needed.
                     return;
                 }
 
                 deleteWriterInternal(() => {
-                    // Check visibility *after* deletion before typing next
-                    if (!isVisible) return;
+                    if (!isVisible) return; // Check again after delete
 
                     let nextIndex;
                     do {
@@ -566,8 +563,9 @@
                     currentIndex = nextIndex;
                     const nextText = config.texts[currentIndex];
 
+                    // Clear element content *before* typing the new text
+                    element.textContent = '';
                     typeWriterInternal(nextText, () => {
-                        // Schedule the *next* cycle after typing is complete
                         scheduleCycle(config.pauseDuration);
                     });
                 });
@@ -587,23 +585,24 @@
                             let firstIndex = Math.floor(Math.random() * config.texts.length);
                             currentIndex = firstIndex;
                             const firstText = config.texts[firstIndex];
+                            // Clear content before first type
+                            element.textContent = '';
                             typeWriterInternal(firstText, () => {
-                                scheduleCycle(config.pauseDuration); // Schedule next cycle after first one finishes
+                                scheduleCycle(config.pauseDuration);
                             });
                         } else {
                             // Resume cycling if it was paused and not currently busy
                             if (!isBusy) {
-                                scheduleCycle(500); // Start next cycle shortly after becoming visible again
+                                // Restart the cycle cleanly
+                                element.textContent = ''; // Clear content before resuming
+                                scheduleCycle(100); // Start next cycle quickly
                             }
                         }
                     } else if (!isVisible && wasVisible) { // Became hidden
-                        // Stop any pending cycle and ongoing animation
                         clearTimeout(cycleTimeout);
-                        isBusy = false; // Force stop ongoing type/delete loops
-                        // Clear content and cursor when hidden (optional, looks cleaner)
-                        const cursor = element.querySelector('.typed-cursor');
-                        if(cursor) element.removeChild(cursor);
-                        element.textContent = config.texts[currentIndex] || config.texts[0]; // Reset to last known text or first text
+                        isBusy = false;
+                        // Clear content when hidden
+                        element.textContent = '';
                     }
                 });
             }, { threshold: 0.1 }); // Trigger when 10% visible
@@ -625,7 +624,7 @@
             setupMobileMenu();
             setupScrollProgressBar();
             setupCardHoverEffects();
-            setupScrollAnimations(); // Consolidate observer setup
+            setupScrollAnimations();
         });
 
         // --- Other Setup Functions (Consolidated & Refactored) ---
@@ -638,7 +637,6 @@
                     mobileMenu.classList.toggle('hidden');
                 });
             }
-            // Set Current Year in Footer
             const currentYearEl = document.getElementById('currentYear');
             if(currentYearEl) currentYearEl.textContent = new Date().getFullYear();
         }
@@ -651,13 +649,13 @@
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
                 progressBar.style.width = scrolled + "%";
-            }, { passive: true }); // Use passive listener for scroll performance
+            }, { passive: true });
         }
 
         function setupStaticImageClick() {
             const imageElement = document.getElementById('staticImage');
             if (!imageElement) return;
-            const videoUrls = [ /* ... URLs ... */
+            const videoUrls = [
                 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', 'https://www.youtube.com/watch?v=-jGBp5HBLFs',
                 'https://www.youtube.com/shorts/2Dv2hO3rYVg', 'https://www.youtube.com/watch?v=x6YcdgB9e48',
                 'https://www.youtube.com/shorts/D-kkjR0NyGg', 'https://www.youtube.com/shorts/LFsS-9lT0Rk',
@@ -724,12 +722,10 @@
                 };
                 window.addEventListener('resize', onResize);
 
-                // Cleanup function (optional but good practice)
                 window.addEventListener('unload', () => {
                     cancelAnimationFrame(animationFrameId);
                     document.removeEventListener('mousemove', onMouseMove);
                     window.removeEventListener('resize', onResize);
-                    // Dispose Three.js resources if needed
                 });
 
             } catch (error) { console.error("Error initializing particles:", error); }
@@ -747,7 +743,6 @@
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
                 });
-                // Fix for "Read More" buttons inside cards
                 card.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', (e) => e.stopPropagation());
                 });
@@ -756,29 +751,39 @@
 
         function setupScrollAnimations() {
              const observerOptions = {
-                threshold: 0.1, // Trigger earlier
-                rootMargin: '0px 0px -30px 0px' // Adjust margin slightly
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
             };
 
             const observer = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
+                    // Check if the element is one of the rotating text spans
+                    const isRotatingText = Object.keys(ROTATING_TEXT_CONFIG).includes(entry.target.id);
+
                     if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)'; // Use initial or default
-                        obs.unobserve(entry.target); // Unobserve after animation
+                        // Only apply fade/transform animation if NOT a rotating text element
+                        if (!isRotatingText) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = entry.target.dataset.initialTransform || 'translateY(0)';
+                            obs.unobserve(entry.target); // Unobserve after animation
+                        }
                     }
+                    // No 'else' needed here, visibility for rotating text is handled by its own observer
                 });
             }, observerOptions);
 
-            // Observe Hero Section (simple fade/translate)
-            const heroSection = document.getElementById('heroSection');
-            if (heroSection) {
-                heroSection.style.opacity = '0';
-                heroSection.style.transform = 'translateY(20px)';
-                heroSection.dataset.initialTransform = 'translateY(0)'; // Store target transform
-                heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-                observer.observe(heroSection);
-            }
+            // Observe Hero Section (simple fade/translate) - It contains rotating text, so observe children if needed, or just let rotating text handle itself
+             const heroSection = document.getElementById('heroSection');
+             if (heroSection) {
+                 // Apply initial styles for the overall section fade-in
+                 heroSection.style.opacity = '0';
+                 heroSection.style.transform = 'translateY(20px)';
+                 heroSection.dataset.initialTransform = 'translateY(0)';
+                 heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                 observer.observe(heroSection);
+                 // Note: The rotating text elements inside will handle their own visibility via their specific observers.
+             }
+
 
             // Observe Writings Section (simple fade/translate)
             const writingsSection = document.getElementById('writingsSection');
@@ -795,8 +800,8 @@
                 const delay = parseInt(card.getAttribute('data-delay')) || 0;
                 card.style.opacity = '0';
                 card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
-                card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)'; // Store target transform
-                card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`; // Use cubic-bezier for transform
+                card.dataset.initialTransform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${delay}ms`;
                 observer.observe(card);
             });
         }
