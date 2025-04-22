@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agraj Dubey - Portfolio</title>
+    <!-- Favicon Added -->
+    <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- Font Update: Replaced Playfair Display with Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,7 +30,8 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        // Font Update: Replaced Playfair Display with Nunito
+                        serif: ['Nunito', 'sans-serif'], // Using serif key for headings as before, but with Nunito
                     },
                 }
             }
@@ -65,10 +69,11 @@
         }
 
         /* Animations */
-        @keyframes float {
+        /* Removed float animation as it's replaced by JS */
+        /* @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
-        }
+        } */
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -88,17 +93,18 @@
 
         /* Typography */
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
+            /* Font Update: Replaced Playfair Display with Nunito */
+            font-family: 'Nunito', sans-serif;
             color: #ffffff;
             font-weight: 700;
         }
 
         .gradient-text {
             background: linear-gradient(90deg, #FFFFFF, #CBB8E8, #9272CE, #CBB8E8, #FFFFFF);
-            background-size: 300% auto; 
-            background-clip: text; 
-            -webkit-background-clip: text; 
-            color: transparent; 
+            background-size: 300% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             animation: gradient 8s linear infinite;
         }
 
@@ -126,7 +132,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
+            background: linear-gradient(90deg,
                 transparent,
                 rgba(146, 114, 206, 0.1),
                 transparent);
@@ -135,8 +141,9 @@
             pointer-events: none;
         }
 
+        /* Card hover effect slightly adjusted to work with perspective */
         .card:hover {
-            transform: translateY(-10px);
+            /* transform: translateY(-10px); // Replaced by JS perspective transform */
             box-shadow: 0 15px 30px rgba(9, 6, 19, 0.5), 0 0 15px rgba(146, 114, 206, 0.3);
             border-color: rgba(146, 114, 206, 0.4);
         }
@@ -197,7 +204,8 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            font-family: 'Playfair Display', serif;
+            /* Font Update: Replaced Playfair Display with Nunito */
+            font-family: 'Nunito', sans-serif;
         }
 
         /* Reading progress bar */
@@ -216,36 +224,44 @@
             width: 0%;
         }
 
-        /* Floating image */
-        .floating-image {
-            animation: float 4s ease-in-out infinite;
-            opacity: 0.7;
-            transition: all 0.3s ease;
+        /* Interactive Image Style Update */
+        .interactive-image-container {
+            position: absolute; /* Changed from fixed if needed, keep absolute for positioning relative to body/main */
+            z-index: 10;
+            opacity: 0.7; /* Initial opacity */
+            transition: opacity 0.3s ease; /* Keep opacity transition */
+            /* Removed animation property */
+            /* Removed hover effects to prevent conflict with JS animation */
         }
 
-        .floating-image:hover {
-            opacity: 1;
-            transform: scale(1.15) rotate(5deg);
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
+        .interactive-image {
+             width: 6rem; /* Adjusted size slightly */
+             height: 6rem;
+             cursor: pointer;
+             /* Ensure transform-style is preserved for 3D rotation */
+             transform-style: preserve-3d;
+             /* Initial state for transform */
+             transform: rotateY(0deg);
         }
-        
+
+
         /* Additional utility classes to support Tailwind-like styling */
         .text-accent {
             color: #9272CE;
         }
-        
+
         .hover\:text-accent-hover:hover {
             color: #AE8BD5;
         }
-        
+
         .bg-accent {
             background-color: #9272CE;
         }
-        
+
         .hover\:bg-accent-hover:hover {
             background-color: #AE8BD5;
         }
-        
+
         .text-text-primary {
             color: #ffffff;
         }
@@ -268,14 +284,14 @@
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     Agraj Dubey
                 </a>
-                
+
                 <!-- Mobile Menu Button -->
                 <button id="menuButton" class="md:hidden text-text-primary focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </button>
-                
+
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex space-x-8 text-text-primary">
                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" class="hover-link hover:text-accent transition-colors">About Me</a>
@@ -283,7 +299,7 @@
                     <a href="writings.html" class="hover-link hover:text-accent transition-colors">Writings</a>
                 </nav>
             </div>
-            
+
             <!-- Mobile Menu -->
             <div id="mobileMenu" class="hidden md:hidden mt-4 py-4 border-t border-accent/10 animate-in">
                 <nav class="flex flex-col space-y-4">
@@ -307,15 +323,16 @@
             </blockquote>
         </section>
 
-        <!-- Frieren Image Container -->
-        <div id="frierenContainer" class="hidden absolute z-10">
-            <img src="frieren.png" alt="Chibi Frieren" class="floating-image w-16 md:w-20 rounded-full cursor-pointer">
+        <!-- Interactive Image Container Update -->
+        <div id="interactiveImageContainer" class="hidden interactive-image-container">
+            <!-- Image Source Updated -->
+            <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
         </div>
 
         <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12 font-serif">Recent Writings</h2>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
@@ -332,7 +349,7 @@
                         </svg>
                     </a>
                 </div>
-                
+
                 <!-- Card 2 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
@@ -348,7 +365,7 @@
                         </svg>
                     </a>
                 </div>
-                
+
                 <!-- Card 3 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
                     <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
@@ -365,7 +382,7 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="text-center mt-16">
                 <a href="writings.html" class="bg-accent hover:bg-accent-hover text-text-primary font-medium py-3 px-8 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-accent/20 inline-block relative overflow-hidden group">
                     <span class="relative z-10">View All Writings</span>
@@ -378,7 +395,7 @@
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16">
         <div class="container mx-auto px-6 text-center">
-            <p class="text-text-tertiary">&copy; <span id="currentYear"></span> Agraj Dubey. All rights reserved.</p>
+            <p class="text-text-tertiary">© <span id="currentYear"></span> Agraj Dubey. All rights reserved.</p>
         </div>
     </footer>
 
@@ -386,63 +403,65 @@
         // Mobile Menu Toggle
         const menuButton = document.getElementById('menuButton');
         const mobileMenu = document.getElementById('mobileMenu');
-        
+
         menuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
-        
+
         // Set Current Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
+
         // Intersection Observer for Animations
         const observerOptions = {
             threshold: 0.2,
             rootMargin: '0px 0px -50px 0px'
         };
-        
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transform = entry.target.classList.contains('card') ? 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)' : 'translateY(0)'; // Adjust card initial transform reset
+                    observer.unobserve(entry.target); // Optional: Unobserve after first animation
                 }
             });
         }, observerOptions);
-        
+
         // Add elements to observe
         const heroSection = document.getElementById('heroSection');
         const writingsSection = document.getElementById('writingsSection');
-        
+
         if (heroSection) {
             heroSection.style.opacity = '0';
             heroSection.style.transform = 'translateY(20px)';
             heroSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
             observer.observe(heroSection);
         }
-        
+
         if (writingsSection) {
             writingsSection.style.opacity = '0';
             writingsSection.style.transform = 'translateY(20px)';
             writingsSection.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
             observer.observe(writingsSection);
         }
-        
+
         // Animate Cards with delay
         const cards = document.querySelectorAll('.card');
         cards.forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
             card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
+            // Initial state for perspective transform
+            card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
-            
+
             observer.observe(card);
         });
-        
+
         // Typewriter effect for the tagline
         function typeWriter(element, text, speed = 100) {
             let i = 0;
             element.innerHTML = '';
-            
+
             function type() {
                 if (i < text.length) {
                     element.innerHTML += text.charAt(i);
@@ -455,13 +474,13 @@
                     element.appendChild(cursor);
                 }
             }
-            
+
             setTimeout(type, 500);
         }
-        
+
         const typewriterElement = document.getElementById('typewriter');
         const taglineText = "Cause no one listens, so I write instead 😎";
-        
+
         // Start typewriter after hero section becomes visible
         const typewriterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -471,11 +490,11 @@
                 }
             });
         }, { threshold: 0.5 });
-        
+
         if (heroSection) {
             typewriterObserver.observe(heroSection);
         }
-        
+
         // Progress bar
         window.onscroll = function() {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
@@ -483,78 +502,81 @@
             const scrolled = (winScroll / height) * 100;
             document.getElementById("progressBar").style.width = scrolled + "%";
         };
-        
-        // Particle background using Three.js
+
+        // Particle background using Three.js (No changes needed here)
         function initParticles() {
             try {
                 const container = document.getElementById('particles');
+                if (!container) return; // Exit if container not found
+                if (!THREE) { console.error("THREE.js not loaded"); return; } // Check if THREE is loaded
+
                 const scene = new THREE.Scene();
                 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                
+
                 const renderer = new THREE.WebGLRenderer({ alpha: true });
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 renderer.setClearColor(0x000000, 0);
                 container.appendChild(renderer.domElement);
-                
+
                 // Create particles
                 const particlesGeometry = new THREE.BufferGeometry();
                 const particleCount = 500;
-                
+
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                
+
                 for (let i = 0; i < particleCount * 3; i += 3) {
                     // Position particles in a sphere
                     positions[i] = (Math.random() - 0.5) * 20;
                     positions[i+1] = (Math.random() - 0.5) * 20;
                     positions[i+2] = (Math.random() - 0.5) * 20 - 10;
-                    
+
                     // Particle colors (purples and blues)
                     colors[i] = Math.random() * 0.5 + 0.5; // R: 0.5-1
                     colors[i+1] = Math.random() * 0.3 + 0.2; // G: 0.2-0.5
                     colors[i+2] = Math.random() * 0.5 + 0.5; // B: 0.5-1
                 }
-                
+
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                
+
                 const particlesMaterial = new THREE.PointsMaterial({
                     size: 0.03,
                     vertexColors: true,
                     transparent: true,
                     opacity: 0.7,
                 });
-                
+
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
-                
+
                 camera.position.z = 5;
-                
+
                 // Mouse interaction
                 let mouseX = 0;
                 let mouseY = 0;
-                
+
                 document.addEventListener('mousemove', (event) => {
                     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
                     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
                 });
-                
+
                 // Animation loop
                 function animate() {
                     requestAnimationFrame(animate);
-                    
+
                     particleSystem.rotation.x += 0.0005;
                     particleSystem.rotation.y += 0.0005;
-                    
+
                     // Gentle movement following mouse
                     particleSystem.rotation.x += mouseY * 0.0005;
                     particleSystem.rotation.y += mouseX * 0.0005;
-                    
+
                     renderer.render(scene, camera);
                 }
-                
+
                 animate();
-                
+
                 // Handle window resize
                 window.addEventListener('resize', () => {
                     camera.aspect = window.innerWidth / window.innerHeight;
@@ -565,7 +587,7 @@
                 console.error("Error initializing particles:", error);
             }
         }
-        
+
         // Initialize particles on load with error handling
         window.addEventListener('load', function() {
             try {
@@ -574,89 +596,139 @@
                 console.error("Failed to initialize particles:", error);
             }
         });
-        
-        // Floating Frieren Image
-        function setupFloatingImage() {
-            const frierenContainer = document.getElementById('frierenContainer');
-            if (!frierenContainer) return;
-            
-            frierenContainer.classList.remove('hidden');
-            
-            // Initial random position
+
+        // --- Interactive Image Logic Update ---
+        function setupInteractiveImage() {
+            const imageContainer = document.getElementById('interactiveImageContainer');
+            const imageElement = document.getElementById('interactiveImage');
+            if (!imageContainer || !imageElement) return;
+
+            imageContainer.classList.remove('hidden');
+            imageContainer.style.opacity = '0.7'; // Set initial opacity
+
+            // --- OnClick Behavior ---
+            // !!! REPLACE THESE PLACEHOLDERS WITH YOUR ACTUAL YOUTUBE URLS !!!
+            const videoUrls = [
+                'https://www.youtube.com/watch?v=dQw4w9WgXcQ', // Placeholder 1
+                'https://www.youtube.com/watch?v=-jGBp5HBLFs', // Placeholder 2
+                'https://www.youtube.com/shorts/2Dv2hO3rYVg', // Placeholder 3
+                'https://www.youtube.com/watch?v=x6YcdgB9e48', // Placeholder 4
+                'https://www.youtube.com/shorts/D-kkjR0NyGg', // Placeholder 5
+                'https://www.youtube.com/shorts/LFsS-9lT0Rk', // Placeholder 6
+                'https://www.youtube.com/shorts/TTU1g8IU22I'  // Placeholder 7
+            ];
+
+            imageContainer.addEventListener('click', () => {
+                const randomIndex = Math.floor(Math.random() * videoUrls.length);
+                const randomUrl = videoUrls[randomIndex];
+                window.open(randomUrl, '_blank');
+            });
+
+            // --- Animation Logic ---
+            let animationInterval;
+            const spinDuration = 2000; // 2 seconds for spin
+            const pauseDuration = 500; // 0.5 seconds pause before next cycle
+            const totalCycleTime = spinDuration + pauseDuration;
+
             const randomPosition = () => {
-                const mainWidth = document.querySelector('main').offsetWidth;
-                const mainHeight = window.innerHeight;
-                
-                const maxX = mainWidth - 100;
-                const maxY = mainHeight - 100;
-                
-                const randomX = Math.max(50, Math.random() * maxX);
-                const randomY = Math.max(100, Math.random() * maxY);
-                
+                // Position within the main content area, avoiding edges
+                const mainRect = document.querySelector('main').getBoundingClientRect();
+                const containerWidth = imageContainer.offsetWidth;
+                const containerHeight = imageContainer.offsetHeight;
+
+                // Calculate bounds relative to the viewport, considering scroll position
+                const minX = mainRect.left + window.scrollX + 20;
+                const maxX = mainRect.right + window.scrollX - containerWidth - 20;
+                const minY = mainRect.top + window.scrollY + 100; // Avoid header area
+                const maxY = Math.min(window.innerHeight + window.scrollY - containerHeight - 20, mainRect.bottom + window.scrollY - containerHeight - 20);
+
+                const randomX = Math.max(minX, Math.random() * (maxX - minX) + minX);
+                const randomY = Math.max(minY, Math.random() * (maxY - minY) + minY);
+
                 return { x: randomX, y: randomY };
             };
-            
-            const position = randomPosition();
-            frierenContainer.style.top = `${position.y}px`;
-            frierenContainer.style.left = `${position.x}px`;
-            
-            // Click to open YouTube
-            frierenContainer.addEventListener('click', () => {
-                window.open('https://www.youtube.com/watch?v=IXbFa2rQk3A', '_blank');
+
+            const performAnimationCycle = () => {
+                // 1. Instantly jump to a new random position
+                const newPos = randomPosition();
+                imageContainer.style.transition = 'none'; // Disable transition for jump
+                imageElement.style.transition = 'none';
+                imageElement.style.transform = 'rotateY(0deg)'; // Reset rotation before jump
+                imageContainer.style.left = `${newPos.x}px`;
+                imageContainer.style.top = `${newPos.y}px`;
+
+                // Use a tiny timeout or rAF to ensure the position update is rendered before starting the spin transition
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { // Double rAF for robustness in some browsers
+                         // 2. Animate spin on Y-axis (XZ plane)
+                         imageElement.style.transition = `transform ${spinDuration}ms linear`;
+                         imageElement.style.transform = 'rotateY(360deg)';
+                    });
+                });
+
+                 // 3. After spin duration, reset transform without transition (ready for next jump)
+                 setTimeout(() => {
+                     imageElement.style.transition = 'none';
+                     imageElement.style.transform = 'rotateY(0deg)';
+                 }, spinDuration); // Reset exactly when spin ends
+            };
+
+            // Start the first cycle
+            performAnimationCycle();
+
+            // Set interval for subsequent cycles
+            animationInterval = setInterval(performAnimationCycle, totalCycleTime);
+
+            // Optional: Pause animation when tab is not visible
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) {
+                    clearInterval(animationInterval);
+                } else {
+                    // Restart immediately when visible again
+                    performAnimationCycle();
+                    animationInterval = setInterval(performAnimationCycle, totalCycleTime);
+                }
             });
-            
-            // Move to new position every 10 seconds
-            setInterval(() => {
-                frierenContainer.style.opacity = '0';
-                
-                setTimeout(() => {
-                    const newPosition = randomPosition();
-                    frierenContainer.style.top = `${newPosition.y}px`;
-                    frierenContainer.style.left = `${newPosition.x}px`;
-                    
-                    setTimeout(() => {
-                        frierenContainer.style.opacity = '0.7';
-                    }, 300);
-                }, 500);
-            }, 10000);
         }
-        
-        setTimeout(setupFloatingImage, 2000);
-        
-        // Enhanced hover effects for cards
+
+        // Delay setup slightly to ensure layout is stable
+        setTimeout(setupInteractiveImage, 1500);
+
+
+        // Enhanced hover effects for cards (Adjusted for perspective)
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
-                // Calculate distance from center
+
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                
-                // Subtle rotation based on mouse position
-                const rotateX = (y - centerY) / 30;
-                const rotateY = (centerX - x) / 30;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-                
-                // Dynamic gradient
-                card.style.background = `radial-gradient(circle at ${x}px ${y}px, 
-                                          rgba(146, 114, 206, 0.15), 
-                                          rgba(15, 10, 25, 0.7) 40%)`;
+
+                const rotateX = (y - centerY) / 20; // Slightly increased sensitivity
+                const rotateY = (centerX - x) / 20;
+
+                // Apply perspective transform on hover
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`; // Lift card slightly
+
+                // Dynamic gradient (optional, can be intensive)
+                // card.style.background = `radial-gradient(circle at ${x}px ${y}px,
+                //                           rgba(146, 114, 206, 0.15),
+                //                           rgba(15, 10, 25, 0.7) 40%)`;
             });
-            
+
             card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-                card.style.background = 'rgba(15, 10, 25, 0.7)';
+                // Return to non-hover state (slight perspective or flat)
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                // card.style.background = 'rgba(15, 10, 25, 0.7)'; // Reset background if dynamic gradient was used
             });
         });
-        
+
         // Fix for "Read More" buttons - Ensuring they work properly
         document.querySelectorAll('.card a').forEach(link => {
             link.addEventListener('click', function(e) {
-                // Make sure the link works normally (prevent any interference from card hover effects)
-                e.stopPropagation();
+                // Make sure the link works normally
+                e.stopPropagation(); // Prevent card's hover/click handlers from interfering
             });
         });
     </script>
