@@ -8,8 +8,8 @@
     <link rel="icon" type="image/png" href="frieren.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Font Update: Replaced Nunito with Baloo Bhai 2 -->
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Update: Added Inter (for body/most text) and Baloo Bhai 2 (specifically for main heading) -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.12.16/framer-motion.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,8 +30,8 @@
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        // Font Update: Replaced Nunito with Baloo Bhai 2
-                        serif: ['Baloo Bhai 2', 'cursive'], // Using serif key for headings, but with Baloo Bhai 2
+                        // Font Update: Baloo Bhai 2 specifically for the 'serif' utility class
+                        serif: ['Baloo Bhai 2', 'cursive'],
                     },
                 }
             }
@@ -42,7 +42,7 @@
         body {
             background-color: #0f0a19;
             color: #D1D1D1;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', sans-serif; /* Default font */
             overflow-x: hidden;
             line-height: 1.6;
         }
@@ -86,11 +86,16 @@
         }
 
         /* Typography */
+        /* Font Update: Removed general h1-h6 rule for Baloo Bhai 2 */
         h1, h2, h3, h4, h5, h6 {
-            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
-            font-family: 'Baloo Bhai 2', cursive;
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 700; /* Default bold for headings */
+            font-family: 'Inter', sans-serif; /* Default heading font */
+        }
+
+        /* Apply Baloo Bhai 2 only where font-serif class is used */
+        .font-serif {
+             font-family: 'Baloo Bhai 2', cursive;
         }
 
         .gradient-text {
@@ -196,8 +201,9 @@
             left: 10px;
             font-size: 5rem;
             color: rgba(146, 114, 206, 0.1);
-            /* Font Update: Replaced Nunito with Baloo Bhai 2 */
-            font-family: 'Baloo Bhai 2', cursive;
+            /* Font Update: Use default sans-serif for quote mark */
+            font-family: 'Inter', sans-serif;
+            font-weight: 700; /* Make quote mark bold */
         }
 
         /* Reading progress bar */
@@ -216,22 +222,26 @@
             width: 0%;
         }
 
-        /* Interactive Image Style Update */
-        .interactive-image-container {
-            position: absolute;
-            z-index: 10;
-            opacity: 0.7;
+        /* Interactive Image Style Update - Static */
+        .static-image-container {
+            /* Removed position: absolute */
+            display: block; /* Make it a block element */
+            margin: 2.5rem auto 0 auto; /* Add margin top and center horizontally */
+            width: fit-content; /* Adjust width to content */
+            opacity: 0.8; /* Slightly increased opacity */
             transition: opacity 0.3s ease;
+            z-index: 5; /* Lower z-index slightly, no longer needs to overlay everything */
         }
 
-        .interactive-image {
-             /* Size Increased */
-             width: 8rem; /* e.g., 128px */
+        .static-image {
+             width: 8rem; /* 128px */
              height: 8rem;
              cursor: pointer;
-             transform-style: preserve-3d;
-             /* Initial state for transform */
-             transform: rotateX(0deg) rotateY(0deg); /* Updated initial state */
+             /* Removed transform styles */
+             transition: transform 0.3s ease; /* Add transition for hover effect */
+        }
+        .static-image:hover {
+            transform: scale(1.1); /* Simple scale hover effect */
         }
 
 
@@ -257,7 +267,7 @@
     <header class="fixed top-0 left-0 w-full bg-darker/80 backdrop-blur-md z-50 border-b border-accent/10">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <!-- Name Updated -->
+                <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
                 <a href="index.html" class="text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300 font-serif">
                     a-g-r-a-j
                 </a>
@@ -291,8 +301,8 @@
     <main class="container mx-auto px-6 pt-32 pb-16">
         <!-- Hero Section -->
         <section class="text-center mb-20 opacity-0" id="heroSection">
-            <!-- Name Updated -->
-            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight">agraj</h1>
+            <!-- Name Updated - Using font-serif for Baloo Bhai 2 -->
+            <h1 class="gradient-text text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight font-serif">agraj</h1>
             <p class="text-xl md:text-2xl text-text-secondary mb-12 italic" id="typewriter">
                 Cause no one listens, so I write instead 😎
             </p>
@@ -301,19 +311,16 @@
             </blockquote>
         </section>
 
-        <!-- Interactive Image Container -->
-        <div id="interactiveImageContainer" class="hidden interactive-image-container">
-            <img src="FrierenRing.png" alt="Spinning Ring" id="interactiveImage" class="interactive-image">
-        </div>
-
         <!-- Recent Writings Section -->
         <section class="mb-16 opacity-0" id="writingsSection">
-            <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12 font-serif">Recent Writings</h2>
+            <!-- Heading uses default Inter font -->
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-text-primary mb-12">Recent Writings</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card 1 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="0">
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
+                    <!-- Card title uses default Inter font, added font-semibold -->
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">So, you want to travel back</span>
                     </h3>
                     <div class="mb-5">
@@ -329,7 +336,8 @@
 
                 <!-- Card 2 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="150">
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
+                     <!-- Card title uses default Inter font, added font-semibold -->
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">The Cost of Belonging</span>
                     </h3>
                     <div class="mb-5">
@@ -345,7 +353,8 @@
 
                 <!-- Card 3 -->
                 <div class="card rounded-lg p-7 shadow-lg relative overflow-hidden" data-delay="300">
-                    <h3 class="text-xl lg:text-2xl font-bold text-text-primary mb-4 font-serif group">
+                     <!-- Card title uses default Inter font, added font-semibold -->
+                    <h3 class="text-xl lg:text-2xl font-semibold text-text-primary mb-4 group">
                         <span class="hover:text-accent transition-all duration-300 inline-block">[POST] A New Chapter</span>
                     </h3>
                     <div class="mb-5">
@@ -366,6 +375,12 @@
                     <span class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></span>
                 </a>
             </div>
+
+            <!-- Static Image Container - Moved here -->
+            <div id="staticImageContainer" class="static-image-container">
+                <img src="FrierenRing.png" alt="Ring Image" id="staticImage" class="static-image">
+            </div>
+
         </section>
     </main>
 
@@ -399,7 +414,12 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = entry.target.classList.contains('card') ? 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)' : 'translateY(0)';
+                    // Apply transform only if it's a card (for the initial reveal)
+                    if (entry.target.classList.contains('card')) {
+                         entry.target.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                    } else {
+                         entry.target.style.transform = 'translateY(0)';
+                    }
                     observer.unobserve(entry.target);
                 }
             });
@@ -428,6 +448,7 @@
         cards.forEach(card => {
             const delay = parseInt(card.getAttribute('data-delay')) || 0;
             card.style.opacity = '0';
+            // Initial state for card reveal animation
             card.style.transform = 'perspective(1000px) rotateX(10deg) rotateY(10deg) translateZ(-20px)';
             card.style.transition = `opacity 0.8s ease-out ${delay}ms, transform 0.8s ease-out ${delay}ms`;
             observer.observe(card);
@@ -475,7 +496,7 @@
             document.getElementById("progressBar").style.width = scrolled + "%";
         };
 
-        // Particle background (No changes needed here)
+        // Particle background
         function initParticles() {
             try {
                 const container = document.getElementById('particles');
@@ -489,21 +510,23 @@
                 container.appendChild(renderer.domElement);
 
                 const particlesGeometry = new THREE.BufferGeometry();
-                const particleCount = 500;
+                // Particle Effect Update: Increased count
+                const particleCount = 750;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
 
                 for (let i = 0; i < particleCount * 3; i += 3) {
                     positions[i] = (Math.random() - 0.5) * 20;
                     positions[i+1] = (Math.random() - 0.5) * 20;
-                    positions[i+2] = (Math.random() - 0.5) * 20 - 10;
-                    colors[i] = Math.random() * 0.5 + 0.5;
+                    positions[i+2] = (Math.random() - 0.5) * 20 - 10; // Keep depth
+                    colors[i] = Math.random() * 0.5 + 0.5; // Keep color range
                     colors[i+1] = Math.random() * 0.3 + 0.2;
                     colors[i+2] = Math.random() * 0.5 + 0.5;
                 }
                 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                const particlesMaterial = new THREE.PointsMaterial({ size: 0.03, vertexColors: true, transparent: true, opacity: 0.7 });
+                // Particle Effect Update: Slightly increased size and opacity
+                const particlesMaterial = new THREE.PointsMaterial({ size: 0.035, vertexColors: true, transparent: true, opacity: 0.75 });
                 const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
                 scene.add(particleSystem);
                 camera.position.z = 5;
@@ -516,6 +539,7 @@
 
                 function animate() {
                     requestAnimationFrame(animate);
+                    // Keep subtle mouse interaction
                     particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
                     particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
                     renderer.render(scene, camera);
@@ -532,107 +556,49 @@
         window.addEventListener('load', initParticles);
 
 
-        // --- Interactive Image Logic Update ---
-        function setupInteractiveImage() {
-            const imageContainer = document.getElementById('interactiveImageContainer');
-            const imageElement = document.getElementById('interactiveImage');
-            if (!imageContainer || !imageElement) return;
+        // --- Static Image Click Logic ---
+        function setupStaticImageClick() {
+            const imageElement = document.getElementById('staticImage');
+            if (!imageElement) return;
 
-            imageContainer.classList.remove('hidden');
-            imageContainer.style.opacity = '0.7';
+            const videoUrls = [
+                'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                'https://www.youtube.com/watch?v=-jGBp5HBLFs',
+                'https://www.youtube.com/shorts/2Dv2hO3rYVg',
+                'https://www.youtube.com/watch?v=x6YcdgB9e48',
+                'https://www.youtube.com/shorts/D-kkjR0NyGg',
+                'https://www.youtube.com/shorts/LFsS-9lT0Rk',
+                'https://www.youtube.com/shorts/TTU1g8IU22I'
+            ];
 
-            // --- OnClick Behavior ---
-            const videoUrls = ['https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                               'https://www.youtube.com/watch?v=-jGBp5HBLFs',
-                               'https://www.youtube.com/shorts/2Dv2hO3rYVg',
-                               'https://www.youtube.com/watch?v=x6YcdgB9e48',
-                               'https://www.youtube.com/shorts/D-kkjR0NyGg',
-                               'https://www.youtube.com/shorts/LFsS-9lT0Rk', 
-                               'https://www.youtube.com/shorts/TTU1g8IU22I'
-                              ];
-            imageContainer.addEventListener('click', () => {
+            imageElement.addEventListener('click', () => {
                 const randomIndex = Math.floor(Math.random() * videoUrls.length);
                 window.open(videoUrls[randomIndex], '_blank');
             });
-
-            // --- Animation Logic ---
-            let animationInterval;
-            const spinDuration = 4000; // Spin Time Increased to 4 seconds
-            const pauseDuration = 500;
-            const totalCycleTime = spinDuration + pauseDuration;
-
-            const randomPosition = () => {
-                const mainRect = document.querySelector('main').getBoundingClientRect();
-                const containerWidth = imageContainer.offsetWidth;
-                const containerHeight = imageContainer.offsetHeight;
-                const minX = mainRect.left + window.scrollX + 20;
-                const maxX = mainRect.right + window.scrollX - containerWidth - 20;
-                const minY = mainRect.top + window.scrollY + 100;
-                const maxY = Math.min(window.innerHeight + window.scrollY - containerHeight - 20, mainRect.bottom + window.scrollY - containerHeight - 20);
-                const randomX = Math.max(minX, Math.random() * (maxX - minX) + minX);
-                const randomY = Math.max(minY, Math.random() * (maxY - minY) + minY);
-                return { x: randomX, y: randomY };
-            };
-
-            const performAnimationCycle = () => {
-                // 1. Jump to new position
-                const newPos = randomPosition();
-                imageContainer.style.transition = 'none';
-                imageElement.style.transition = 'none';
-                // Reset rotation before jump
-                imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                imageContainer.style.left = `${newPos.x}px`;
-                imageContainer.style.top = `${newPos.y}px`;
-
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                         // 2. Animate spin on XY plane
-                         imageElement.style.transition = `transform ${spinDuration}ms linear`;
-                         // Combined X and Y rotation for "XY plane" spin
-                         imageElement.style.transform = 'rotateX(360deg) rotateY(360deg) rotateZ(360deg)';
-                    });
-                });
-
-                 // 3. Reset transform after spin
-                 setTimeout(() => {
-                     imageElement.style.transition = 'none';
-                     imageElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                 }, spinDuration);
-            };
-
-            performAnimationCycle(); // Start first cycle
-            animationInterval = setInterval(performAnimationCycle, totalCycleTime); // Start interval
-
-            // Pause animation when tab is hidden
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden) {
-                    clearInterval(animationInterval);
-                } else {
-                    performAnimationCycle(); // Restart immediately
-                    animationInterval = setInterval(performAnimationCycle, totalCycleTime);
-                }
-            });
         }
-        setTimeout(setupInteractiveImage, 1500); // Delay setup
+        // Call the setup function after the DOM is ready
+        document.addEventListener('DOMContentLoaded', setupStaticImageClick);
 
 
-        // Enhanced hover effects for cards
+        // Enhanced hover effects for cards (Keep this)
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left; const y = e.clientY - rect.top;
                 const centerX = rect.width / 2; const centerY = rect.height / 2;
                 const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
+                // Apply 3D tilt on hover
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
             });
             card.addEventListener('mouseleave', () => {
+                // Reset to base state (which includes the reveal animation end state)
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
             });
         });
 
-        // Fix for "Read More" buttons
+        // Fix for "Read More" buttons inside cards (Keep this)
         document.querySelectorAll('.card a').forEach(link => {
-            link.addEventListener('click', (e) => e.stopPropagation());
+            link.addEventListener('click', (e) => e.stopPropagation()); // Prevent card tilt when clicking link
         });
     </script>
 </body>
