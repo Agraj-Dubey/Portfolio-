@@ -201,100 +201,96 @@
         }
 
         // --- tsParticles Initialization (UPDATED CONFIG) ---
-        function initTsParticles() {
-            if (typeof tsParticles === 'undefined') {
-                console.error("tsParticles library not loaded.");
-                return;
-            }
-            tsParticles.load("tsparticles", {
-                fullScreen: {
+// --- tsParticles Initialization (OPTION 1: Mouse Trail) ---
+function initTsParticles() {
+    if (typeof tsParticles === 'undefined') {
+        console.error("tsParticles library not loaded.");
+        return;
+    }
+    tsParticles.load("tsparticles", {
+        fullScreen: {
+            enable: true,
+            zIndex: -10
+        },
+        particles: {
+            number: {
+                value: 50, // Keep base particle count lower
+                density: {
                     enable: true,
-                    zIndex: -10 // Keep behind content
-                },
-                particles: {
-                    number: {
-                        value: 80, // Slightly more particles for interaction
-                        density: {
-                            enable: true,
-                            value_area: 800
-                        }
-                    },
-                    color: {
-                        value: ["#ffffff", "#CBB8E8", "#9272CE"] // Keep color theme
-                    },
-                    shape: {
-                        type: "circle"
-                    },
-                    opacity: {
-                        value: 0.5, // Slightly more visible
-                        random: true,
-                        anim: {
-                            enable: true,
-                            speed: 0.8, // Slightly faster opacity flicker
-                            opacity_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    size: {
-                        value: 2.5, // Slightly larger
-                        random: true,
-                        anim: {
-                            enable: true, // Animate size slightly
-                            speed: 3,
-                            size_min: 1,
-                            sync: false
-                        }
-                    },
-                    // REMOVED line_linked section
-                    move: {
-                        enable: true,
-                        speed: 1.5, // Faster base movement speed
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out", // Particles leave the screen
-                        bounce: false,
-                        attract: {
-                            enable: false // Keep attract off
-                        }
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas", // Detect interactions on the canvas area
-                    events: {
-                        onhover: {
-                            enable: true,
-                            mode: "repulse" // Repulse mode on hover
-                        },
-                        onclick: {
-                            enable: true, // Enable click interaction
-                            mode: "push" // Push mode on click (adds particles)
-                        },
-                        resize: true // Adjust on window resize
-                    },
-                    modes: {
-                        repulse: {
-                            distance: 150, // Increase repulsion distance
-                            duration: 0.4,
-                            speed: 1 // Make repulsion faster
-                        },
-                        push: {
-                            quantity: 4 // Add 4 particles on click
-                        },
-                        // Other modes not used but kept for reference if needed
-                        grab: { distance: 400, line_opacity: 1 },
-                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
-                        remove: { particles_nb: 2 }
-                    }
-                },
-                retina_detect: true,
-                background: {
-                     color: "#0f0a19", // Match your CSS background
+                    value_area: 800
                 }
-            }).catch(error => {
-                console.error("Error loading tsParticles:", error);
-            });
+            },
+            color: {
+                value: ["#ffffff", "#CBB8E8", "#9272CE"] // Keep color theme
+            },
+            shape: {
+                type: "circle"
+            },
+            opacity: {
+                value: 0.5,
+                random: true,
+                anim: {
+                    enable: true,
+                    speed: 0.8,
+                    opacity_min: 0.1,
+                    sync: false
+                }
+            },
+            size: {
+                value: 3, // Slightly larger base size
+                random: true,
+                anim: {
+                    enable: false // Disable base size animation
+                }
+            },
+            // No lines needed
+            move: {
+                enable: true, // Keep base particles moving slowly
+                speed: 0.5, // Slow base speed
+                direction: "none",
+                random: true,
+                straight: false,
+                out_mode: "out",
+                bounce: false,
+                attract: { enable: false }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "trail" // <-- Set hover mode to trail
+                },
+                onclick: {
+                    enable: true,
+                    mode: "push" // Keep push on click
+                },
+                resize: true
+            },
+            modes: {
+                trail: { // <-- Configure the trail effect
+                    delay: 0.05, // Delay between particle emissions in trail
+                    pauseOnStop: true, // Stop emitting when mouse stops
+                    quantity: 3 // Number of particles per emission point
+                },
+                push: {
+                    quantity: 4
+                },
+                // Other modes not actively used by events
+                repulse: { distance: 150, duration: 0.4, speed: 1 },
+                bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                remove: { particles_nb: 2 }
+            }
+        },
+        retina_detect: true,
+        background: {
+             color: "#0f0a19",
         }
+    }).catch(error => {
+        console.error("Error loading tsParticles:", error);
+    });
+}
 
 
         // --- Other Setup Functions ---
