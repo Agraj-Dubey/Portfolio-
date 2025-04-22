@@ -7,220 +7,188 @@
     <meta name="description" content="A collection of writings and poems by Agraj Dubey. Explore thoughts on life, conformity, time, and more.">
     <!-- SEO: Dynamic Title (Set by JS) -->
     <title>Writings - Agraj Dubey</title>
-    <!-- Favicon Link (Matching index.html) -->
-    <link rel="icon" type="image/png" href="frieren.png">
-    <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Keep existing fonts + Add Baloo Bhai 2 for consistency if needed) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Inter:wght@400;500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
     <script>
-        // Tailwind Config (Adjusted background colors for content)
-        window.tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'dark': '#0f0a19',
-                        'darker': '#090613',
-                        'accent': '#9272CE',
-                        'accent-hover': '#AE8BD5',
-                        'light-accent': '#CBB8E8',
-                        'text-primary': '#ffffff',
-                        'text-secondary': '#D1D1D1',
-                        'text-tertiary': '#A8A8A8',
-                        // --- ADJUSTED BACKGROUNDS ---
-                        // Make card/article backgrounds lighter/more transparent
-                        // to let the main overlay show through more.
-                        'article-bg': 'rgba(25, 20, 40, 0.80)', // Was rgba(15, 10, 25, 0.88)
-                        'card-bg': 'rgba(25, 20, 40, 0.75)',    // Was rgba(15, 10, 25, 0.85)
-                        'card-hover-bg': 'rgba(40, 30, 60, 0.85)', // Was rgba(25, 18, 40, 0.9)
-                        // --- END ADJUSTED BACKGROUNDS ---
-                        'hover-highlight': 'rgba(146, 114, 206, 0.1)',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Baloo Bhai 2', 'cursive'],
-                        lato: ['Lato', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                        nunito: ['Nunito', 'sans-serif'],
-                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                        verdana: ['Verdana', 'sans-serif'],
-                        'trebuchet': ['Trebuchet MS', 'sans-serif']
-                    },
-                }
-            }
-        }
+        // Tailwind Config (Keep inline for CDN usage)
+        // Recommendation: Use tailwind.config.js and a build step for production.
+        tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8', 'article-bg': 'rgba(20, 20, 22, 0.88)', 'card-bg': 'rgba(30, 30, 30, 0.85)', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)' }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'] } } } }
     </script>
      <style>
-         /* --- Keyframes (Keep relevant ones) --- */
+         /* --- Keyframes --- */
+         @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
          @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+         /* Stronger Hover Glow (Keep for hover, remove default pulse) */
          @keyframes card-glow { 0% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } 50% { box-shadow: 0 0 25px 6px rgba(146, 114, 206, 0.4), 0 8px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.7); } 100% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } }
+         /* Removed card-subtle-pulse keyframe */
          @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+         /* Removed nav-active-pulse keyframe */
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
         body {
-            background-color: theme('colors.dark'); /* Fallback */
-            color: theme('colors.text-secondary');
-            font-family: theme('fontFamily.sans');
-            overflow-x: hidden;
+            font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden;
             font-size: 17px;
-            line-height: 1.6;
+            position: relative; z-index: 0;
+            background-color: theme('colors.darker-bg'); /* Fallback */
+        }
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
+            background-image: url('mountains.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;
+            filter: blur(30px) brightness(0.4);
+            -webkit-filter: blur(30px) brightness(0.4);
+            transform: scale(1.15);
+        }
+        body::after {
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
+            background-color: theme('colors.body-overlay');
         }
 
-        /* Background with particle effect */
-        .bg-particle-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -10;
-            overflow: hidden;
-        }
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%);
-            z-index: -5;
-        }
 
         /* --- Header & Nav --- */
-        header { background-color: theme('colors.darker / 80%'); border-bottom: 1px solid theme('colors.accent / 10%');} /* Added border */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
         .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
-        .nav-toggle-btn svg { stroke: theme('colors.text-primary'); transition: stroke 0.3s ease; }
-        .nav-toggle-btn:hover svg { stroke: theme('colors.accent'); }
-        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(9, 6, 19, 0.92); backdrop-filter: blur(8px); padding: 1.5rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slide-down-fade 0.4s ease-out forwards; border-top: 1px solid theme('colors.accent / 10%');} /* Added border */
+        .nav-toggle-btn svg { stroke: theme('colors.brand-light'); transition: stroke 0.3s ease; }
+        .nav-toggle-btn:hover svg { stroke: theme('colors.brand-purple'); }
+        .mobile-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background-color: rgba(10, 10, 10, 0.92); backdrop-filter: blur(8px); padding: 1.5rem 0; box-shadow: 0 10px 20px rgba(0,0,0,0.4); z-index: 55; animation: slide-down-fade 0.4s ease-out forwards; }
         .mobile-menu.is-open { display: block; }
-        .mobile-menu a { display: block; padding: 0.8rem 1.5rem; color: theme('colors.text-primary'); font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
-        .mobile-menu a:hover { color: theme('colors.accent'); background-color: theme('colors.accent / 10%'); }
-        .mobile-menu a.active { background-color: theme('colors.accent / 5%'); font-weight: 600; color: theme('colors.accent'); }
-        .desktop-nav { color: theme('colors.text-primary'); }
+        .mobile-menu a { display: block; padding: 0.8rem 1.5rem; color: theme('colors.brand-light'); font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
+        .mobile-menu a:hover { color: theme('colors.brand-purple'); background-color: rgba(146, 114, 206, 0.1); }
+        .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.05); font-weight: 600; color: theme('colors.brand-purple'); /* Removed animation */ }
         .desktop-nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
-        .desktop-nav a:hover { color: theme('colors.accent'); transform: scale(1.08); }
-        .desktop-nav a.active { font-weight: 600; color: theme('colors.accent'); }
+        .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
+        .desktop-nav a.active { font-weight: 600; color: theme('colors.brand-purple'); /* Removed animation */ }
+        /* Style for external links in nav */
         .desktop-nav a[target="_blank"]::after,
         .mobile-menu a[target="_blank"]::after {
-            content: ' \2197'; font-size: 0.8em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7;
+            content: ' \2197'; /* Unicode North East Arrow */
+            font-size: 0.8em;
+            vertical-align: super;
+            display: inline-block;
+            margin-left: 2px;
+            opacity: 0.7;
         }
-        .header-name { font-family: theme('fontFamily.serif'); }
 
-
-        /* --- Text Hover Scale --- */
+        /* --- Text Hover Scale (Keep for Titles) --- */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         .text-hover-scale:hover { transform: scale(1.05); }
 
         /* --- Preview Card Styling & Animation --- */
         .writing-preview-card {
-            /* Uses card-bg from config */
-            backdrop-filter: blur(6px);
+            background-color: theme('colors.card-bg'); backdrop-filter: blur(6px);
             border-radius: 0.75rem; padding: 1.75rem;
-            border: 1px solid theme('colors.accent / 15%');
+            border: 1px solid rgba(146, 114, 206, 0.2);
             display: flex; flex-direction: column;
             transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px theme('colors.accent / 10%');
+            /* Removed default pulse animation */
+            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18); /* Base shadow */
         }
         .writing-preview-card:hover {
             transform: translateY(-8px) scale(1.04);
-            /* Uses card-hover-bg from config */
+            background-color: theme('colors.card-hover-bg');
+            /* Apply glow animation on hover */
             animation: card-glow 1.8s ease-in-out infinite alternate;
-            border-color: theme('colors.accent / 40%');
         }
-        .writing-preview-card h3 { color: theme('colors.text-primary'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
-        .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.light-accent'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
-        .writing-preview-card .excerpt { color: theme('colors.text-secondary'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
-        .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: theme('colors.accent'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
-        .writing-preview-card a.read-more-link:hover { color: theme('colors.accent-hover'); text-decoration: underline; }
+        .writing-preview-card h3 { color: theme('colors.brand-light'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
+        .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-light-purple'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
+        .writing-preview-card .excerpt { color: theme('colors.brand-gray'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
+        /* Changed button to link styling */
+        .writing-preview-card a.read-more-link { display: inline-block; /* Make it behave like a button */ background: none; border: none; padding: 0; color: theme('colors.brand-purple'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
+        .writing-preview-card a.read-more-link:hover { color: theme('colors.brand-hover'); text-decoration: underline; }
 
         /* --- Full Article Styling & CSS :target Logic --- */
-        #writings-grid-container { display: grid; }
-        #full-articles-container { display: none; margin-top: 2rem; }
+        #writings-grid-container { display: grid; /* Default state */ }
+        #full-articles-container { display: none; /* Hidden by default */ margin-top: 2rem; }
         #full-articles-container article {
-            display: none;
-            /* Uses article-bg from config */
-            backdrop-filter: blur(10px);
+            display: none; /* Articles hidden by default */
+            background-color: theme('colors.article-bg'); backdrop-filter: blur(10px);
             border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
-            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px theme('colors.accent / 10%');
-            border: 1px solid theme('colors.accent / 30%');
-            border-top: 5px solid theme('colors.accent');
+            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
+            border: 1px solid rgba(146, 114, 206, 0.3);
+            border-top: 5px solid theme('colors.brand-purple');
             opacity: 0;
-            transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
+            transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; /* Reduced transform duration */
         }
+        /* Toned down hover effect for full article */
         #full-articles-container article:hover {
-            transform: scale(1.01);
-            box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px theme('colors.accent / 25%');
+            transform: scale(1.01); /* Reduced scale */
+            box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25); /* Reduced shadow */
         }
-        #full-articles-container:has(article:target) { display: block; }
-        article:target { display: block !important; opacity: 1 !important; animation: fade-in 0.6s ease-out forwards; }
-        #writings-grid-container:has(~ #full-articles-container article:target) { display: none; }
-        hr.separator:has(~ #full-articles-container article:target) { display: none; }
 
-        #full-articles-container h2 { color: theme('colors.accent'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
-        #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.light-accent'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
-        a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.accent'); color: theme('colors.text-primary'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px theme('colors.accent / 20%'); font-size: 1rem; text-decoration: none; }
-        a.back-button:hover { background-color: theme('colors.accent-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 25px theme('colors.accent / 40%'); }
+        /* CSS :target rules for showing/hiding content without JS */
+        #full-articles-container:has(article:target) {
+             display: block; /* Show container if any article inside is targeted */
+        }
+        article:target {
+            display: block !important; /* Show the specific targeted article */
+            opacity: 1 !important; /* Ensure visible */
+            animation: fade-in 0.6s ease-out forwards; /* Apply fade-in */
+        }
+        /* Hide grid when an article is targeted */
+        #writings-grid-container:has(~ #full-articles-container article:target) {
+             display: none;
+        }
+         /* Hide separator when an article is targeted */
+        hr.separator:has(~ #full-articles-container article:target) {
+            display: none;
+        }
+
+        /* Styling for elements inside the full article */
+        #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
+        #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
+        /* Back button (now a link) styling */
+        a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
+        a.back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 25px rgba(146, 114, 206, 0.4); }
 
         /* --- HR Separator --- */
         hr.separator {
             border: none; height: 2px;
-            background-image: linear-gradient(to right, transparent, theme('colors.accent'), theme('colors.accent-hover'), theme('colors.accent'), transparent);
+            background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent);
             margin-top: 4rem; margin-bottom: 4rem; opacity: 0.6;
-            display: block;
+            display: block; /* Default state */
         }
 
-        /* --- Blogger Content Styling --- */
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.text-secondary'); background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
+        /* --- Blogger Content Styling (Minor cleanup, removed hover scale on paragraphs) --- */
+        /* NOTE: Manually removed some inline styles from the HTML below */
+        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; /* Force transparent BG */ text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
         .post-content-html span { margin: 0; display: inline; }
-        .post-content-html blockquote:has(blockquote:hover) { background-color: theme('colors.accent / 3%'); transform: none; }
-        .post-content-html blockquote:has(blockquote blockquote:hover) { background-color: theme('colors.accent-hover / 3%'); transform: none; }
+        /* Removed hover scale from paragraphs/divs/blockquotes */
+        /* .post-content-html p.text-hover-scale:hover, ... etc */
+        .post-content-html blockquote:has(blockquote:hover) { background-color: rgba(146, 114, 206, 0.03); transform: none; }
+        .post-content-html blockquote:has(blockquote blockquote:hover) { background-color: rgba(174, 139, 213, 0.03); transform: none; }
+        /* Keep specific font overrides if needed, but prefer classes */
         .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); } .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); } .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); } .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); } .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
-        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: theme('colors.accent'); text-decoration: underline; transition: color 0.2s ease; display: inline; } .post-content-html a:hover { color: theme('colors.accent-hover'); }
+        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: theme('colors.brand-purple'); text-decoration: underline; transition: color 0.2s ease; display: inline; } .post-content-html a:hover { color: theme('colors.brand-hover'); }
+        /* Allow text-align overrides from inline styles if present */
         .post-content-html p[style*="text-align: center;"], .post-content-html div[style*="text-align: center;"], .post-content-html blockquote[style*="text-align: center;"] { text-align: center; margin-left: auto; margin-right: auto; }
-        .post-content-html blockquote { border-left: 4px solid theme('colors.accent'); padding: 0.75em 1.5rem; margin-left: 0; margin-right: 0; font-style: italic; color: theme('colors.text-tertiary'); background-color: theme('colors.accent / 3%'); }
-        .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.accent-hover'); padding-left: 1rem; background-color: theme('colors.accent-hover / 3%'); }
+        .post-content-html blockquote { border-left: 4px solid theme('colors.brand-purple'); padding: 0.75em 1.5rem; margin-left: 0; margin-right: 0; font-style: italic; color: theme('colors.brand-text'); background-color: rgba(146, 114, 206, 0.03); }
+        .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.brand-hover'); padding-left: 1rem; background-color: rgba(174, 139, 213, 0.03); }
         .post-content-html blockquote p { margin-bottom: 0.75em; }
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .post-content-html img:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.55); }
-        .post-content-html .separator { display: none; }
+        .post-content-html .separator { display: none; } /* Hide Blogger separators */
 
         /* Utility for excerpt clamping */
         @layer utilities { .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
-        ::-webkit-scrollbar-thumb { background: theme('colors.accent / 50%'); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: theme('colors.accent / 70%'); }
-
     </style>
 </head>
-<body class="antialiased">
+<body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
 
-     <!-- Background Particles -->
-     <div class="bg-particle-container" id="particles"></div>
-     <div class="bg-overlay"></div>
-
-     <header class="sticky top-0 z-50 shadow-xl backdrop-blur-sm">
+     <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-6 py-4 relative">
             <div class="header-container">
                 <div class="flex items-center space-x-4">
                     <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                     </button>
-                    <a href="index.html" class="header-name text-2xl lg:text-3xl font-bold text-text-primary hover:text-accent transition-colors duration-300">
-                        a-g-r-a-j
-                    </a>
+                    <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-outfit"> Agraj Dubey </a>
                 </div>
-                <nav class="desktop-nav hidden md:flex space-x-7 items-center text-lg" aria-label="Main Navigation">
-                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" aria-label="About Me (opens in new tab)" class="hover:text-accent transition-colors">About Me</a>
-                     <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" aria-label="Contact Me (opens in new tab)" class="hover:text-accent transition-colors">Contact Me</a>
+                <nav class="desktop-nav hidden md:flex space-x-7 text-brand-light items-center text-lg" aria-label="Main Navigation">
+                     <a href="https://www.blogger.com/profile/06675668817383737660" target="_blank" rel="noopener noreferrer" aria-label="About Me (opens in new tab)">About Me</a>
+                     <a href="https://www.reddit.com/user/Federal_Anywhere_559/" target="_blank" rel="noopener noreferrer" aria-label="Contact Me (opens in new tab)">Contact Me</a>
                      <a href="writings.html" class="active" aria-current="page">Writings</a>
                  </nav>
             </div>
@@ -232,10 +200,11 @@
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10">
+    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
 
         <!-- ==== Writings Preview Grid ==== -->
-        <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
+        <!-- MAINTAINABILITY NOTE: When adding/editing a post, update BOTH the card here AND the full article content below. -->
+        <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1"> <!-- tabindex for JS focus fallback -->
 
                  <!-- ARTICLE 1 START (Preview) -->
                  <div class="writing-preview-card">
@@ -335,14 +304,16 @@
         <hr class="separator">
 
         <!-- ==== Full Articles Section (Initially Hidden, shown via CSS :target) ==== -->
+        <!-- MAINTAINABILITY NOTE: This section contains the full content. Update here AND in the preview card above when editing. -->
         <section id="full-articles-container">
             <div class="full-articles-content max-w-4xl mx-auto">
 
                 <!-- ARTICLE 1 START (Full Content) -->
-                <article id="post-2137542659647715265" tabindex="-1">
+                <article id="post-2137542659647715265" tabindex="-1"> <!-- tabindex for JS focus -->
                     <h2 class="text-hover-scale">So, you want to travel back</h2>
                     <div class="post-meta-info">Published: April 19, 2025</div>
                     <div class="post-content-html">
+                        <!-- Removed inline text-align, font-size, font-family where possible -->
                         <p style='text-align: center;'><span style='font-family: Outfit;'> "So, you want to travel back,<br> for you could not contain,<br> could not refrain,<br> that boundless hunger deep within,<br> For all the changes you could pinch,<br><br></span></p>
                         <p style='text-align: center;'><span style='font-family: Outfit;'>So, you want to travel back,<br> to gain control that with time lost,<br> for all mistakes that bore a heavy cost,<br> reassure the freedom thereafter,<br> stripping off all thy past disasters,<br><br></span></p>
                         <p style='text-align: center;'><span style='font-family: Outfit;'>So, you want to travel back,<br> For all the changes you could etch,<br> for all harmony that would cling,<br> from Serenity you longed to fetch,<br> from the compassion that you'd bring,<br><br></span></p>
@@ -363,6 +334,7 @@
                     <h2 class="text-hover-scale">The Cost of Belonging</h2>
                     <div class="post-meta-info">Published: April 18, 2025</div>
                     <div class="post-content-html">
+                         <!-- Removed inline text-align, font-size where possible -->
                         <p style='text-align: center;'>Was I born different? <br> What did I do different that made me the way I am?</p>
                         <p style='text-align: center;'>These are some of the questions that rebels like myself ask themselves at some point in life, probably after realizing how fucked up the world really is and how much control you really have, can’t put an age up at this, it’s different for everyone.</p>
                         <p style='text-align: center;'>This might just also be the time that we find ourselves a bit more depressed than usual and start looking out for those tiny moments of happiness since life isn’t playdough anymore. We might find ourselves having thoughts of travelling back through time to when things were simpler, when we were not as rebellious as we are right now.</p>
@@ -402,7 +374,7 @@
                     <h2 class="text-hover-scale">[POST] A New Chapter</h2>
                     <div class="post-meta-info">Published: February 14, 2025</div>
                     <div class="post-content-html">
-                        <p style='text-align: center;'><span style='font-family: Nunito;'> It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened. I discovered myself, I discovered that I was an asexual and personally I am disgusted by sex and anything related to that particular activity. This was a discovery that I made at around December, yeah, and I have only ever been more so confirmed of the fact that I am an asexual. So there's that and I didn't write anything particular during the interval that I was gone but I surely picked up some books which I've been reading and I'll share the image. I ordered them last month and they arrived last month only but I've begun reading them right now.<br><br>Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see. I am in the mood. I am starting to prepare for IPMAT And JIPMAT. I have been preparing, I'll say. Just because of the fact that I am surrounded by literal idiots. And I cannot endure any more of all this stupidity that I have endured so far. I need a break from all this. I need a better crowd around me. I need a better surrounding. That's why I have decided my past failure does not define who I am. And I'll be working hard to achieve this particular goal of mine. Because I only have like two months, to be frank with you. And this realization, although it came very late, I am glad that it did. And let's see what happens. I will try to write some blog posts or poems in between if I get the chance or the time to do so. Until then, I am not sure, but let's see.<br><br>There was this very fascinating, at least to me, a problem which I was stuck with up until now. This thought process of mine, which I'll summarize. Like all these past experiences which I unconsciously assume are of failure that plagued my mind, I don't know how to get over them or why haven't I internalized the fact that failure is just a part of the journey and not something to cling on to. What I realized over time or I realized like past few weeks is the fact that I am currently stuck in something totally stupid. I do realize that I don't like the crowd around me, yes. And the fact that I am clinging on to my so-called failures only to never try again is blatantly stupid. That is what I have been doing for the past few months, no not few months, for past an year or so. No one just gives up like that and I am only 19. This cannot be the way of life from now on. Like this cannot be my way of life for like ever in my life. This is just not me. I might be surrounded by idiots but I am not one. And just giving up on everything, passing your whole days doing worthless shit is just utterly idiotic and stupid. And if there is one thing I am totally sure of is that I am not stupid. I am smarter than the average and if so then I should act like one too.<br><br>I also realized one more thing. That depression, at least the one that I had, or my depression, is blatantly stupid. It was for me, at least. If you follow everything logically and just spend time with yourself and, you know, journal everything out like I did, and try to uncover the secrets of your thought process, I'll say, you might never get depressed. At least, this was the case with me.<br><br>Yesterday, out of nowhere, I just gave a mock of JIPMAT, and I scored around 110, which is surprising to be honest. I had zero to little preparation. I haven't evenpicked up a book related to academics in like 9 or 10 months, and I was able to score 110. I obviously scored the most in verbal ability and reading comprehension. That is one thing I'm pretty sure I'll need less preparation time for. The worst I did was in quant or mathematics, because obviously you need preparation for that. This is just fascinating to me, being able to score such marks without any preparation. That got me thinking of what would happen if I tried.</span></p>
+                        <p style='text-align: center;'><span style='font-family: Nunito;'> It's been so long that we have written anything and so much has happened and I don't mean to provide like a storytelling effect or something but really so much has happened. I discovered myself, I discovered that I was an asexual and personally I am disgusted by sex and anything related to that particular activity. This was a discovery that I made at around December, yeah, and I have only ever been more so confirmed of the fact that I am an asexual. So there's that and I didn't write anything particular during the interval that I was gone but I surely picked up some books which I've been reading and I'll share the image. I ordered them last month and they arrived last month only but I've begun reading them right now.<br><br>Sometimes I think I should start writing songs instead of writing poems. Maybe. We'll see. I am in the mood. I am starting to prepare for IPMAT And JIPMAT. I have been preparing, I'll say. Just because of the fact that I am surrounded by literal idiots. And I cannot endure any more of all this stupidity that I have endured so far. I need a break from all this. I need a better crowd around me. I need a better surrounding. That's why I have decided my past failure does not define who I am. And I'll be working hard to achieve this particular goal of mine. Because I only have like two months, to be frank with you. And this realization, although it came very late, I am glad that it did. And let's see what happens. I will try to write some blog posts or poems in between if I get the chance or the time to do so. Until then, I am not sure, but let's see.<br><br>There was this very fascinating, at least to me, a problem which I was stuck with up until now. This thought process of mine, which I'll summarize. Like all these past experiences which I unconsciously assume are of failure that plagued my mind, I don't know how to get over them or why haven't I internalized the fact that failure is just a part of the journey and not something to cling on to. What I realized over time or I realized like past few weeks is the fact that I am currently stuck in something totally stupid. I do realize that I don't like the crowd around me, yes. And the fact that I am clinging on to my so-called failures only to never try again is blatantly stupid. That is what I have been doing for the past few months, no not few months, for past an year or so. No one just gives up like that and I am only 19. This cannot be the way of life from now on. Like this cannot be my way of life for like ever in my life. This is just not me. I might be surrounded by idiots but I am not one. And just giving up on everything, passing your whole days doing worthless shit is just utterly idiotic and stupid. And if there is one thing I am totally sure of is that I am not stupid. I am smarter than the average and if so then I should act like one too.<br><br>I also realized one more thing. That depression, at least the one that I had, or my depression, is blatantly stupid. It was for me, at least. If you follow everything logically and just spend time with yourself and, you know, journal everything out like I did, and try to uncover the secrets of your thought process, I'll say, you might never get depressed. At least, this was the case with me.<br><br>Yesterday, out of nowhere, I just gave a mock of JIPMAT, and I scored around 110, which is surprising to be honest. I had zero to little preparation. I haven't even picked up a book related to academics in like 9 or 10 months, and I was able to score 110. I obviously scored the most in verbal ability and reading comprehension. That is one thing I'm pretty sure I'll need less preparation time for. The worst I did was in quant or mathematics, because obviously you need preparation for that. This is just fascinating to me, being able to score such marks without any preparation. That got me thinking of what would happen if I tried.</span></p>
                         <p style='text-align: center;'><span style='font-family: Nunito;'>I tried to read all the books that arrived yesterday, and there is one book that hasn't arrived yet, that being 101 essays, that will change the way that you think. White Nights, I found a little confusing. The narration and the vocab isn't really friendly at all. God Delusion is pretty great, and I'm pretty sure that I'll be reading it cover to cover, and it's something that I'll live my life by. The most fun I've had was with Read People Like A Myth by Patrick King. It is pretty easy to understand, and I'm just a very big fan of human psychology, because you know, it helps me understand myself better, and the people around me even better. And I did learn many things halfway through chapter one, that I'm pretty sure I'll be writing a post on. So I guess I'll be looking forward to that.</span></p>
                         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi-614uevCf62lPJLFYD1qEkMPsFCNPS0fzPIFMD8NeDq6_lMC-2u8vaWOnI1dBjfiWvjw7Oxs7GUROW1FhcmoJaVecu-9sPdySvAFM3bWPJJWMlOATj3Kq0Q87ZMjp_4INUhjU_N0ri3WN1RyBn_8ulyGyd-ZVOpBxny2pXzUx_ixV95Fif7Snl-GzFR4/s320/WhatsApp%20Image%202025-02-14%20at%2019.45.21_fccd094f.jpg" alt="Photo of several books including 'The God Delusion' and 'Read People Like a Book'" width="320" height="240" loading="lazy">
                     </div>
@@ -520,6 +492,7 @@
                     <h2 class="text-hover-scale">THE FOUR BURNER THEORY -</h2>
                     <div class="post-meta-info">Published: November 4, 2020</div>
                     <div class="post-content-html">
+                         <!-- Removed some inline styles, kept blockquote structure -->
                         <blockquote style='text-align: center;'><p> <b style='font-family: verdana;'>FOUR BURNER THEORY</b></p></blockquote>
                         <blockquote><blockquote><span style='font-family: verdana;'><b>IMAGINE FOUR BURNERS WITH A LIMITED AMOUNT OF FUEL LEFT EACH BURNER IDICATE BASIC NECESSITY OF YOUR LIFE . THE FIRST BURNER<u>      </u> SHOWS HEALTH . THE SECOND ONE SHOWS WORK . THE THIRD ONE SHOWS FAMILY AND THE LAST ONE SHOWS SOCIAL (MEANS YOUR FRIENDS , NEIGHBOURS ETC. ) AS THE BURNER ONLY HAVE LIMITED FUEL THE BURNERS ARE BURNING EQUALLY THAT MEANS YOU ARE GIVING EQUAL TIME TO EVERYONE TO YOUR FRIENDS , FAMILY , WORK , HEALTH .THIS TYPE OFLIFE IS LIVED BY AN UNSUCCESSFUL ONE AN AVERAGE PERSON, WHO IS GIVING EQUAL AMOUNT OF FUEL TO EACH BURNER. </b></span></blockquote></blockquote>
                         <blockquote><blockquote><span style='font-family: verdana;'><b>   IF YOU WANT TO BE<span style='color: #2b00fe;'> SUCCESSFUL</span> THEN YOU HAVE to CUT DOWN ANY ONE BURNER TOTALLY FROM YOUR LIFE IT COULD BE ANY BURNER EXCEPT FOR WORK (IT'S OBVIOUS HOW COULD YOU BE SUCCESFUL IF YOU DON'T PAY ATTENTION TO YOUR WORK??) AND IF YOU WANT <span style='color: #2b00fe;'>SUCCESS</span> IN AN EXTREME WAY THEN YOU SHOULD CUT DOWN TWO BURNERS TOTALLY FROM YOUR LIFE THEN ONLY YOU COULD ACHIEVE <span style='color: #2b00fe;'>SUCCESS</span> IN A GREAT WAY LIKE OTHER <span style='color: #2b00fe;'>SUCCESSFUL PEOPLE</span> FOR EG. ELON MUSK , STEVE JOBS ETC. ANALYSE THIER LIFE YOU WILL FOUND THE SAME THING THAT THEY HAVE CUT ANY TWO BURNERS COMPLETELY FROM THIE LIFE . </b></span></blockquote></blockquote>
@@ -537,13 +510,12 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-t from-darker to-dark/50 border-t border-accent/10 py-8 mt-16 relative z-10">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-text-tertiary">© <span id="year"></span> a-g-r-a-j. All rights reserved.</p>
-        </div>
+    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
+        <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
-     <!-- Scripts -->
+     <!-- Scripts (Moved to end of body) -->
+     <!-- Recommendation: Move to external .js file for production -->
      <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- Mobile Nav Toggle JS ---
@@ -552,14 +524,16 @@
             if (navToggle && mobileMenu) {
                 navToggle.addEventListener('click', () => {
                     const isOpen = mobileMenu.classList.toggle('is-open');
-                    navToggle.setAttribute('aria-expanded', String(isOpen));
+                    navToggle.setAttribute('aria-expanded', String(isOpen)); // Use String() for attribute
                 });
+                // Close menu when a link is clicked
                 mobileMenu.querySelectorAll('a').forEach(link => {
                     link.addEventListener('click', () => {
                         mobileMenu.classList.remove('is-open');
                         navToggle.setAttribute('aria-expanded', 'false');
                     });
                 });
+                // Close menu if clicking outside
                 document.addEventListener('click', (event) => {
                     const isClickInsideMenu = mobileMenu.contains(event.target);
                     const isClickOnToggle = navToggle.contains(event.target);
@@ -572,33 +546,54 @@
 
             // --- Writings Page Interaction Logic (Enhancements) ---
             const defaultTitle = "Writings - Agraj Dubey";
-            let lastClickedReadMoreLink = null;
+            let lastClickedReadMoreLink = null; // For focus management
 
+            // Store the link that was clicked to open an article
             document.querySelectorAll('.read-more-link').forEach(link => {
                 link.addEventListener('click', (event) => {
                     lastClickedReadMoreLink = event.currentTarget;
+                    // Smooth scroll and focus handled by hashchange listener
                 });
             });
 
+            // Handle Back button clicks
             document.querySelectorAll('.back-button').forEach(button => {
                 button.addEventListener('click', (event) => {
+                    // Prevent default hash change if we handle focus manually
+                    // event.preventDefault(); // Keep default for CSS :target
+
+                    // Restore title
                     document.title = defaultTitle;
+
+                    // Return focus to the link that opened the article, if possible
                     if (lastClickedReadMoreLink) {
+                        // Use a slight delay to ensure the element is visible before focusing
                         setTimeout(() => {
+                            // Check if element still exists in DOM (might be edge cases)
                             if (document.body.contains(lastClickedReadMoreLink)) {
                                 lastClickedReadMoreLink.focus();
                             }
-                            lastClickedReadMoreLink = null;
-                        }, 50);
+                            lastClickedReadMoreLink = null; // Reset after use
+                        }, 50); // Adjust delay if needed
                     } else {
+                         // Fallback: focus grid container or body
                          const grid = document.getElementById('writings-grid-container');
                          if (grid) {
-                             setTimeout(() => grid.focus({ preventScroll: true }), 50);
+                             setTimeout(() => grid.focus({ preventScroll: true }), 50); // preventScroll might not be needed if already scrolled
                          }
                     }
+                     // Smooth scroll back to grid (optional, browser handles basic jump)
+                     const gridElement = document.getElementById('writings-grid-container');
+                     if(gridElement) {
+                         // Use JS scroll if CSS scroll-behavior is not enough or for more control
+                         // setTimeout(() => { gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+                     } else {
+                         // window.scrollTo({ top: 0, behavior: 'smooth' });
+                     }
                 });
             });
 
+            // Handle hash changes for smooth scroll, title update, and focus
             function handleHashChange() {
                 const hash = window.location.hash;
                 if (hash && hash.startsWith('#post-')) {
@@ -606,40 +601,52 @@
                     const targetArticle = document.getElementById(targetId);
 
                     if (targetArticle) {
+                        // Update Title
                         const titleElement = targetArticle.querySelector('h2');
                         const articleTitle = titleElement ? titleElement.textContent.trim() : "Article";
                         document.title = `${articleTitle} - Writings - Agraj Dubey`;
 
+                        // Smooth Scroll to Article (enhancement over default jump)
+                        // Check if the element is already in view to avoid unnecessary scroll jumps
                         const rect = targetArticle.getBoundingClientRect();
                         const isElementInView = rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
 
                         if (!isElementInView) {
                             setTimeout(() => {
                                 targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }, 50);
+                            }, 50); // Delay slightly after CSS makes it visible
                         }
 
+
+                        // Set Focus to Article Heading (Accessibility)
                         const heading = targetArticle.querySelector('h2');
                         if (heading) {
-                            setTimeout(() => {
-                                heading.setAttribute('tabindex', '-1');
-                                heading.focus({ preventScroll: true });
-                            }, 250);
+                            setTimeout(() => { // Delay focus until scroll likely finished
+                                heading.setAttribute('tabindex', '-1'); // Make focusable if not already
+                                heading.focus({ preventScroll: true }); // preventScroll helps if scrollIntoView is slightly off
+                            }, 250); // Adjust delay as needed
                         }
                     }
                 } else {
+                    // Hash is empty or not an article ID, reset title
                     document.title = defaultTitle;
-                     if (!lastClickedReadMoreLink) {
+                     // Optional: Scroll to top or grid start when going back via browser buttons
+                     if (!lastClickedReadMoreLink) { // Avoid scrolling if back button was just clicked
                         const gridElement = document.getElementById('writings-grid-container');
-                        if(gridElement && window.scrollY > gridElement.offsetTop) {
-                           // Optional scroll back to grid
+                        if(gridElement && window.scrollY > gridElement.offsetTop) { // Only scroll if we are below the grid
+                           // setTimeout(() => { gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
                         }
                      }
                 }
             }
 
+            // Listen for hash changes (clicking links, browser back/forward)
             window.addEventListener('hashchange', handleHashChange);
+
+            // Initial check in case the page loads with a hash
+            // Wrap in setTimeout to ensure :target styles might apply first if browser restores hash state quickly
             setTimeout(handleHashChange, 0);
+
 
             // --- Footer Year ---
             const yearSpan = document.getElementById('year');
@@ -647,90 +654,10 @@
                 yearSpan.textContent = new Date().getFullYear();
             }
 
-            // --- Initialize Particle Background ---
-            initParticles(); // Call the function
+            // --- Dynamic Text Hover Scale (Removed for full article content) ---
+            // No longer needed to add dynamically to paragraphs in full articles.
+            // Kept for H3s in preview cards via static class in HTML.
         });
-
-        // --- Particle Background Logic (Copied from index.html) ---
-        function initParticles() {
-            try {
-                const container = document.getElementById('particles');
-                if (!container || typeof THREE === 'undefined') {
-                    console.warn("Three.js library not found or particle container missing.");
-                    return;
-                }
-
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                const renderer = new THREE.WebGLRenderer({ alpha: true });
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.setClearColor(0x000000, 0);
-                container.appendChild(renderer.domElement);
-
-                const particlesGeometry = new THREE.BufferGeometry();
-                const particleCount = 750;
-                const positions = new Float32Array(particleCount * 3);
-                const colors = new Float32Array(particleCount * 3);
-
-                for (let i = 0; i < particleCount * 3; i += 3) {
-                    positions[i] = (Math.random() - 0.5) * 20;
-                    positions[i+1] = (Math.random() - 0.5) * 20;
-                    positions[i+2] = (Math.random() - 0.5) * 20 - 10;
-                    colors[i] = Math.random() * 0.5 + 0.5;
-                    colors[i+1] = Math.random() * 0.3 + 0.2;
-                    colors[i+2] = Math.random() * 0.5 + 0.5;
-                }
-                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-                const particlesMaterial = new THREE.PointsMaterial({
-                    size: 0.035,
-                    vertexColors: true,
-                    transparent: true,
-                    opacity: 0.75,
-                    sizeAttenuation: true
-                });
-
-                const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
-                scene.add(particleSystem);
-                camera.position.z = 5;
-
-                let mouseX = 0, mouseY = 0;
-                const onMouseMove = (event) => {
-                    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-                    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-                };
-                document.addEventListener('mousemove', onMouseMove, { passive: true });
-
-                let animationFrameId = null;
-                function animate() {
-                    animationFrameId = requestAnimationFrame(animate);
-                    particleSystem.rotation.x += 0.0005 + mouseY * 0.0005;
-                    particleSystem.rotation.y += 0.0005 + mouseX * 0.0005;
-                    renderer.render(scene, camera);
-                }
-                animate();
-
-                const onResize = () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                };
-                window.addEventListener('resize', onResize);
-
-                window.addEventListener('unload', () => {
-                    if (animationFrameId) {
-                        cancelAnimationFrame(animationFrameId);
-                    }
-                    document.removeEventListener('mousemove', onMouseMove);
-                    window.removeEventListener('resize', onResize);
-                });
-
-            } catch (error) {
-                console.error("Error initializing particles:", error);
-            }
-        }
-
     </script>
 
 </body>
