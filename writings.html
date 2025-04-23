@@ -138,6 +138,7 @@
      <div class="bg-overlay"></div>
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
+        <!-- Header Content (unchanged) -->
         <div class="container mx-auto px-6 py-4 relative">
             <div class="header-container">
                 <div class="flex items-center space-x-4">
@@ -158,38 +159,31 @@
                  <a href="writings.html" class="active" aria-current="page">Writings</a>
              </nav>
         </div>
-    </header>
+     </header>
 
     <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10">
-
-        <!-- ==== Writings Preview Grid ==== -->
+        <!-- Main Content (unchanged) -->
         <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
             <!-- Preview cards inserted here -->
         </section>
-        <!-- ==== End Writings Preview Grid ==== -->
-
-        <!-- Separator -->
         <hr class="separator">
-
-        <!-- ==== Full Articles Section ==== -->
         <section id="full-articles-container" style="display: none;">
             <div class="full-articles-content max-w-4xl mx-auto">
                 <!-- Full articles inserted here -->
             </div>
         </section>
-        <!-- ==== End Full Articles Section ==== -->
-
     </main>
 
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
+        <!-- Footer Content (unchanged) -->
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
      <!-- Main Script -->
      <script>
 
-        // --- tsParticles Initialization (More Stimulating Config) ---
+        // --- tsParticles Initialization (Pulsing/Bubbling + Repulse) ---
         function initTsParticles() {
             if (typeof tsParticles === 'undefined') {
                 console.error("tsParticles library not loaded.");
@@ -199,38 +193,46 @@
                 fullScreen: { enable: true, zIndex: -10 },
                 particles: {
                     number: {
-                        value: 200, // Keep increased count
-                        density: { enable: true, value_area: 650 } // Slightly higher density
+                        value: 180, // Slightly fewer particles might look better with pulsing
+                        density: { enable: true, value_area: 700 }
                     },
                     color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
                     shape: { type: "circle" },
                     opacity: {
-                        value: 0.7, random: true,
-                        anim: { enable: true, speed: 0.8, opacity_min: 0.2, sync: false }
+                        value: { min: 0.1, max: 0.6 }, // Define min/max for animation
+                        // *** UPDATED: Configure opacity animation ***
+                        animation: {
+                            enable: true,
+                            speed: 1.5, // Speed of the fade effect
+                            minimumValue: 0.1, // Minimum opacity
+                            sync: false // Particles fade independently
+                        }
                     },
-                    size: { value: 2.5, random: true },
-                    // *** NEW: Add connecting lines ***
-                    links: {
-                        enable: true, // Enable lines
-                        distance: 130, // Max distance to draw line
-                        color: "#CBB8E8", // Use light accent color for lines
-                        opacity: 0.25, // Make lines semi-transparent
+                    size: {
+                        value: { min: 0.5, max: 3.0 }, // Define min/max size for animation
+                         // *** UPDATED: Configure size animation ***
+                        animation: {
+                            enable: true,
+                            speed: 4, // Speed of the size pulse
+                            minimumValue: 0.5, // Minimum size
+                            sync: false // Particles pulse independently
+                        }
+                    },
+                    links: { // Keep links for visual connection
+                        enable: true,
+                        distance: 130,
+                        color: "#CBB8E8",
+                        opacity: 0.2, // Slightly fainter lines
                         width: 1
                     },
                     move: {
                         enable: true,
-                        speed: 1.5, // Slightly increased speed
+                        speed: 1.2, // Keep base movement subtle
                         direction: "none", random: true, straight: false, out_mode: "out", bounce: false,
-                        attract: { enable: true, rotateX: 600, rotateY: 1200, distance: 100 }
+                        attract: { enable: false } // Disable particle self-attraction for cleaner pulsing
                     },
-                    // *** NEW: Add twinkle effect ***
-                    twinkle: {
-                        particles: {
-                            enable: true,
-                            frequency: 0.05, // How often twinkle occurs
-                            opacity: 0.8, // Opacity during twinkle
-                            color: "#AE8BD5" // Use hover accent color for twinkle
-                        }
+                    twinkle: { // Keep twinkle for extra visual interest
+                        particles: { enable: true, frequency: 0.05, opacity: 0.8, color: "#AE8BD5" }
                     }
                 },
                 interactivity: {
@@ -238,34 +240,23 @@
                     events: {
                         onhover: {
                             enable: true,
-                            mode: "repulse" // *** CHANGED: Repulse particles on hover ***
+                            mode: "repulse" // *** Keep Repulse on hover ***
                         },
                         onclick: {
                             enable: true,
-                            mode: "bubble" // *** CHANGED: Bubble effect on click ***
+                            mode: "push" // *** Keep Push on click (no bubble needed now) ***
                         },
                         resize: true
                     },
                     modes: {
-                        // *** UPDATED: Configure new modes ***
-                        repulse: { // Settings for repulse mode
-                            distance: 150, // How far cursor pushes particles
-                            duration: 0.4,
-                            factor: 100, // Strength of push
-                            speed: 1,
-                            maxSpeed: 50,
-                            easing: "ease-out-quad"
+                        repulse: { // Keep repulse settings
+                            distance: 150, duration: 0.4, factor: 100, speed: 1, maxSpeed: 50, easing: "ease-out-quad"
                         },
-                        bubble: { // Settings for bubble mode
-                            distance: 250, // Radius of effect
-                            size: 30, // Max size particles reach
-                            duration: 2, // How long bubble lasts
-                            opacity: 0.8, // Opacity during bubble (can be lower than 1)
-                            // speed: 3 // Speed of bubble animation (optional)
-                        },
-                        // Keep old modes available if needed
+                        push: { quantity: 4 }, // Keep push settings
+                        // Remove bubble mode settings as it's not used for interaction
+                        // bubble: { distance: 250, size: 30, duration: 2, opacity: 0.8 },
+                        // Keep other modes available if needed
                         attract: { distance: 200, duration: 0.4, factor: 2.5, maxSpeed: 5, speed: 1.5 },
-                        push: { quantity: 4 },
                         remove: { particles_nb: 2 }
                     }
                 },
