@@ -13,18 +13,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;700&family=Nunito:wght@400;700&family=Fuzzy+Bubbles:wght@400;700&display=swap" rel="stylesheet">
     <script>
         // Tailwind Config (Keep inline for CDN usage)
-        // Recommendation: Use tailwind.config.js and a build step for production.
         tailwind.config = { theme: { extend: { colors: { 'brand-purple': '#9272CE', 'brand-hover': '#AE8BD5', 'brand-light-purple': '#CBB8E8', 'brand-dark': '#000000', 'brand-light': '#FFFFFF', 'brand-gray': '#D1D1D1', 'brand-text': '#A8A8A8', 'article-bg': 'rgba(20, 20, 22, 0.88)', 'card-bg': 'rgba(30, 30, 30, 0.85)', 'dark-purple-bg': '#1a0a2e', 'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)', 'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)' }, fontFamily: { sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'], verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'] } } } }
     </script>
      <style>
          /* --- Keyframes --- */
          @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
          @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-         /* Stronger Hover Glow (Keep for hover, remove default pulse) */
          @keyframes card-glow { 0% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } 50% { box-shadow: 0 0 25px 6px rgba(146, 114, 206, 0.4), 0 8px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.7); } 100% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } }
-         /* Removed card-subtle-pulse keyframe */
          @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-         /* Removed nav-active-pulse keyframe */
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
@@ -46,7 +42,6 @@
             background-color: theme('colors.body-overlay');
         }
 
-
         /* --- Header & Nav --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
         .nav-toggle-btn { background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 60; }
@@ -56,19 +51,13 @@
         .mobile-menu.is-open { display: block; }
         .mobile-menu a { display: block; padding: 0.8rem 1.5rem; color: theme('colors.brand-light'); font-size: 1.1rem; transition: color 0.3s ease, background-color 0.3s ease; text-align: center; }
         .mobile-menu a:hover { color: theme('colors.brand-purple'); background-color: rgba(146, 114, 206, 0.1); }
-        .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.05); font-weight: 600; color: theme('colors.brand-purple'); /* Removed animation */ }
+        .mobile-menu a.active { background-color: rgba(146, 114, 206, 0.05); font-weight: 600; color: theme('colors.brand-purple'); }
         .desktop-nav a { transition: color 0.3s ease-in-out, transform 0.2s ease; display: inline-block; }
         .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
-        .desktop-nav a.active { font-weight: 600; color: theme('colors.brand-purple'); /* Removed animation */ }
-        /* Style for external links in nav */
+        .desktop-nav a.active { font-weight: 600; color: theme('colors.brand-purple'); }
         .desktop-nav a[target="_blank"]::after,
         .mobile-menu a[target="_blank"]::after {
-            content: ' \2197'; /* Unicode North East Arrow */
-            font-size: 0.8em;
-            vertical-align: super;
-            display: inline-block;
-            margin-left: 2px;
-            opacity: 0.7;
+            content: ' \2197'; font-size: 0.8em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7;
         }
 
         /* --- Text Hover Scale (Keep for Titles) --- */
@@ -82,45 +71,42 @@
             border: 1px solid rgba(146, 114, 206, 0.2);
             display: flex; flex-direction: column;
             transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
-            /* Removed default pulse animation */
-            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18); /* Base shadow */
+            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18);
         }
         .writing-preview-card:hover {
             transform: translateY(-8px) scale(1.04);
             background-color: theme('colors.card-hover-bg');
-            /* Apply glow animation on hover */
             animation: card-glow 1.8s ease-in-out infinite alternate;
         }
         .writing-preview-card h3 { color: theme('colors.brand-light'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
         .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-light-purple'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
         .writing-preview-card .excerpt { color: theme('colors.brand-gray'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
-        /* Changed button to link styling */
-        .writing-preview-card a.read-more-link { display: inline-block; /* Make it behave like a button */ background: none; border: none; padding: 0; color: theme('colors.brand-purple'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
+        .writing-preview-card a.read-more-link { display: inline-block; background: none; border: none; padding: 0; color: theme('colors.brand-purple'); font-weight: 500; text-decoration: none; align-self: flex-start; cursor: pointer; transition: color 0.3s ease; font-size: 1rem; margin-top: auto; }
         .writing-preview-card a.read-more-link:hover { color: theme('colors.brand-hover'); text-decoration: underline; }
 
-        /* --- Full Article Styling & CSS :target Logic --- */
-        #writings-grid-container { display: grid; /* Default state */ }
-        #full-articles-container { display: none; /* Hidden by default */ margin-top: 2rem; }
+        /* --- Full Article Styling --- */
+        /* Grid container needs display: grid initially */
+        #writings-grid-container { display: grid; }
+        /* Full articles container hidden initially */
+        #full-articles-container { display: none; margin-top: 2rem; }
         #full-articles-container article {
-            display: none; /* Articles hidden by default */
+            /* Articles are hidden via JS initially, not CSS */
             background-color: theme('colors.article-bg'); backdrop-filter: blur(10px);
             border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
             box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
             border: 1px solid rgba(146, 114, 206, 0.3);
             border-top: 5px solid theme('colors.brand-purple');
-            opacity: 0;
-            transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; /* Reduced transform duration */
+            opacity: 0; /* Start faded out for JS transition */
+            transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
         }
-        /* Toned down hover effect for full article */
         #full-articles-container article:hover {
-            transform: scale(1.01); /* Reduced scale */
-            box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25); /* Reduced shadow */
+            transform: scale(1.01);
+            box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25);
         }
 
         /* Styling for elements inside the full article */
         #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
         #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
-        /* Back button (now a link) styling */
         a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
         a.back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 25px rgba(146, 114, 206, 0.4); }
 
@@ -132,25 +118,29 @@
             display: block; /* Default state */
         }
 
-        /* --- Blogger Content Styling (Minor cleanup, removed hover scale on paragraphs) --- */
-        /* NOTE: Manually removed some inline styles from the HTML below */
-        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html i, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; /* Force transparent BG */ text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
+        /* --- Content Styling (from JS/Markdown) --- */
+        /* Styles for content generated from Markdown/HTML in JSON */
+        .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
         .post-content-html span { margin: 0; display: inline; }
-        /* Removed hover scale from paragraphs/divs/blockquotes */
-        /* .post-content-html p.text-hover-scale:hover, ... etc */
-        .post-content-html blockquote:has(blockquote:hover) { background-color: rgba(146, 114, 206, 0.03); transform: none; }
-        .post-content-html blockquote:has(blockquote blockquote:hover) { background-color: rgba(174, 139, 213, 0.03); transform: none; }
-        /* Keep specific font overrides if needed, but prefer classes */
-        .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); } .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); } .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); } .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); } .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
-        .post-content-html b, .post-content-html [style*="font-weight: bold"] { font-weight: 700; } .post-content-html i, .post-content-html [style*="font-style: italic"] { font-style: italic; } .post-content-html u { text-decoration: underline; } .post-content-html a { color: theme('colors.brand-purple'); text-decoration: underline; transition: color 0.2s ease; display: inline; } .post-content-html a:hover { color: theme('colors.brand-hover'); }
-        /* Allow text-align overrides from inline styles if present */
+        .post-content-html b, .post-content-html strong, .post-content-html [style*="font-weight: bold"] { font-weight: 700; }
+        .post-content-html i, .post-content-html em, .post-content-html [style*="font-style: italic"] { font-style: italic; }
+        .post-content-html u { text-decoration: underline; }
+        .post-content-html a { color: theme('colors.brand-purple'); text-decoration: underline; transition: color 0.2s ease; display: inline; }
+        .post-content-html a:hover { color: theme('colors.brand-hover'); }
         .post-content-html p[style*="text-align: center;"], .post-content-html div[style*="text-align: center;"], .post-content-html blockquote[style*="text-align: center;"] { text-align: center; margin-left: auto; margin-right: auto; }
         .post-content-html blockquote { border-left: 4px solid theme('colors.brand-purple'); padding: 0.75em 1.5rem; margin-left: 0; margin-right: 0; font-style: italic; color: theme('colors.brand-text'); background-color: rgba(146, 114, 206, 0.03); }
         .post-content-html blockquote blockquote { margin-top: 1em; margin-left: 1.5rem; border-left-color: theme('colors.brand-hover'); padding-left: 1rem; background-color: rgba(174, 139, 213, 0.03); }
         .post-content-html blockquote p { margin-bottom: 0.75em; }
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .post-content-html img:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.55); }
-        .post-content-html .separator { display: none; } /* Hide Blogger separators */
+        .post-content-html .separator { display: none; } /* Hide Blogger separators if any remain */
+        /* Apply specific font families if needed, based on original inline styles */
+        .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); }
+        .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); }
+        .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); }
+        .post-content-html [style*="font-family: verdana"] { font-family: theme('fontFamily.verdana'); }
+        .post-content-html [style*="font-family: trebuchet"] { font-family: theme('fontFamily.trebuchet'); }
+
 
         /* Utility for excerpt clamping */
         @layer utilities { .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
@@ -184,23 +174,24 @@
 
     <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
 
-<!-- ==== Writings Preview Grid ==== -->
-<section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
-    <!-- Preview cards will be inserted here by JavaScript -->
-</section>
-<!-- ==== End Writings Preview Grid ==== -->
+        <!-- ==== Writings Preview Grid ==== -->
+        <!-- Content is dynamically inserted here -->
+        <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
+            <!-- Preview cards will be inserted here by JavaScript -->
+        </section>
         <!-- ==== End Writings Preview Grid ==== -->
 
-        <!-- Separator (Hidden by CSS when article is targeted) -->
+        <!-- Separator -->
         <hr class="separator">
 
-<!-- ==== Full Articles Section (Initially Hidden, shown via CSS :target) ==== -->
-<section id="full-articles-container">
-    <div class="full-articles-content max-w-4xl mx-auto">
-        <!-- Full articles will be inserted here by JavaScript -->
-    </div><!-- end full-articles-content -->
-</section>
-<!-- ==== End Full Articles Section ==== -->
+        <!-- ==== Full Articles Section ==== -->
+        <!-- Container is initially hidden, content dynamically inserted -->
+        <section id="full-articles-container" style="display: none;">
+            <div class="full-articles-content max-w-4xl mx-auto">
+                <!-- Full articles will be inserted here by JavaScript -->
+            </div><!-- end full-articles-content -->
+        </section>
+        <!-- ==== End Full Articles Section ==== -->
 
     </main>
 
@@ -209,237 +200,344 @@
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
-    <!-- Add Marked.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+     <!-- Add Marked.js Library -->
+     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Your existing script block -->
-    <script>
+     <!-- Main Script -->
+     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ... your existing JS code ...
-        // --- NEW CODE START ---
-
-        const gridContainer = document.getElementById('writings-grid-container');
-        const articlesContainer = document.getElementById('full-articles-container');
-        const fullArticlesContent = articlesContainer.querySelector('.full-articles-content');
-        const separator = document.querySelector('hr.separator'); // Get the separator
-        const defaultTitle = "Writings - Agraj Dubey"; // Keep default title
-
-        // Function to format date (optional, but nice)
-        function formatDate(dateString) {
-            try {
-                const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                return new Date(dateString + 'T00:00:00').toLocaleDateString(undefined, options);
-            } catch (e) {
-                return dateString; // Fallback to original string if parsing fails
+            // --- Mobile Nav Toggle JS ---
+            const navToggle = document.getElementById('nav-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (navToggle && mobileMenu) {
+                navToggle.addEventListener('click', () => {
+                    const isOpen = mobileMenu.classList.toggle('is-open');
+                    navToggle.setAttribute('aria-expanded', String(isOpen));
+                });
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('is-open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    });
+                });
+                document.addEventListener('click', (event) => {
+                    const isClickInsideMenu = mobileMenu.contains(event.target);
+                    const isClickOnToggle = navToggle.contains(event.target);
+                    if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) {
+                        mobileMenu.classList.remove('is-open');
+                        navToggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
             }
-        }
 
-        // Function to generate HTML for a preview card
-        function createPreviewCard(post) {
-            // Basic HTML structure (matches your original card structure)
-            // Note: Using template literals (backticks ``) for easier HTML string creation
-            return `
-                <div class="writing-preview-card" data-post-id="${post.id}">
-                    <h3 class="text-hover-scale">${post.title}</h3>
-                    <div class="post-meta-info">${formatDate(post.date)}</div>
-                    <div class="excerpt line-clamp-4">${post.excerpt}</div>
-                    <a href="#${post.id}" class="read-more-link">Read More →</a>
-                </div>
-            `;
-        }
+            // --- Footer Year ---
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
 
-        // Function to generate HTML for a full article
-        function createFullArticle(post) {
-            // Use marked.parse() to convert Markdown/HTML string to HTML
-            // Ensure images from markdown/html are handled correctly
-            const contentHtml = marked.parse(post.contentMarkdown.trim().slice(1, -1)); // Remove backticks before parsing
+            // --- Writings Page Logic ---
+            const gridContainer = document.getElementById('writings-grid-container');
+            const articlesContainer = document.getElementById('full-articles-container');
+            const fullArticlesContent = articlesContainer?.querySelector('.full-articles-content'); // Use optional chaining
+            const separator = document.querySelector('hr.separator');
+            const defaultTitle = "Writings - Agraj Dubey";
 
-            // Check for optional image
-            const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title}" loading="lazy">` : '';
+            // Function to format date
+            function formatDate(dateString) {
+                try {
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    // Add time component to avoid timezone issues if dateString is just YYYY-MM-DD
+                    const date = new Date(dateString + 'T00:00:00');
+                    if (isNaN(date)) throw new Error("Invalid date"); // Check if date is valid
+                    return date.toLocaleDateString(undefined, options);
+                } catch (e) {
+                    console.warn("Date formatting failed for:", dateString, e);
+                    return dateString; // Fallback
+                }
+            }
 
-            return `
-                <article id="${post.id}" tabindex="-1" style="display: none;"> <!-- Start hidden -->
-                    <h2 class="text-hover-scale">${post.title}</h2>
-                    <div class="post-meta-info">Published: ${formatDate(post.date)}</div>
-                    <div class="post-content-html">
-                        ${contentHtml}
-                        ${imageHtml}
+            // Function to generate HTML for a preview card
+            function createPreviewCard(post) {
+                // Sanitize excerpt slightly - basic protection against broken HTML in excerpt
+                const tempDiv = document.createElement('div');
+                tempDiv.textContent = post.excerpt || ''; // Use textContent to strip potential HTML tags
+                const sanitizedExcerpt = tempDiv.innerHTML;
+
+                return `
+                    <div class="writing-preview-card" data-post-id="${post.id}">
+                        <h3 class="text-hover-scale">${post.title || 'Untitled Post'}</h3>
+                        <div class="post-meta-info">${formatDate(post.date)}</div>
+                        <div class="excerpt line-clamp-4">${sanitizedExcerpt}</div>
+                        <a href="#${post.id}" class="read-more-link">Read More →</a>
                     </div>
-                    <a href="#" class="back-button mt-8">← Back to Writings</a>
-                </article>
-            `;
-        }
-
-        // Function to display all posts
-        function displayPosts(posts) {
-            if (!gridContainer || !fullArticlesContent) {
-                console.error("Required container elements not found!");
-                return;
+                `;
             }
 
-            // Clear existing content (important if this function is ever re-run)
-            gridContainer.innerHTML = '';
-            fullArticlesContent.innerHTML = '';
+            // Function to generate HTML for a full article
+            function createFullArticle(post) {
+                 // Ensure contentMarkdown exists and is a string
+                 const markdownInput = typeof post.contentMarkdown === 'string' ? post.contentMarkdown.trim() : '';
+                 // Remove potential surrounding backticks if they exist
+                 const cleanedMarkdown = markdownInput.startsWith('`') && markdownInput.endsWith('`')
+                     ? markdownInput.slice(1, -1)
+                     : markdownInput;
 
-            // Sort posts by date, newest first (optional)
-            posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            // Generate and append HTML for each post
-            posts.forEach(post => {
-                const previewCardHtml = createPreviewCard(post);
-                const fullArticleHtml = createFullArticle(post);
-
-                gridContainer.insertAdjacentHTML('beforeend', previewCardHtml);
-                fullArticlesContent.insertAdjacentHTML('beforeend', fullArticleHtml);
-            });
-
-            // After adding all posts, set up the interaction logic
-            setupArticleInteraction();
-        }
-
-        // Function to handle showing/hiding articles
-        function setupArticleInteraction() {
-            const readMoreLinks = gridContainer.querySelectorAll('.read-more-link');
-            const backButtons = fullArticlesContent.querySelectorAll('.back-button');
-
-            readMoreLinks.forEach(link => {
-                link.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default anchor jump
-                    const postId = link.closest('.writing-preview-card').dataset.postId;
-                    showArticle(postId);
-                });
-            });
-
-            backButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default anchor jump
-                    showGrid();
-                });
-            });
-
-             // Handle hash changes (browser back/forward, direct links)
-             window.addEventListener('hashchange', handleHashChange);
-             // Initial check in case the page loads with a hash
-             setTimeout(handleHashChange, 0); // Use timeout to ensure elements are ready
-        }
-
-        function showArticle(postId) {
-            const targetArticle = fullArticlesContent.querySelector(`#${postId}`);
-            if (!targetArticle) return;
-
-            // Hide grid and separator
-            gridContainer.style.display = 'none';
-            if (separator) separator.style.display = 'none';
-
-            // Hide all other articles first
-            fullArticlesContent.querySelectorAll('article').forEach(article => {
-                article.style.display = 'none';
-                article.style.opacity = '0';
-            });
-
-            // Show the target article container and the specific article
-            articlesContainer.style.display = 'block';
-            targetArticle.style.display = 'block';
-            // Use a tiny delay before setting opacity for fade-in effect
-            setTimeout(() => {
-                targetArticle.style.opacity = '1';
-                targetArticle.style.animation = 'fade-in 0.6s ease-out forwards'; // Re-apply animation
-            }, 10);
-
-
-            // Update title
-            const titleElement = targetArticle.querySelector('h2');
-            document.title = titleElement ? `${titleElement.textContent.trim()} - Writings - Agraj Dubey` : defaultTitle;
-
-            // Scroll to article and focus (optional, but good UX)
-             setTimeout(() => {
-                 targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                 const heading = targetArticle.querySelector('h2');
-                 if (heading) {
-                     heading.setAttribute('tabindex', '-1');
-                     heading.focus({ preventScroll: true });
+                 let contentHtml = '';
+                 try {
+                     // Use marked.parse() to convert Markdown/HTML string to HTML
+                     // Enable GitHub Flavored Markdown (GFM) and smartypants for better typography
+                     contentHtml = marked.parse(cleanedMarkdown, { gfm: true, smartypants: true });
+                 } catch (e) {
+                     console.error("Error parsing markdown for post:", post.id, e);
+                     contentHtml = '<p class="text-red-500">Error displaying content.</p>';
                  }
-             }, 100); // Delay focus until scroll likely started/finished
 
+                // Check for optional image
+                const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title || 'Post image'}" loading="lazy">` : '';
 
-            // Update hash without causing immediate re-trigger of hashchange
-            if (window.location.hash !== `#${postId}`) {
-                history.pushState(null, '', `#${postId}`); // Change URL without reload
-            }
-        }
-
-        function showGrid() {
-            // Hide all articles and the container
-             fullArticlesContent.querySelectorAll('article').forEach(article => {
-                article.style.display = 'none';
-                article.style.opacity = '0';
-                article.style.animation = 'none'; // Remove animation
-            });
-            articlesContainer.style.display = 'none';
-
-
-            // Show grid and separator
-            gridContainer.style.display = 'grid'; // Or 'block' if it wasn't grid originally
-             if (separator) separator.style.display = 'block';
-
-            // Reset title
-            document.title = defaultTitle;
-
-            // Update hash/history
-            if (window.location.hash) {
-                history.pushState(null, '', window.location.pathname + window.location.search); // Remove hash
+                return `
+                    <article id="${post.id}" tabindex="-1" style="display: none; opacity: 0;"> <!-- Start hidden and faded out -->
+                        <h2 class="text-hover-scale">${post.title || 'Untitled Post'}</h2>
+                        <div class="post-meta-info">Published: ${formatDate(post.date)}</div>
+                        <div class="post-content-html">
+                            ${contentHtml}
+                            ${imageHtml}
+                        </div>
+                        <a href="#" class="back-button mt-8">← Back to Writings</a>
+                    </article>
+                `;
             }
 
-             // Optional: Scroll back to grid start
-             // gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+            // Function to display all posts
+            function displayPosts(posts) {
+                if (!gridContainer || !fullArticlesContent) {
+                    console.error("Required container elements not found! Cannot display posts.");
+                    if (gridContainer) {
+                         gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Page structure error. Cannot load writings.</p>';
+                    }
+                    return;
+                }
 
-         // Handle hash changes for direct linking and back/forward buttons
-         function handleHashChange() {
-             const hash = window.location.hash;
-             if (hash && hash.startsWith('#post-')) {
-                 const postId = hash.substring(1);
-                 // Check if the article exists before showing it
-                 if (fullArticlesContent.querySelector(`#${postId}`)) {
-                     showArticle(postId);
+                // Clear existing content
+                gridContainer.innerHTML = '';
+                fullArticlesContent.innerHTML = '';
+
+                // Validate posts structure (basic check)
+                if (!Array.isArray(posts)) {
+                     console.error("Invalid data format: Expected an array of posts.");
+                     gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Invalid data format received.</p>';
+                     return;
+                }
+
+                // Sort posts by date, newest first
+                try {
+                    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+                } catch (e) {
+                    console.warn("Could not sort posts by date.", e);
+                    // Proceed without sorting if error occurs
+                }
+
+
+                // Generate and append HTML for each post
+                posts.forEach(post => {
+                    // Basic validation for each post object
+                    if (post && typeof post === 'object' && post.id && post.title && post.date && post.excerpt && post.contentMarkdown) {
+                        const previewCardHtml = createPreviewCard(post);
+                        const fullArticleHtml = createFullArticle(post);
+
+                        gridContainer.insertAdjacentHTML('beforeend', previewCardHtml);
+                        fullArticlesContent.insertAdjacentHTML('beforeend', fullArticleHtml);
+                    } else {
+                        console.warn("Skipping invalid post object:", post);
+                    }
+                });
+
+                // Set up interaction logic only if posts were likely added
+                if (gridContainer.children.length > 0) {
+                    setupArticleInteraction();
+                } else if (posts.length === 0) {
+                     gridContainer.innerHTML = '<p class="text-center text-brand-text col-span-full">No writings found.</p>';
+                } else {
+                     // If posts array wasn't empty but grid is, it means all posts were invalid
+                     gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Could not display any writings due to invalid data.</p>';
+                }
+            }
+
+            // Function to handle showing/hiding articles
+            function setupArticleInteraction() {
+                // Use event delegation on containers for potentially better performance
+                // and handling dynamically added elements (though not strictly needed here as we add all at once)
+
+                // Handle clicks on "Read More" links within the grid
+                gridContainer.addEventListener('click', (event) => {
+                    const readMoreLink = event.target.closest('.read-more-link');
+                    if (readMoreLink) {
+                        event.preventDefault();
+                        const card = readMoreLink.closest('.writing-preview-card');
+                        if (card && card.dataset.postId) {
+                            showArticle(card.dataset.postId);
+                        }
+                    }
+                });
+
+                // Handle clicks on "Back" buttons within the articles container
+                articlesContainer.addEventListener('click', (event) => {
+                     const backButton = event.target.closest('.back-button');
+                     if (backButton) {
+                         event.preventDefault();
+                         showGrid();
+                     }
+                });
+
+                 // Handle hash changes (browser back/forward, direct links)
+                 window.addEventListener('hashchange', handleHashChange);
+                 // Initial check in case the page loads with a hash
+                 setTimeout(handleHashChange, 50); // Delay slightly more
+            }
+
+            function showArticle(postId) {
+                if (!fullArticlesContent) return;
+                const targetArticle = fullArticlesContent.querySelector(`#${postId}`);
+                if (!targetArticle) {
+                    console.warn(`Article with ID ${postId} not found.`);
+                    showGrid(); // Go back to grid if article doesn't exist
+                    return;
+                }
+
+                // Hide grid and separator
+                if (gridContainer) gridContainer.style.display = 'none';
+                if (separator) separator.style.display = 'none';
+
+                // Hide all other articles first
+                fullArticlesContent.querySelectorAll('article').forEach(article => {
+                    if (article.id !== postId) {
+                        article.style.display = 'none';
+                        article.style.opacity = '0';
+                        article.style.animation = 'none'; // Reset animation if any
+                    }
+                });
+
+                // Show the target article container and the specific article
+                if (articlesContainer) articlesContainer.style.display = 'block';
+                targetArticle.style.display = 'block';
+
+                // Force reflow before applying animation class/opacity change
+                void targetArticle.offsetWidth;
+
+                // Use a tiny delay before setting opacity for fade-in effect
+                setTimeout(() => {
+                    targetArticle.style.opacity = '1';
+                    targetArticle.style.animation = 'fade-in 0.6s ease-out forwards';
+                }, 10); // Small delay often helps ensure transition/animation triggers
+
+                // Update title
+                const titleElement = targetArticle.querySelector('h2');
+                document.title = titleElement ? `${titleElement.textContent.trim()} - Writings - Agraj Dubey` : defaultTitle;
+
+                // Scroll to article and focus
+                 setTimeout(() => {
+                     // Check if element is already mostly in view before scrolling
+                     const rect = targetArticle.getBoundingClientRect();
+                     const isElementInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
+                     if (!isElementInView) {
+                         targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     }
+
+                     const heading = targetArticle.querySelector('h2');
+                     if (heading) {
+                         heading.setAttribute('tabindex', '-1'); // Make focusable
+                         heading.focus({ preventScroll: true }); // Prevent scroll jump on focus
+                     }
+                 }, 150); // Increased delay slightly
+
+                // Update hash only if it's different
+                if (window.location.hash !== `#${postId}`) {
+                    // Use pushState to change URL without page reload and allow back button
+                    history.pushState({ postId: postId }, document.title, `#${postId}`);
+                }
+            }
+
+            function showGrid() {
+                // Hide all articles and the container
+                if (fullArticlesContent) {
+                    fullArticlesContent.querySelectorAll('article').forEach(article => {
+                        article.style.display = 'none';
+                        article.style.opacity = '0';
+                        article.style.animation = 'none';
+                    });
+                }
+                 if (articlesContainer) articlesContainer.style.display = 'none';
+
+                // Show grid and separator
+                if (gridContainer) gridContainer.style.display = 'grid';
+                if (separator) separator.style.display = 'block';
+
+                // Reset title
+                document.title = defaultTitle;
+
+                // Update history state if we are coming from an article view
+                if (window.location.hash) {
+                    // Use pushState to remove hash without page reload
+                    history.pushState(null, document.title, window.location.pathname + window.location.search);
+                }
+
+                 // Optional: Scroll back to grid start if needed
+                 // if (gridContainer) gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+             // Handle hash changes for direct linking and back/forward buttons
+             function handleHashChange() {
+                 const hash = window.location.hash;
+                 if (hash && hash.startsWith('#post-')) {
+                     const postId = hash.substring(1);
+                     // Ensure content has loaded before trying to show article
+                     if (fullArticlesContent && fullArticlesContent.children.length > 0) {
+                         showArticle(postId);
+                     } else {
+                         // Content not ready yet, maybe wait or handle differently?
+                         // For now, just log it. Might need to wait for fetch completion.
+                         console.log("Hash changed, but content not ready yet.");
+                         // Attempt to show grid as fallback
+                         showGrid();
+                     }
                  } else {
-                     // If linked article doesn't exist (maybe from old link), show grid
+                     // If hash is empty or invalid, show the grid
                      showGrid();
                  }
-             } else {
-                 // If hash is empty or invalid, show the grid
-                 showGrid();
              }
-         }
 
-
-        // --- Fetch posts and start the process ---
-        fetch('posts.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // --- Fetch posts and start the process ---
+            async function loadPosts() {
+                try {
+                    const response = await fetch('posts.json');
+                    if (!response.ok) {
+                        // Throw an error with more context
+                        throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}. Failed to fetch posts.json.`);
+                    }
+                    // Try parsing JSON
+                    const posts = await response.json();
+                    // If parsing is successful, display posts
+                    displayPosts(posts);
+                    // Now that posts are loaded, handle initial hash state correctly
+                    handleHashChange();
+                } catch (error) {
+                    console.error("Error loading or processing posts:", error);
+                    // Display a user-friendly error message on the page
+                    if (gridContainer) {
+                        gridContainer.innerHTML = `<p class="text-center text-red-400 col-span-full">Could not load writings. Error: ${error.message}. Please check the file path and JSON format.</p>`;
+                    }
+                    // Hide other sections that depend on posts
+                    if (separator) separator.style.display = 'none';
+                    if (articlesContainer) articlesContainer.style.display = 'none';
                 }
-                return response.json();
-            })
-            .then(posts => {
-                displayPosts(posts);
-            })
-            .catch(error => {
-                console.error("Error fetching or processing posts:", error);
-                // Display a user-friendly error message on the page
-                gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Could not load writings. Please try again later.</p>';
-            });
+            }
 
-        // --- NEW CODE END ---
+            // Initial load
+            loadPosts();
 
-        // --- Keep your existing Mobile Nav Toggle JS and Footer Year JS below ---
-        // ... (navToggle, mobileMenu, yearSpan code) ...
-    });
         });
     </script>
-
-</body>
-</html>
 
 </body>
 </html>
