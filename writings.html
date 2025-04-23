@@ -8,7 +8,6 @@
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Add tsParticles library -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,20 +24,15 @@
                         'brand-text': '#A8A8A8', 'article-bg': 'rgba(20, 20, 22, 0.88)',
                         'card-bg': 'rgba(30, 30, 30, 0.85)', 'dark-purple-bg': '#1a0a2e',
                         'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)',
-                        'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)', // Kept for reference, but overlay div is used now
-                        // Colors from index.html for consistency if needed
+                        'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)',
                         'dark': '#0f0a19', 'accent': '#9272CE', 'accent-hover': '#AE8BD5',
                         'light-accent': '#CBB8E8', 'text-primary': '#ffffff', 'text-secondary': '#D1D1D1',
                         'text-tertiary': '#A8A8A8',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        lato: ['Lato', 'sans-serif'],
-                        outfit: ['Outfit', 'sans-serif'],
-                        nunito: ['Nunito', 'sans-serif'],
-                        'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
-                        verdana: ['Verdana', 'sans-serif'],
-                        'trebuchet': ['Trebuchet MS', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'], lato: ['Lato', 'sans-serif'], outfit: ['Outfit', 'sans-serif'],
+                        nunito: ['Nunito', 'sans-serif'], 'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
+                        verdana: ['Verdana', 'sans-serif'], 'trebuchet': ['Trebuchet MS', 'sans-serif'],
                         serif: ['Baloo Bhai 2', 'cursive']
                      }
                 }
@@ -53,35 +47,11 @@
 
         /* --- Base & Body --- */
         html { scroll-behavior: smooth; }
-        body {
-            font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden;
-            font-size: 17px;
-            position: relative; z-index: 0;
-            /* Removed background-color here, handled by particle canvas/overlay */
-        }
-        /* REMOVED body::before and body::after rules for blurred background and solid overlay */
+        body { font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden; font-size: 17px; position: relative; z-index: 0; }
 
-        /* --- NEW: Particle Background Styles (from index.html) --- */
-        #tsparticles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -10; /* Behind everything */
-        }
-        .bg-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Using the radial gradient overlay from index.html */
-            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%);
-            z-index: -5; /* Between particles and content */
-        }
-        /* --- END NEW Particle Styles --- */
-
+        /* --- Particle Background Styles --- */
+        #tsparticles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -10; }
+        .bg-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%); z-index: -5; }
 
         /* --- Header & Nav --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
@@ -105,19 +75,8 @@
         .text-hover-scale:hover { transform: scale(1.05); }
 
         /* --- Preview Card Styling --- */
-        .writing-preview-card {
-            background-color: theme('colors.card-bg'); backdrop-filter: blur(6px);
-            border-radius: 0.75rem; padding: 1.75rem;
-            border: 1px solid rgba(146, 114, 206, 0.2);
-            display: flex; flex-direction: column;
-            transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18);
-        }
-        .writing-preview-card:hover {
-            transform: translateY(-8px) scale(1.04);
-            background-color: theme('colors.card-hover-bg');
-            animation: card-glow 1.8s ease-in-out infinite alternate;
-        }
+        .writing-preview-card { background-color: theme('colors.card-bg'); backdrop-filter: blur(6px); border-radius: 0.75rem; padding: 1.75rem; border: 1px solid rgba(146, 114, 206, 0.2); display: flex; flex-direction: column; transition: transform 0.3s ease-out, box-shadow 0.4s ease-out, border-color 0.4s ease-out, background-color 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0, 0.3), 0 0 6px 1px rgba(146, 114, 206, 0.18); }
+        .writing-preview-card:hover { transform: translateY(-8px) scale(1.04); background-color: theme('colors.card-hover-bg'); animation: card-glow 1.8s ease-in-out infinite alternate; }
         .writing-preview-card h3 { color: theme('colors.brand-light'); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; font-family: theme('fontFamily.outfit'); }
         .writing-preview-card .post-meta-info { font-size: 0.85rem; color: theme('colors.brand-light-purple'); margin-bottom: 1rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
         .writing-preview-card .excerpt { color: theme('colors.brand-gray'); font-size: 1rem; line-height: 1.6; flex-grow: 1; margin-bottom: 1.25rem; }
@@ -127,30 +86,15 @@
         /* --- Full Article Styling --- */
         #writings-grid-container { display: grid; }
         #full-articles-container { display: none; margin-top: 2rem; }
-        #full-articles-container article {
-            background-color: theme('colors.article-bg'); backdrop-filter: blur(10px);
-            border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
-            box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
-            border: 1px solid rgba(146, 114, 206, 0.3);
-            border-top: 5px solid theme('colors.brand-purple');
-            opacity: 0;
-            transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
-        }
-        #full-articles-container article:hover {
-            transform: scale(1.01);
-            box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25);
-        }
+        #full-articles-container article { background-color: theme('colors.article-bg'); backdrop-filter: blur(10px); border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem; box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1); border: 1px solid rgba(146, 114, 206, 0.3); border-top: 5px solid theme('colors.brand-purple'); opacity: 0; transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out; }
+        #full-articles-container article:hover { transform: scale(1.01); box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25); }
         #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
         #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
         a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
         a.back-button:hover { background-color: theme('colors.brand-hover'); transform: scale(1.08) translateY(-3px); box-shadow: 0 10px 25px rgba(146, 114, 206, 0.4); }
 
         /* --- HR Separator --- */
-        hr.separator {
-            border: none; height: 2px;
-            background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent);
-            margin-top: 4rem; margin-bottom: 4rem; opacity: 0.6; display: block;
-        }
+        hr.separator { border: none; height: 2px; background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent); margin-top: 4rem; margin-bottom: 4rem; opacity: 0.6; display: block; }
 
         /* --- Content Styling (from JS/Markdown) --- */
         .post-content-html p, .post-content-html blockquote, .post-content-html span, .post-content-html div, .post-content-html b, .post-content-html strong, .post-content-html i, .post-content-html em, .post-content-html u, .post-content-html a, .post-content-html li, .post-content-html ul, .post-content-html ol { font-family: inherit; font-size: 1.1rem; line-height: 1.8; color: theme('colors.brand-gray'); background-color: transparent !important; text-align: left; margin: 0 0 1.4em 0; font-weight: normal; font-style: normal; text-decoration: none; word-wrap: break-word; border-radius: 3px; transition: background-color 0.25s ease-in-out, transform 0.2s ease-out; }
@@ -178,7 +122,7 @@
         /* Utility for excerpt clamping */
         @layer utilities { .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
 
-        /* Custom Scrollbar (optional, from index.html) */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
         ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
@@ -186,11 +130,11 @@
 
     </style>
 </head>
-<body class="text-brand-gray leading-relaxed antialiased"> <!-- Removed bg-brand-dark -->
+<body class="text-brand-gray leading-relaxed antialiased">
 
-     <!-- NEW: Particle Background Container -->
+     <!-- Particle Background Container -->
      <div id="tsparticles"></div>
-     <!-- NEW: Background Overlay Div -->
+     <!-- Background Overlay Div -->
      <div class="bg-overlay"></div>
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
@@ -216,11 +160,11 @@
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10"> <!-- Added relative z-10 to main content -->
+    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10">
 
         <!-- ==== Writings Preview Grid ==== -->
         <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
-            <!-- Preview cards will be inserted here by JavaScript -->
+            <!-- Preview cards inserted here -->
         </section>
         <!-- ==== End Writings Preview Grid ==== -->
 
@@ -230,7 +174,7 @@
         <!-- ==== Full Articles Section ==== -->
         <section id="full-articles-container" style="display: none;">
             <div class="full-articles-content max-w-4xl mx-auto">
-                <!-- Full articles will be inserted here by JavaScript -->
+                <!-- Full articles inserted here -->
             </div>
         </section>
         <!-- ==== End Full Articles Section ==== -->
@@ -238,58 +182,54 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <!-- Added relative z-10 -->
+    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
      <!-- Main Script -->
      <script>
 
-        // --- NEW: tsParticles Initialization (More Intense Config) ---
+        // --- tsParticles Initialization (More Stimulating Config) ---
         function initTsParticles() {
             if (typeof tsParticles === 'undefined') {
                 console.error("tsParticles library not loaded.");
                 return;
             }
             tsParticles.load("tsparticles", {
-                fullScreen: {
-                    enable: true,
-                    zIndex: -10 // Ensure it's behind the overlay
-                },
+                fullScreen: { enable: true, zIndex: -10 },
                 particles: {
                     number: {
-                        value: 200, // Increased particle count
-                        density: {
-                            enable: true,
-                            value_area: 600 // Decreased area = higher density
-                        }
+                        value: 200, // Keep increased count
+                        density: { enable: true, value_area: 650 } // Slightly higher density
                     },
-                    color: {
-                        value: ["#ffffff", "#CBB8E8", "#9272CE"]
-                    },
+                    color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
                     shape: { type: "circle" },
                     opacity: {
-                        value: 0.7, // Slightly increased opacity
-                        random: true,
-                        anim: { enable: true, speed: 0.8, opacity_min: 0.2, sync: false } // Slightly faster flicker
+                        value: 0.7, random: true,
+                        anim: { enable: true, speed: 0.8, opacity_min: 0.2, sync: false }
                     },
-                    size: {
-                        value: 2.5,
-                        random: true,
+                    size: { value: 2.5, random: true },
+                    // *** NEW: Add connecting lines ***
+                    links: {
+                        enable: true, // Enable lines
+                        distance: 130, // Max distance to draw line
+                        color: "#CBB8E8", // Use light accent color for lines
+                        opacity: 0.25, // Make lines semi-transparent
+                        width: 1
                     },
                     move: {
                         enable: true,
-                        speed: 1.2, // Slightly faster base speed
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        out_mode: "out",
-                        bounce: false,
-                        attract: { // Keep subtle attraction between particles
+                        speed: 1.5, // Slightly increased speed
+                        direction: "none", random: true, straight: false, out_mode: "out", bounce: false,
+                        attract: { enable: true, rotateX: 600, rotateY: 1200, distance: 100 }
+                    },
+                    // *** NEW: Add twinkle effect ***
+                    twinkle: {
+                        particles: {
                             enable: true,
-                            rotateX: 600,
-                            rotateY: 1200,
-                            distance: 100
+                            frequency: 0.05, // How often twinkle occurs
+                            opacity: 0.8, // Opacity during twinkle
+                            color: "#AE8BD5" // Use hover accent color for twinkle
                         }
                     }
                 },
@@ -298,34 +238,39 @@
                     events: {
                         onhover: {
                             enable: true,
-                            mode: "attract" // Keep attract on hover
+                            mode: "repulse" // *** CHANGED: Repulse particles on hover ***
                         },
                         onclick: {
                             enable: true,
-                            mode: "push"
+                            mode: "bubble" // *** CHANGED: Bubble effect on click ***
                         },
                         resize: true
                     },
                     modes: {
-                        attract: { // Slightly stronger attraction
-                            distance: 200,
+                        // *** UPDATED: Configure new modes ***
+                        repulse: { // Settings for repulse mode
+                            distance: 150, // How far cursor pushes particles
                             duration: 0.4,
-                            easing: "ease-out-quad",
-                            factor: 2.5, // Increased factor
-                            maxSpeed: 5,
-                            speed: 1.5
+                            factor: 100, // Strength of push
+                            speed: 1,
+                            maxSpeed: 50,
+                            easing: "ease-out-quad"
                         },
+                        bubble: { // Settings for bubble mode
+                            distance: 250, // Radius of effect
+                            size: 30, // Max size particles reach
+                            duration: 2, // How long bubble lasts
+                            opacity: 0.8, // Opacity during bubble (can be lower than 1)
+                            // speed: 3 // Speed of bubble animation (optional)
+                        },
+                        // Keep old modes available if needed
+                        attract: { distance: 200, duration: 0.4, factor: 2.5, maxSpeed: 5, speed: 1.5 },
                         push: { quantity: 4 },
-                        repulse: { distance: 150, duration: 0.4, speed: 1 }, // Keep other modes available if needed later
-                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
                         remove: { particles_nb: 2 }
                     }
                 },
                 retina_detect: true,
-                // Background color set on the canvas itself (optional, overlay also covers)
-                background: {
-                     color: "#0f0a19", // Match index.html dark background
-                }
+                background: { color: "#0f0a19" }
             }).catch(error => {
                 console.error("Error loading tsParticles:", error);
             });
@@ -333,10 +278,10 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Initialize Particles FIRST ---
+            // Initialize Particles FIRST
             initTsParticles();
 
-            // --- Mobile Nav Toggle JS ---
+            // Mobile Nav Toggle JS
             const navToggle = document.getElementById('nav-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
             if (navToggle && mobileMenu) { /* ... nav toggle logic ... */
@@ -345,19 +290,19 @@
                 document.addEventListener('click', (event) => { const isClickInsideMenu = mobileMenu.contains(event.target); const isClickOnToggle = navToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); } });
             }
 
-            // --- Footer Year ---
+            // Footer Year
             const yearSpan = document.getElementById('year');
             if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
 
-            // --- Writings Page Logic ---
+            // Writings Page Logic
             const gridContainer = document.getElementById('writings-grid-container');
             const articlesContainer = document.getElementById('full-articles-container');
             const fullArticlesContent = articlesContainer?.querySelector('.full-articles-content');
             const separator = document.querySelector('hr.separator');
             const defaultTitle = "Writings - Agraj Dubey";
 
-            // --- Functions (formatDate, createPreviewCard, createFullArticle, displayPosts, setupArticleInteraction, showArticle, showGrid, handleHashChange) ---
-            // ... (These functions remain exactly the same as the previous version) ...
+            // Functions (formatDate, createPreviewCard, createFullArticle, displayPosts, setupArticleInteraction, showArticle, showGrid, handleHashChange)
+            // ... (These functions remain exactly the same) ...
             function formatDate(dateString) { try { const options = { year: 'numeric', month: 'long', day: 'numeric' }; const date = new Date(dateString + 'T00:00:00'); if (isNaN(date)) throw new Error("Invalid date"); return date.toLocaleDateString(undefined, options); } catch (e) { console.warn("Date formatting failed for:", dateString, e); return dateString; } }
             function createPreviewCard(post) { const tempDiv = document.createElement('div'); tempDiv.textContent = post.excerpt || ''; const sanitizedExcerpt = tempDiv.innerHTML; return ` <div class="writing-preview-card" data-post-id="${post.id}"> <h3 class="text-hover-scale">${post.title || 'Untitled Post'}</h3> <div class="post-meta-info">${formatDate(post.date)}</div> <div class="excerpt line-clamp-4">${sanitizedExcerpt}</div> <a href="#${post.id}" class="read-more-link">Read More →</a> </div> `; }
             function createFullArticle(post) { const markdownInput = typeof post.contentMarkdown === 'string' ? post.contentMarkdown.trim() : ''; const cleanedMarkdown = markdownInput.startsWith('`') && markdownInput.endsWith('`') ? markdownInput.slice(1, -1) : markdownInput; let contentHtml = ''; try { contentHtml = marked.parse(cleanedMarkdown, { gfm: true, smartypants: true }); } catch (e) { console.error("Error parsing markdown for post:", post.id, e); contentHtml = '<p class="text-red-500">Error displaying content.</p>'; } const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title || 'Post image'}" loading="lazy">` : ''; return ` <article id="${post.id}" tabindex="-1" style="display: none; opacity: 0;"> <h2 class="text-hover-scale">${post.title || 'Untitled Post'}</h2> <div class="post-meta-info">Published: ${formatDate(post.date)}</div> <div class="post-content-html"> ${contentHtml} ${imageHtml} </div> <a href="#" class="back-button mt-8">← Back to Writings</a> </article> `; }
@@ -368,7 +313,7 @@
             function handleHashChange() { const hash = window.location.hash; if (fullArticlesContent && fullArticlesContent.children.length > 0) { if (hash && hash.startsWith('#post-')) { const postId = hash.substring(1); showArticle(postId); } else { showGrid(); } } else { console.log("Hash changed, but content not ready. Grid will be shown after load attempt."); } }
 
 
-            // --- Fetch posts and start the process ---
+            // Fetch posts and start the process
             async function loadPosts() {
                 if (gridContainer) gridContainer.innerHTML = '<p class="text-center text-brand-text col-span-full">Loading writings...</p>';
                 if (separator) separator.style.display = 'none';
@@ -380,8 +325,7 @@
                     }
                     const posts = await response.json();
                     displayPosts(posts);
-                    // Handle initial hash only AFTER posts are displayed
-                    handleHashChange();
+                    handleHashChange(); // Handle initial hash after posts are displayed
                 } catch (error) {
                     console.error("Error loading or processing posts:", error);
                     if (gridContainer) {
@@ -392,7 +336,7 @@
                 }
             }
 
-            // Initial load (after other initializations)
+            // Initial load
             loadPosts();
 
         });
