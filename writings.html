@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO: Basic Meta Description -->
     <meta name="description" content="A collection of writings and poems by Agraj Dubey. Explore thoughts on life, conformity, time, and more.">
-    <!-- SEO: Dynamic Title (Set by JS) -->
     <title>Writings - Agraj Dubey</title>
+    <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Add tsParticles library -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Updated Google Fonts link to include Baloo Bhai 2 -->
     <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&family=Fuzzy+Bubbles:wght@400;700&family=Inter:wght@400;500;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind Config -->
     <script>
-        // Tailwind Config (Ensure 'serif' mapping for Baloo Bhai 2 is present)
         tailwind.config = {
             theme: {
                 extend: {
@@ -23,7 +25,11 @@
                         'brand-text': '#A8A8A8', 'article-bg': 'rgba(20, 20, 22, 0.88)',
                         'card-bg': 'rgba(30, 30, 30, 0.85)', 'dark-purple-bg': '#1a0a2e',
                         'darker-bg': '#050505', 'hover-highlight': 'rgba(146, 114, 206, 0.1)',
-                        'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)'
+                        'card-hover-bg': 'rgba(45, 35, 60, 0.9)', 'body-overlay': 'rgba(5, 5, 8, 0.82)', // Kept for reference, but overlay div is used now
+                        // Colors from index.html for consistency if needed
+                        'dark': '#0f0a19', 'accent': '#9272CE', 'accent-hover': '#AE8BD5',
+                        'light-accent': '#CBB8E8', 'text-primary': '#ffffff', 'text-secondary': '#D1D1D1',
+                        'text-tertiary': '#A8A8A8',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -33,7 +39,7 @@
                         'fuzzy-bubbles': ['Fuzzy Bubbles', 'cursive'],
                         verdana: ['Verdana', 'sans-serif'],
                         'trebuchet': ['Trebuchet MS', 'sans-serif'],
-                        serif: ['Baloo Bhai 2', 'cursive'] // Mapping for font-serif class
+                        serif: ['Baloo Bhai 2', 'cursive']
                      }
                 }
             }
@@ -41,7 +47,6 @@
     </script>
      <style>
          /* --- Keyframes --- */
-         @keyframes background-pan { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
          @keyframes fade-in { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
          @keyframes card-glow { 0% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } 50% { box-shadow: 0 0 25px 6px rgba(146, 114, 206, 0.4), 0 8px 25px rgba(0, 0, 0, 0.25); border-color: rgba(174, 139, 213, 0.7); } 100% { box-shadow: 0 0 8px 2px rgba(146, 114, 206, 0.2), 0 5px 15px rgba(0,0,0, 0.3); border-color: rgba(174, 139, 213, 0.3); } }
          @keyframes slide-down-fade { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -52,19 +57,31 @@
             font-family: theme('fontFamily.sans'); color: theme('colors.brand-gray'); overflow-x: hidden;
             font-size: 17px;
             position: relative; z-index: 0;
-            background-color: theme('colors.darker-bg'); /* Fallback */
+            /* Removed background-color here, handled by particle canvas/overlay */
         }
-        body::before {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -2;
-            background-image: url('mountains.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;
-            filter: blur(30px) brightness(0.4);
-            -webkit-filter: blur(30px) brightness(0.4);
-            transform: scale(1.15);
+        /* REMOVED body::before and body::after rules for blurred background and solid overlay */
+
+        /* --- NEW: Particle Background Styles (from index.html) --- */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10; /* Behind everything */
         }
-        body::after {
-            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: -1;
-            background-color: theme('colors.body-overlay');
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Using the radial gradient overlay from index.html */
+            background: radial-gradient(circle at 50% 30%, rgba(146, 114, 206, 0.06), rgba(15, 10, 25, 0.98) 70%);
+            z-index: -5; /* Between particles and content */
         }
+        /* --- END NEW Particle Styles --- */
+
 
         /* --- Header & Nav --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; }
@@ -80,17 +97,14 @@
         .desktop-nav a:hover { color: theme('colors.brand-purple'); transform: scale(1.08); }
         .desktop-nav a.active { font-weight: 600; color: theme('colors.brand-purple'); }
         .desktop-nav a[target="_blank"]::after,
-        .mobile-menu a[target="_blank"]::after {
-            content: ' \2197'; font-size: 0.8em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7;
-        }
-        /* Ensure font-serif applies correctly */
+        .mobile-menu a[target="_blank"]::after { content: ' \2197'; font-size: 0.8em; vertical-align: super; display: inline-block; margin-left: 2px; opacity: 0.7; }
         .font-serif { font-family: theme('fontFamily.serif'); }
 
-        /* --- Text Hover Scale (Keep for Titles) --- */
+        /* --- Text Hover Scale --- */
         .text-hover-scale { transition: transform 0.25s ease-out; display: inline-block; }
         .text-hover-scale:hover { transform: scale(1.05); }
 
-        /* --- Preview Card Styling & Animation --- */
+        /* --- Preview Card Styling --- */
         .writing-preview-card {
             background-color: theme('colors.card-bg'); backdrop-filter: blur(6px);
             border-radius: 0.75rem; padding: 1.75rem;
@@ -112,23 +126,20 @@
 
         /* --- Full Article Styling --- */
         #writings-grid-container { display: grid; }
-        #full-articles-container { display: none; margin-top: 2rem; } /* Hidden initially by JS */
+        #full-articles-container { display: none; margin-top: 2rem; }
         #full-articles-container article {
-            /* display: none; opacity: 0; set by JS */
             background-color: theme('colors.article-bg'); backdrop-filter: blur(10px);
             border-radius: 0.75rem; padding: 2.5rem 3rem; margin-bottom: 3rem;
             box-shadow: 0 10px 40px rgba(0,0,0, 0.6), inset 0 1px 3px rgba(146, 114, 206, 0.1);
             border: 1px solid rgba(146, 114, 206, 0.3);
             border-top: 5px solid theme('colors.brand-purple');
-            opacity: 0; /* Start faded out for JS transition */
+            opacity: 0;
             transition: opacity 0.6s ease-out, transform 0.2s ease-out, box-shadow 0.3s ease-out;
         }
         #full-articles-container article:hover {
             transform: scale(1.01);
             box-shadow: 0 12px 45px rgba(0,0,0, 0.7), 0 0 20px rgba(146, 114, 206, 0.25);
         }
-
-        /* Styling for elements inside the full article */
         #full-articles-container h2 { color: theme('colors.brand-purple'); margin-bottom: 0.75rem; font-size: 2.2rem; font-weight: 700; font-family: theme('fontFamily.outfit'); line-height: 1.3; }
         #full-articles-container .post-meta-info { font-size: 0.95rem; color: theme('colors.brand-light-purple'); margin-bottom: 2.5rem; font-family: theme('fontFamily.lato'); opacity: 0.85; }
         a.back-button { display: inline-block; margin-top: 2.5rem; padding: 0.7rem 1.4rem; background-color: theme('colors.brand-purple'); color: theme('colors.brand-light'); border: none; border-radius: 0.5rem; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 3px 10px rgba(146, 114, 206, 0.2); font-size: 1rem; text-decoration: none; }
@@ -138,8 +149,7 @@
         hr.separator {
             border: none; height: 2px;
             background-image: linear-gradient(to right, transparent, theme('colors.brand-purple'), theme('colors.brand-hover'), theme('colors.brand-purple'), transparent);
-            margin-top: 4rem; margin-bottom: 4rem; opacity: 0.6;
-            display: block; /* Default state, JS will hide/show */
+            margin-top: 4rem; margin-bottom: 4rem; opacity: 0.6; display: block;
         }
 
         /* --- Content Styling (from JS/Markdown) --- */
@@ -156,10 +166,9 @@
         .post-content-html blockquote p { margin-bottom: 0.75em; }
         .post-content-html img { max-width: 100%; height: auto; display: block; margin: 2.5rem auto; border-radius: 0.75rem; box-shadow: 0 6px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .post-content-html img:hover { transform: scale(1.04); box-shadow: 0 10px 30px rgba(0,0,0,0.55); }
-        .post-content-html ul, .post-content-html ol { padding-left: 2em; } /* Basic list styling */
+        .post-content-html ul, .post-content-html ol { padding-left: 2em; }
         .post-content-html li { margin-bottom: 0.5em; }
         .post-content-html .separator { display: none; }
-        /* Apply specific font families if needed, based on original inline styles */
         .post-content-html [style*="font-family: Outfit"] { font-family: theme('fontFamily.outfit'); }
         .post-content-html [style*="font-family: Nunito"] { font-family: theme('fontFamily.nunito'); }
         .post-content-html [style*="font-family: Fuzzy Bubbles"] { font-family: theme('fontFamily.fuzzy-bubbles'); }
@@ -169,9 +178,20 @@
         /* Utility for excerpt clamping */
         @layer utilities { .line-clamp-4 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; } }
 
+        /* Custom Scrollbar (optional, from index.html) */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(9, 6, 19, 0.8); }
+        ::-webkit-scrollbar-thumb { background: rgba(146, 114, 206, 0.5); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(146, 114, 206, 0.7); }
+
     </style>
 </head>
-<body class="bg-brand-dark text-brand-gray leading-relaxed antialiased">
+<body class="text-brand-gray leading-relaxed antialiased"> <!-- Removed bg-brand-dark -->
+
+     <!-- NEW: Particle Background Container -->
+     <div id="tsparticles"></div>
+     <!-- NEW: Background Overlay Div -->
+     <div class="bg-overlay"></div>
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-6 py-4 relative">
@@ -180,7 +200,6 @@
                     <button id="nav-toggle" class="nav-toggle-btn md:hidden" aria-label="Toggle Menu" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                     </button>
-                    <!-- Updated Header Link -->
                     <a href="index.html" class="text-2xl lg:text-3xl font-bold text-brand-light hover:text-brand-purple transition-colors duration-300 font-serif"> a-g-r-a-j </a>
                 </div>
                 <nav class="desktop-nav hidden md:flex space-x-7 text-brand-light items-center text-lg" aria-label="Main Navigation">
@@ -197,13 +216,11 @@
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen">
+    <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10"> <!-- Added relative z-10 to main content -->
 
         <!-- ==== Writings Preview Grid ==== -->
-        <!-- Content is dynamically inserted here -->
         <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
             <!-- Preview cards will be inserted here by JavaScript -->
-            <!-- Error/Loading message might appear here -->
         </section>
         <!-- ==== End Writings Preview Grid ==== -->
 
@@ -211,298 +228,150 @@
         <hr class="separator">
 
         <!-- ==== Full Articles Section ==== -->
-        <!-- Container is initially hidden, content dynamically inserted -->
         <section id="full-articles-container" style="display: none;">
             <div class="full-articles-content max-w-4xl mx-auto">
                 <!-- Full articles will be inserted here by JavaScript -->
-            </div><!-- end full-articles-content -->
+            </div>
         </section>
         <!-- ==== End Full Articles Section ==== -->
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
+    <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10"> <!-- Added relative z-10 -->
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
-        <!-- Note: Footer name wasn't changed, kept as original -->
     </footer>
-
-     <!-- Add Marked.js Library -->
-     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
      <!-- Main Script -->
      <script>
+
+        // --- NEW: tsParticles Initialization (More Intense Config) ---
+        function initTsParticles() {
+            if (typeof tsParticles === 'undefined') {
+                console.error("tsParticles library not loaded.");
+                return;
+            }
+            tsParticles.load("tsparticles", {
+                fullScreen: {
+                    enable: true,
+                    zIndex: -10 // Ensure it's behind the overlay
+                },
+                particles: {
+                    number: {
+                        value: 200, // Increased particle count
+                        density: {
+                            enable: true,
+                            value_area: 600 // Decreased area = higher density
+                        }
+                    },
+                    color: {
+                        value: ["#ffffff", "#CBB8E8", "#9272CE"]
+                    },
+                    shape: { type: "circle" },
+                    opacity: {
+                        value: 0.7, // Slightly increased opacity
+                        random: true,
+                        anim: { enable: true, speed: 0.8, opacity_min: 0.2, sync: false } // Slightly faster flicker
+                    },
+                    size: {
+                        value: 2.5,
+                        random: true,
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1.2, // Slightly faster base speed
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: { // Keep subtle attraction between particles
+                            enable: true,
+                            rotateX: 600,
+                            rotateY: 1200,
+                            distance: 100
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "window",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "attract" // Keep attract on hover
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        attract: { // Slightly stronger attraction
+                            distance: 200,
+                            duration: 0.4,
+                            easing: "ease-out-quad",
+                            factor: 2.5, // Increased factor
+                            maxSpeed: 5,
+                            speed: 1.5
+                        },
+                        push: { quantity: 4 },
+                        repulse: { distance: 150, duration: 0.4, speed: 1 }, // Keep other modes available if needed later
+                        bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+                        remove: { particles_nb: 2 }
+                    }
+                },
+                retina_detect: true,
+                // Background color set on the canvas itself (optional, overlay also covers)
+                background: {
+                     color: "#0f0a19", // Match index.html dark background
+                }
+            }).catch(error => {
+                console.error("Error loading tsParticles:", error);
+            });
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Initialize Particles FIRST ---
+            initTsParticles();
+
             // --- Mobile Nav Toggle JS ---
             const navToggle = document.getElementById('nav-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
-            if (navToggle && mobileMenu) {
-                navToggle.addEventListener('click', () => {
-                    const isOpen = mobileMenu.classList.toggle('is-open');
-                    navToggle.setAttribute('aria-expanded', String(isOpen));
-                });
-                mobileMenu.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.remove('is-open');
-                        navToggle.setAttribute('aria-expanded', 'false');
-                    });
-                });
-                document.addEventListener('click', (event) => {
-                    const isClickInsideMenu = mobileMenu.contains(event.target);
-                    const isClickOnToggle = navToggle.contains(event.target);
-                    if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) {
-                        mobileMenu.classList.remove('is-open');
-                        navToggle.setAttribute('aria-expanded', 'false');
-                    }
-                });
+            if (navToggle && mobileMenu) { /* ... nav toggle logic ... */
+                navToggle.addEventListener('click', () => { const isOpen = mobileMenu.classList.toggle('is-open'); navToggle.setAttribute('aria-expanded', String(isOpen)); });
+                mobileMenu.querySelectorAll('a').forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); }); });
+                document.addEventListener('click', (event) => { const isClickInsideMenu = mobileMenu.contains(event.target); const isClickOnToggle = navToggle.contains(event.target); if (!isClickInsideMenu && !isClickOnToggle && mobileMenu.classList.contains('is-open')) { mobileMenu.classList.remove('is-open'); navToggle.setAttribute('aria-expanded', 'false'); } });
             }
 
             // --- Footer Year ---
             const yearSpan = document.getElementById('year');
-            if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
-            }
+            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
 
             // --- Writings Page Logic ---
             const gridContainer = document.getElementById('writings-grid-container');
             const articlesContainer = document.getElementById('full-articles-container');
             const fullArticlesContent = articlesContainer?.querySelector('.full-articles-content');
             const separator = document.querySelector('hr.separator');
-            const defaultTitle = "Writings - Agraj Dubey"; // Keep original title base
+            const defaultTitle = "Writings - Agraj Dubey";
 
-            // Function to format date
-            function formatDate(dateString) {
-                try {
-                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-                    const date = new Date(dateString + 'T00:00:00'); // Add time to avoid timezone issues
-                    if (isNaN(date)) throw new Error("Invalid date");
-                    return date.toLocaleDateString(undefined, options);
-                } catch (e) {
-                    console.warn("Date formatting failed for:", dateString, e);
-                    return dateString; // Fallback
-                }
-            }
+            // --- Functions (formatDate, createPreviewCard, createFullArticle, displayPosts, setupArticleInteraction, showArticle, showGrid, handleHashChange) ---
+            // ... (These functions remain exactly the same as the previous version) ...
+            function formatDate(dateString) { try { const options = { year: 'numeric', month: 'long', day: 'numeric' }; const date = new Date(dateString + 'T00:00:00'); if (isNaN(date)) throw new Error("Invalid date"); return date.toLocaleDateString(undefined, options); } catch (e) { console.warn("Date formatting failed for:", dateString, e); return dateString; } }
+            function createPreviewCard(post) { const tempDiv = document.createElement('div'); tempDiv.textContent = post.excerpt || ''; const sanitizedExcerpt = tempDiv.innerHTML; return ` <div class="writing-preview-card" data-post-id="${post.id}"> <h3 class="text-hover-scale">${post.title || 'Untitled Post'}</h3> <div class="post-meta-info">${formatDate(post.date)}</div> <div class="excerpt line-clamp-4">${sanitizedExcerpt}</div> <a href="#${post.id}" class="read-more-link">Read More →</a> </div> `; }
+            function createFullArticle(post) { const markdownInput = typeof post.contentMarkdown === 'string' ? post.contentMarkdown.trim() : ''; const cleanedMarkdown = markdownInput.startsWith('`') && markdownInput.endsWith('`') ? markdownInput.slice(1, -1) : markdownInput; let contentHtml = ''; try { contentHtml = marked.parse(cleanedMarkdown, { gfm: true, smartypants: true }); } catch (e) { console.error("Error parsing markdown for post:", post.id, e); contentHtml = '<p class="text-red-500">Error displaying content.</p>'; } const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title || 'Post image'}" loading="lazy">` : ''; return ` <article id="${post.id}" tabindex="-1" style="display: none; opacity: 0;"> <h2 class="text-hover-scale">${post.title || 'Untitled Post'}</h2> <div class="post-meta-info">Published: ${formatDate(post.date)}</div> <div class="post-content-html"> ${contentHtml} ${imageHtml} </div> <a href="#" class="back-button mt-8">← Back to Writings</a> </article> `; }
+            function displayPosts(posts) { if (!gridContainer || !fullArticlesContent) { console.error("Required container elements not found! Cannot display posts."); if (gridContainer) { gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Page structure error. Cannot load writings.</p>'; } return; } gridContainer.innerHTML = ''; fullArticlesContent.innerHTML = ''; if (!Array.isArray(posts)) { console.error("Invalid data format: Expected an array of posts."); gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Invalid data format received.</p>'; return; } try { posts.sort((a, b) => new Date(b.date) - new Date(a.date)); } catch (e) { console.warn("Could not sort posts by date.", e); } let validPostsCount = 0; posts.forEach(post => { if (post && typeof post === 'object' && post.id && post.title && post.date && post.excerpt && post.contentMarkdown) { const previewCardHtml = createPreviewCard(post); const fullArticleHtml = createFullArticle(post); gridContainer.insertAdjacentHTML('beforeend', previewCardHtml); fullArticlesContent.insertAdjacentHTML('beforeend', fullArticleHtml); validPostsCount++; } else { console.warn("Skipping invalid post object:", post); } }); if (validPostsCount > 0) { setupArticleInteraction(); } else if (posts.length === 0) { gridContainer.innerHTML = '<p class="text-center text-brand-text col-span-full">No writings found.</p>'; if (separator) separator.style.display = 'none'; } else { gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Could not display any writings due to invalid data.</p>'; if (separator) separator.style.display = 'none'; } }
+            function setupArticleInteraction() { gridContainer.addEventListener('click', (event) => { const readMoreLink = event.target.closest('.read-more-link'); if (readMoreLink) { event.preventDefault(); const card = readMoreLink.closest('.writing-preview-card'); if (card && card.dataset.postId) { showArticle(card.dataset.postId); } } }); articlesContainer.addEventListener('click', (event) => { const backButton = event.target.closest('.back-button'); if (backButton) { event.preventDefault(); showGrid(); } }); window.addEventListener('hashchange', handleHashChange); }
+            function showArticle(postId) { if (!fullArticlesContent) return; const targetArticle = fullArticlesContent.querySelector(`#${postId}`); if (!targetArticle) { console.warn(`Article with ID ${postId} not found.`); showGrid(); return; } if (gridContainer) gridContainer.style.display = 'none'; if (separator) separator.style.display = 'none'; fullArticlesContent.querySelectorAll('article').forEach(article => { if (article.id !== postId) { article.style.display = 'none'; article.style.opacity = '0'; article.style.animation = 'none'; } }); if (articlesContainer) articlesContainer.style.display = 'block'; targetArticle.style.display = 'block'; void targetArticle.offsetWidth; setTimeout(() => { targetArticle.style.opacity = '1'; targetArticle.style.animation = 'fade-in 0.6s ease-out forwards'; }, 10); const titleElement = targetArticle.querySelector('h2'); document.title = titleElement ? `${titleElement.textContent.trim()} - Writings - Agraj Dubey` : defaultTitle; setTimeout(() => { const rect = targetArticle.getBoundingClientRect(); const isElementInView = rect.top >= 0 && rect.bottom <= window.innerHeight; if (!isElementInView) { targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' }); } const heading = targetArticle.querySelector('h2'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); } }, 150); if (window.location.hash !== `#${postId}`) { history.pushState({ postId: postId }, document.title, `#${postId}`); } }
+            function showGrid() { if (fullArticlesContent) { fullArticlesContent.querySelectorAll('article').forEach(article => { article.style.display = 'none'; article.style.opacity = '0'; article.style.animation = 'none'; }); } if (articlesContainer) articlesContainer.style.display = 'none'; if (gridContainer) gridContainer.style.display = 'grid'; if (separator && gridContainer && gridContainer.children.length > 0) { separator.style.display = 'block'; } else if (separator) { separator.style.display = 'none'; } document.title = defaultTitle; if (window.location.hash) { history.pushState(null, document.title, window.location.pathname + window.location.search); } }
+            function handleHashChange() { const hash = window.location.hash; if (fullArticlesContent && fullArticlesContent.children.length > 0) { if (hash && hash.startsWith('#post-')) { const postId = hash.substring(1); showArticle(postId); } else { showGrid(); } } else { console.log("Hash changed, but content not ready. Grid will be shown after load attempt."); } }
 
-            // Function to generate HTML for a preview card
-            function createPreviewCard(post) {
-                const tempDiv = document.createElement('div');
-                tempDiv.textContent = post.excerpt || '';
-                const sanitizedExcerpt = tempDiv.innerHTML;
-
-                return `
-                    <div class="writing-preview-card" data-post-id="${post.id}">
-                        <h3 class="text-hover-scale">${post.title || 'Untitled Post'}</h3>
-                        <div class="post-meta-info">${formatDate(post.date)}</div>
-                        <div class="excerpt line-clamp-4">${sanitizedExcerpt}</div>
-                        <a href="#${post.id}" class="read-more-link">Read More →</a>
-                    </div>
-                `;
-            }
-
-            // Function to generate HTML for a full article
-            function createFullArticle(post) {
-                 const markdownInput = typeof post.contentMarkdown === 'string' ? post.contentMarkdown.trim() : '';
-                 const cleanedMarkdown = markdownInput.startsWith('`') && markdownInput.endsWith('`')
-                     ? markdownInput.slice(1, -1)
-                     : markdownInput;
-
-                 let contentHtml = '';
-                 try {
-                     contentHtml = marked.parse(cleanedMarkdown, { gfm: true, smartypants: true });
-                 } catch (e) {
-                     console.error("Error parsing markdown for post:", post.id, e);
-                     contentHtml = '<p class="text-red-500">Error displaying content.</p>';
-                 }
-
-                const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title || 'Post image'}" loading="lazy">` : '';
-
-                return `
-                    <article id="${post.id}" tabindex="-1" style="display: none; opacity: 0;">
-                        <h2 class="text-hover-scale">${post.title || 'Untitled Post'}</h2>
-                        <div class="post-meta-info">Published: ${formatDate(post.date)}</div>
-                        <div class="post-content-html">
-                            ${contentHtml}
-                            ${imageHtml}
-                        </div>
-                        <a href="#" class="back-button mt-8">← Back to Writings</a>
-                    </article>
-                `;
-            }
-
-            // Function to display all posts
-            function displayPosts(posts) {
-                if (!gridContainer || !fullArticlesContent) {
-                    console.error("Required container elements not found! Cannot display posts.");
-                    if (gridContainer) {
-                         gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Page structure error. Cannot load writings.</p>';
-                    }
-                    return;
-                }
-
-                gridContainer.innerHTML = '';
-                fullArticlesContent.innerHTML = '';
-
-                if (!Array.isArray(posts)) {
-                     console.error("Invalid data format: Expected an array of posts.");
-                     gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Invalid data format received.</p>';
-                     return;
-                }
-
-                try {
-                    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-                } catch (e) {
-                    console.warn("Could not sort posts by date.", e);
-                }
-
-                let validPostsCount = 0;
-                posts.forEach(post => {
-                    if (post && typeof post === 'object' && post.id && post.title && post.date && post.excerpt && post.contentMarkdown) {
-                        const previewCardHtml = createPreviewCard(post);
-                        const fullArticleHtml = createFullArticle(post);
-
-                        gridContainer.insertAdjacentHTML('beforeend', previewCardHtml);
-                        fullArticlesContent.insertAdjacentHTML('beforeend', fullArticleHtml);
-                        validPostsCount++;
-                    } else {
-                        console.warn("Skipping invalid post object:", post);
-                    }
-                });
-
-                if (validPostsCount > 0) {
-                    setupArticleInteraction();
-                } else if (posts.length === 0) {
-                     gridContainer.innerHTML = '<p class="text-center text-brand-text col-span-full">No writings found.</p>';
-                     if (separator) separator.style.display = 'none'; // Hide separator if no posts
-                } else {
-                     gridContainer.innerHTML = '<p class="text-center text-red-400 col-span-full">Error: Could not display any writings due to invalid data.</p>';
-                     if (separator) separator.style.display = 'none'; // Hide separator on error
-                }
-            }
-
-            // Function to handle showing/hiding articles
-            function setupArticleInteraction() {
-                gridContainer.addEventListener('click', (event) => {
-                    const readMoreLink = event.target.closest('.read-more-link');
-                    if (readMoreLink) {
-                        event.preventDefault();
-                        const card = readMoreLink.closest('.writing-preview-card');
-                        if (card && card.dataset.postId) {
-                            showArticle(card.dataset.postId);
-                        }
-                    }
-                });
-
-                articlesContainer.addEventListener('click', (event) => {
-                     const backButton = event.target.closest('.back-button');
-                     if (backButton) {
-                         event.preventDefault();
-                         showGrid();
-                     }
-                });
-
-                 window.addEventListener('hashchange', handleHashChange);
-                 // Initial check handled after fetch completes in loadPosts()
-            }
-
-            function showArticle(postId) {
-                if (!fullArticlesContent) return;
-                const targetArticle = fullArticlesContent.querySelector(`#${postId}`);
-                if (!targetArticle) {
-                    console.warn(`Article with ID ${postId} not found.`);
-                    showGrid();
-                    return;
-                }
-
-                if (gridContainer) gridContainer.style.display = 'none';
-                if (separator) separator.style.display = 'none';
-
-                fullArticlesContent.querySelectorAll('article').forEach(article => {
-                    if (article.id !== postId) {
-                        article.style.display = 'none';
-                        article.style.opacity = '0';
-                        article.style.animation = 'none';
-                    }
-                });
-
-                if (articlesContainer) articlesContainer.style.display = 'block';
-                targetArticle.style.display = 'block';
-                void targetArticle.offsetWidth; // Force reflow
-
-                setTimeout(() => {
-                    targetArticle.style.opacity = '1';
-                    targetArticle.style.animation = 'fade-in 0.6s ease-out forwards';
-                }, 10);
-
-                const titleElement = targetArticle.querySelector('h2');
-                document.title = titleElement ? `${titleElement.textContent.trim()} - Writings - Agraj Dubey` : defaultTitle;
-
-                 setTimeout(() => {
-                     const rect = targetArticle.getBoundingClientRect();
-                     const isElementInView = rect.top >= 0 && rect.bottom <= window.innerHeight;
-                     if (!isElementInView) {
-                         targetArticle.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                     }
-                     const heading = targetArticle.querySelector('h2');
-                     if (heading) {
-                         heading.setAttribute('tabindex', '-1');
-                         heading.focus({ preventScroll: true });
-                     }
-                 }, 150);
-
-                if (window.location.hash !== `#${postId}`) {
-                    history.pushState({ postId: postId }, document.title, `#${postId}`);
-                }
-            }
-
-            function showGrid() {
-                if (fullArticlesContent) {
-                    fullArticlesContent.querySelectorAll('article').forEach(article => {
-                        article.style.display = 'none';
-                        article.style.opacity = '0';
-                        article.style.animation = 'none';
-                    });
-                }
-                 if (articlesContainer) articlesContainer.style.display = 'none';
-
-                if (gridContainer) gridContainer.style.display = 'grid';
-                // Show separator only if there are posts
-                if (separator && gridContainer && gridContainer.children.length > 0) {
-                     separator.style.display = 'block';
-                } else if (separator) {
-                     separator.style.display = 'none';
-                }
-
-
-                document.title = defaultTitle;
-
-                if (window.location.hash) {
-                    history.pushState(null, document.title, window.location.pathname + window.location.search);
-                }
-            }
-
-             function handleHashChange() {
-                 const hash = window.location.hash;
-                 // Check if content is ready before processing hash
-                 if (fullArticlesContent && fullArticlesContent.children.length > 0) {
-                     if (hash && hash.startsWith('#post-')) {
-                         const postId = hash.substring(1);
-                         showArticle(postId);
-                     } else {
-                         showGrid();
-                     }
-                 } else {
-                     // If content isn't ready (e.g., on initial load before fetch finishes),
-                     // defer showing grid until after fetch. showGrid() might be called
-                     // by loadPosts() completion or error handling anyway.
-                     console.log("Hash changed, but content not ready. Grid will be shown after load attempt.");
-                 }
-             }
 
             // --- Fetch posts and start the process ---
             async function loadPosts() {
-                // Show loading state? (Optional)
                 if (gridContainer) gridContainer.innerHTML = '<p class="text-center text-brand-text col-span-full">Loading writings...</p>';
-                if (separator) separator.style.display = 'none'; // Hide separator while loading
+                if (separator) separator.style.display = 'none';
 
                 try {
                     const response = await fetch('posts.json');
@@ -510,8 +379,8 @@
                         throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}. Failed to fetch posts.json.`);
                     }
                     const posts = await response.json();
-                    displayPosts(posts); // This will set up interactions and show/hide separator correctly
-                    // Now handle initial hash state after posts are displayed
+                    displayPosts(posts);
+                    // Handle initial hash only AFTER posts are displayed
                     handleHashChange();
                 } catch (error) {
                     console.error("Error loading or processing posts:", error);
@@ -523,7 +392,7 @@
                 }
             }
 
-            // Initial load
+            // Initial load (after other initializations)
             loadPosts();
 
         });
