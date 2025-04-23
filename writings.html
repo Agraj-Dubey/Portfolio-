@@ -138,7 +138,7 @@
      <div class="bg-overlay"></div>
 
      <header class="bg-black/80 backdrop-blur-sm sticky top-0 z-50 shadow-xl">
-        <!-- Header Content (unchanged) -->
+        <!-- Header Content -->
         <div class="container mx-auto px-6 py-4 relative">
             <div class="header-container">
                 <div class="flex items-center space-x-4">
@@ -162,7 +162,7 @@
      </header>
 
     <main class="container mx-auto px-6 py-16 md:py-20 min-h-screen relative z-10">
-        <!-- Main Content (unchanged) -->
+        <!-- Main Content -->
         <section id="writings-grid-container" class="pt-6 md:pt-10 mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" tabindex="-1">
             <!-- Preview cards inserted here -->
         </section>
@@ -176,14 +176,14 @@
 
     <!-- Footer -->
     <footer class="bg-gradient-to-t from-gray-900/70 to-black text-center py-10 mt-20 relative z-10">
-        <!-- Footer Content (unchanged) -->
+        <!-- Footer Content -->
         <p class="text-brand-text text-base">© <span id="year"></span> Agraj Dubey. All rights reserved.</p>
     </footer>
 
      <!-- Main Script -->
      <script>
 
-        // --- tsParticles Initialization (Pulsing/Bubbling + Repulse) ---
+        // --- tsParticles Initialization (Focus on Pulse + Repulse) ---
         function initTsParticles() {
             if (typeof tsParticles === 'undefined') {
                 console.error("tsParticles library not loaded.");
@@ -193,46 +193,41 @@
                 fullScreen: { enable: true, zIndex: -10 },
                 particles: {
                     number: {
-                        value: 180, // Slightly fewer particles might look better with pulsing
-                        density: { enable: true, value_area: 700 }
+                        value: 150, // Adjusted count for clarity
+                        density: { enable: true, value_area: 800 }
                     },
                     color: { value: ["#ffffff", "#CBB8E8", "#9272CE"] },
                     shape: { type: "circle" },
                     opacity: {
-                        value: { min: 0.1, max: 0.6 }, // Define min/max for animation
-                        // *** UPDATED: Configure opacity animation ***
-                        animation: {
+                        value: { min: 0.1, max: 0.6 }, // Opacity range for pulsing
+                        animation: { // Opacity animation config
                             enable: true,
-                            speed: 1.5, // Speed of the fade effect
-                            minimumValue: 0.1, // Minimum opacity
-                            sync: false // Particles fade independently
+                            speed: 1.5, // How fast it fades in/out
+                            minimumValue: 0.1,
+                            sync: false, // Particles pulse independently
+                            startValue: "random", // Start at different opacities
+                            destroy: "none"
                         }
                     },
                     size: {
-                        value: { min: 0.5, max: 3.0 }, // Define min/max size for animation
-                         // *** UPDATED: Configure size animation ***
-                        animation: {
+                        value: { min: 1, max: 3.5 }, // Size range for pulsing (slightly larger max)
+                        animation: { // Size animation config
                             enable: true,
-                            speed: 4, // Speed of the size pulse
-                            minimumValue: 0.5, // Minimum size
-                            sync: false // Particles pulse independently
+                            speed: 4, // How fast it grows/shrinks
+                            minimumValue: 1,
+                            sync: false, // Particles pulse independently
+                            startValue: "random", // Start at different sizes
+                            destroy: "none"
                         }
                     },
-                    links: { // Keep links for visual connection
-                        enable: true,
-                        distance: 130,
-                        color: "#CBB8E8",
-                        opacity: 0.2, // Slightly fainter lines
-                        width: 1
-                    },
+                    // Links and Twinkle temporarily disabled to ensure pulse is visible
+                    links: { enable: false },
+                    // twinkle: { particles: { enable: false } },
                     move: {
                         enable: true,
-                        speed: 1.2, // Keep base movement subtle
+                        speed: 1.0, // Slower base movement
                         direction: "none", random: true, straight: false, out_mode: "out", bounce: false,
-                        attract: { enable: false } // Disable particle self-attraction for cleaner pulsing
-                    },
-                    twinkle: { // Keep twinkle for extra visual interest
-                        particles: { enable: true, frequency: 0.05, opacity: 0.8, color: "#AE8BD5" }
+                        attract: { enable: false } // Keep self-attraction off
                     }
                 },
                 interactivity: {
@@ -240,11 +235,11 @@
                     events: {
                         onhover: {
                             enable: true,
-                            mode: "repulse" // *** Keep Repulse on hover ***
+                            mode: "repulse" // Keep Repulse on hover
                         },
                         onclick: {
                             enable: true,
-                            mode: "push" // *** Keep Push on click (no bubble needed now) ***
+                            mode: "push" // Keep Push on click
                         },
                         resize: true
                     },
@@ -253,11 +248,6 @@
                             distance: 150, duration: 0.4, factor: 100, speed: 1, maxSpeed: 50, easing: "ease-out-quad"
                         },
                         push: { quantity: 4 }, // Keep push settings
-                        // Remove bubble mode settings as it's not used for interaction
-                        // bubble: { distance: 250, size: 30, duration: 2, opacity: 0.8 },
-                        // Keep other modes available if needed
-                        attract: { distance: 200, duration: 0.4, factor: 2.5, maxSpeed: 5, speed: 1.5 },
-                        remove: { particles_nb: 2 }
                     }
                 },
                 retina_detect: true,
@@ -285,7 +275,7 @@
             const yearSpan = document.getElementById('year');
             if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
 
-            // Writings Page Logic
+            // Writings Page Logic (Functions remain the same)
             const gridContainer = document.getElementById('writings-grid-container');
             const articlesContainer = document.getElementById('full-articles-container');
             const fullArticlesContent = articlesContainer?.querySelector('.full-articles-content');
@@ -293,7 +283,7 @@
             const defaultTitle = "Writings - Agraj Dubey";
 
             // Functions (formatDate, createPreviewCard, createFullArticle, displayPosts, setupArticleInteraction, showArticle, showGrid, handleHashChange)
-            // ... (These functions remain exactly the same) ...
+            // ... (No changes needed in these functions) ...
             function formatDate(dateString) { try { const options = { year: 'numeric', month: 'long', day: 'numeric' }; const date = new Date(dateString + 'T00:00:00'); if (isNaN(date)) throw new Error("Invalid date"); return date.toLocaleDateString(undefined, options); } catch (e) { console.warn("Date formatting failed for:", dateString, e); return dateString; } }
             function createPreviewCard(post) { const tempDiv = document.createElement('div'); tempDiv.textContent = post.excerpt || ''; const sanitizedExcerpt = tempDiv.innerHTML; return ` <div class="writing-preview-card" data-post-id="${post.id}"> <h3 class="text-hover-scale">${post.title || 'Untitled Post'}</h3> <div class="post-meta-info">${formatDate(post.date)}</div> <div class="excerpt line-clamp-4">${sanitizedExcerpt}</div> <a href="#${post.id}" class="read-more-link">Read More →</a> </div> `; }
             function createFullArticle(post) { const markdownInput = typeof post.contentMarkdown === 'string' ? post.contentMarkdown.trim() : ''; const cleanedMarkdown = markdownInput.startsWith('`') && markdownInput.endsWith('`') ? markdownInput.slice(1, -1) : markdownInput; let contentHtml = ''; try { contentHtml = marked.parse(cleanedMarkdown, { gfm: true, smartypants: true }); } catch (e) { console.error("Error parsing markdown for post:", post.id, e); contentHtml = '<p class="text-red-500">Error displaying content.</p>'; } const imageHtml = post.image ? `<img src="${post.image}" alt="${post.imageAlt || post.title || 'Post image'}" loading="lazy">` : ''; return ` <article id="${post.id}" tabindex="-1" style="display: none; opacity: 0;"> <h2 class="text-hover-scale">${post.title || 'Untitled Post'}</h2> <div class="post-meta-info">Published: ${formatDate(post.date)}</div> <div class="post-content-html"> ${contentHtml} ${imageHtml} </div> <a href="#" class="back-button mt-8">← Back to Writings</a> </article> `; }
